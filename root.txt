@@ -1,0 +1,9 @@
+about.html
+course.html
+lec0.html
+to 
+lec9.html
+playground.html
+projects.html
+quiz.html
+signup.html

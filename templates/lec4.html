@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 1 – Conditionals & Control Flow ✨</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        :root { --bg: #ffffff; --text: #1f2937; --accent: #0d9488; --surface: #f9fafb; --border: #e5e7eb; }
+        [data-theme="dark"] { --bg: #0f172a; --text: #f1f5f9; --surface: #1e293b; --border: #334155; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); transition: background .3s, color .3s; }
+        .code-box { background: #1e293b; color: #e2e8f0; border-radius: .75rem; padding: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: .95rem; position: relative; overflow: hidden; }
+        .output-box { background: #0f172a; color: #10b981; border-radius: .75rem; padding: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: .95rem; min-height: 3rem; white-space: pre-wrap; }
+        .copy-btn { position: absolute; top: .75rem; right: .75rem; padding: .25rem .5rem; font-size: .75rem; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); color: #fff; border-radius: .5rem; cursor: pointer; transition: background .2s; }
+        .copy-btn:hover { background: rgba(255,255,255,.2); }
+        .reveal { opacity: 0; transform: translateY(30px); }
+        /* sticky mini nav */
+        .mini-nav { position: sticky; top: 64px; z: 30; background: var(--surface); border-bottom: 1px solid var(--border); }
+    </style>
+</head>
+<body>
+<!-- =======<body>
+<!-- =========  TOP BAR  ========= -->
+<nav class="sticky top-0 z-40 bg-teal-700 text-white shadow-lg">
+    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+        <div class="text-2xl font-bold flex items-center gap-2">
+            <span class="hidden sm:inline">🐍</span> PythonLearn
+        </div>
+        <a href="course.html" class="text-sm sm:text-base hover:underline">← Back to Course</a>
+    </div>
+</nav>
+
+<!-- =========  MINI NAV  ========= -->
+<div class="lecture2-nav sticky top-16 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-gray-200 dark:border-gray-700">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap gap-2 justify-center">
+        <a href="lec0.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 0</a>
+        <a href="lec1.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 1</a>
+        <a href="lec2.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 2</a>
+        <a href="lec3.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 3</a>
+        <a href="lec4.html" class="px-4 py-2 rounded-full bg-teal-700 text-white shadow">Lecture 4</a>
+        <a href="lec5.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 5</a>
+        <a href="lec6.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 6</a>
+        <a href="lec7.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 7</a>
+        <a href="lec8.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 8</a>
+        <a href="lec9.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 9</a>
+    </div>
+</div>
+
+<!-- =========  MAIN CONTENT  ========= -->
+<main class="max-w-4xl mx-auto px-4 py-10">
+    <!-- hero -->
+    <header class="reveal mb-12 text-center">
+        <h1 class="text-4xl sm:text-5xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-blue-500">Lecture 4 – Libraries</h1>
+        <p class="text-lg text-gray-600 dark:text-gray-300">Import power: random numbers, stats, CLIs, packages, APIs, and your own reusable modules.</p>
+    </header>
+
+    <!-- 1. Libraries -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-teal-600">📚</span> Libraries</h2>
+        <p class="mb-4">
+            Generally, libraries are bits of code written by you or others that you can use in your program. <br>
+            Python allows you to share functions or features with others as “modules”. <br>
+            If you copy and paste code from an old project, chances are you can create such a module or library that you could bring into your new project.
+        </p>
+    </section>
+
+    <!-- 2. Random -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-purple-500">🎲</span> Random</h2>
+        <p class="mb-4">
+            random is a library that comes with Python that you could import into your own project. <br>
+            It’s easier as a coder to stand on the shoulders of prior coders. <br>
+            So, how do you load a module into your own program? You can use the word import in your program. <br>
+            Inside the random module, there is a built-in function called random.choice(seq). random is the module you are importing. Inside that module, there is the choice function. That function takes into it a seq or sequence that is a list. <br>
+            In your terminal window type code generate.py. In your text editor, code as follows:
+        </p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import random<br><br>coin = random.choice(["heads", "tails"])<br>print(coin)</div>
+        <div class="output-box mt-2">heads</div>
+        <p class="mt-3">We can improve our code. from allows us to be very specific about what we’d like to import. Prior, our import line of code is bringing the entire contents of the functions of random. However, what if we want to only load a small part of a module? Modify your code as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>from random import choice<br><br>coin = choice(["heads", "tails"])<br>print(coin)</div>
+        <p class="mt-3">Moving on, consider the function random.randint(a, b). This function will generate a random number between a and b. Modify your code as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import random<br><br>number = random.randint(1, 10)<br>print(number)</div>
+        <p class="mt-3">We can introduce the function random.shuffle(x), which shuffles a list into a random order.</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import random<br><br>cards = ["jack", "queen", "king"]<br>random.shuffle(cards)<br>for card in cards:<br>    print(card)</div>
+        <p class="mt-3">We now have these three ways above to generate random information. <br> You can learn more in Python’s <a href="https://docs.python.org/3/library/random.html" target="_blank" class="underline">documentation of random</a>.</p>
+    </section>
+
+    <!-- 3. Statistics -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-green-500">📊</span> Statistics</h2>
+        <p class="mb-4">
+            Python comes with a built-in statistics library. How might we use this module? <br>
+            mean is a function of this library that is quite useful. In your terminal window, type code average.py. In the text editor window, modify your code as follows:
+        </p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import statistics<br><br>print(statistics.mean([100, 90]))</div>
+        <div class="output-box mt-2">95.0</div>
+        <p class="mt-3">Consider the possibilities of using the statistics module in your own programs. <br> You can learn more in Python’s <a href="https://docs.python.org/3/library/statistics.html" target="_blank" class="underline">documentation of statistics</a>.</p>
+    </section>
+
+    <!-- 4. Command-Line Arguments -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-orange-500">⌨️</span> Command-Line Arguments</h2>
+        <p class="mb-4">
+            So far, we have been providing all values within the program that we have created. What if we wanted to be able to take input from the command-line? For example, rather than typing python average.py in the terminal, what if we wanted to be able to type python average.py 100 90 and be able to get the average between 100 and 90? <br>
+            sys is a module that allows us to take arguments at the command line. <br>
+            argv is a list within the sys module that records what the user typed on the command line. <br>
+            Notice how you will see sys.argv utilized in the code below. In the terminal window, type code name.py. In the text editor, code as follows:
+        </p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import sys<br><br>print("hello, my name is", sys.argv[1])</div>
+        <p class="mt-3">There is a small problem with our program as it stands. What if the user does not type in the name at the command line? Try it yourself. Type python name.py into the terminal window. An error list index out of range will be presented by the interpreter. The reason for this is that there is nothing at sys.argv[1] because nothing was typed! Here’s how we can protect our program from this type of error:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import sys<br><br>try:<br>    print("hello, my name is", sys.argv[1])<br>except IndexError:<br>    print("Too few arguments")</div>
+        <p class="mt-3">Our program can be improved as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import sys<br><br>if len(sys.argv) < 2:<br>    print("Too few arguments")<br>elif len(sys.argv) > 2:<br>    print("Too many arguments")<br>else:<br>    print("hello, my name is", sys.argv[1])</div>
+        <p class="mt-3">Right now, our code is logically correct. However, there is something very nice about keeping our error checking separate from the remainder of our code. How could we separate out our error handling? Modify your code as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import sys<br><br>if len(sys.argv) < 2:<br>    sys.exit("Too few arguments")<br>elif len(sys.argv) > 2:<br>    sys.exit("Too many arguments")<br><br>print("hello, my name is", sys.argv[1])</div>
+        <p class="mt-3">Notice how we are using a built-in function of sys called exit that allows us to exit the program if an error was introduced by the user. We can rest assured now that the program will never execute the final line of code and trigger an error. Therefore, sys.argv provides a way by which users can introduce information from the command line. sys.exit provides a means by which the program can exit if an error arises. <br> You can learn more in Python’s <a href="https://docs.python.org/3/library/sys.html" target="_blank" class="underline">documentation of sys</a>.</p>
+    </section>
+
+    <!-- 5. slice -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-pink-500">🔪</span> slice</h2>
+        <p class="mb-4">slice is a command that allows us to take a list and tell the interpreter where we want the interpreter to consider the start of the list and the end of the list. For example, modify your code as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import sys<br><br>for arg in sys.argv[1:]:<br>    print("hello, my name is", arg)</div>
+        <p class="mt-3">Notice that rather than starting the list at 0, we use square brackets to tell the interpreter to start at 1 and go to the end using the 1: argument. Running this code, you’ll notice that we can improve our code using relatively simple syntax.</p>
+    </section>
+
+    <!-- 6. Packages -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-yellow-500">📦</span> Packages</h2>
+        <p class="mb-4">
+            One of the reasons Python is so popular is that there are numerous powerful third-party libraries that add functionality. We call these third-party libraries, implemented as a folder, “packages”. <br>
+            PyPI is a repository or directory of all available third-party packages currently available. <br>
+            cowsay is a well-known package that allows a cow to talk to the user. <br>
+            Python has a package manager called pip that allows you to install packages quickly onto your system. <br>
+            In the terminal window, you can install the cowsay package by typing pip install cowsay. After a bit of output, you can now go about using this package in your code. <br>
+            In your terminal window type code say.py. In the text editor, code as follows:
+        </p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import cowsay<br>import sys<br><br>if len(sys.argv) == 2:<br>    cowsay.cow("hello, " + sys.argv[1])</div>
+        <p class="mt-3">Further modify your code:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import cowsay<br>import sys<br><br>if len(sys.argv) == 2:<br>    cowsay.trex("hello, " + sys.argv[1])</div>
+        <p class="mt-3">You now can see how you could install third-party packages. <br> You can learn more on <a href="https://pypi.org/project/cowsay/" target="_blank" class="underline">PyPI’s entry for cowsay</a>. <br> You can find other third-party packages at <a href="https://pypi.org" target="_blank" class="underline">PyPI</a>.</p>
+    </section>
+
+    <!-- 7. APIs -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-cyan-500">🌐</span> APIs</h2>
+        <p class="mb-4">
+            APIs or “application program interfaces” allow you to connect to the code of others. <br>
+            requests is a package that allows your program to behave as a web browser would. <br>
+            In your terminal, type pip install requests. Then, type code itunes.py. <br>
+            It turns out that Apple iTunes has its own API that you can access in your programs. In your internet browser, you can visit https://itunes.apple.com/search?entity=song&limit=1&term=weezer and a text file will be downloaded. David constructed this URL by reading Apple’s API documentation. Notice how this query is looking for a song, with a limit of one result, that relates to the term called weezer. Looking at this text file that is downloaded, you might find the format to be similar to that we’ve programmed previously in Python. <br>
+            The format in the downloaded text file is called JSON, a text-based format that is used to exchange text-based data between applications. Literally, Apple is providing a JSON file that we could interpret in our own Python program. <br>
+            In the terminal window, type code itunes.py. Code as follows:
+        </p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import requests<br>import sys<br><br>if len(sys.argv) != 2:<br>    sys.exit()<br><br>response = requests.get("https://itunes.apple.com/search?entity=song&limit=1&term=" + sys.argv[1])<br>print(response.json())</div>
+        <p class="mt-3">It turns out that Python has a built-in JSON library that can help us interpret the data received. Modify your code as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import json<br>import requests<br>import sys<br><br>if len(sys.argv) != 2:<br>    sys.exit()<br><br>response = requests.get("https://itunes.apple.com/search?entity=song&limit=1&term=" + sys.argv[1])<br>print(json.dumps(response.json(), indent=2))</div>
+        <p class="mt-3">How could we simply output the name of just that track name? Modify your code as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import json<br>import requests<br>import sys<br><br>if len(sys.argv) != 2:<br>    sys.exit()<br><br>response = requests.get("https://itunes.apple.com/search?entity=song&limit=50&term=" + sys.argv[1])<br><br>o = response.json()<br>for result in o["results"]:<br>    print(result["trackName"])</div>
+        <p class="mt-3">You can learn more about requests through the <a href="https://docs.python-requests.org/" target="_blank" class="underline">library’s documentation</a>. <br> You can learn more about JSON in Python’s <a href="https://docs.python.org/3/library/json.html" target="_blank" class="underline">documentation of JSON</a>.</p>
+    </section>
+
+    <!-- 8. Making Your Own Libraries -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-teal-500">🧰</span> Making Your Own Libraries</h2>
+        <p class="mb-4">You have the ability as a Python programmer to create your own library! Imagine situations where you may want to re-use bits of code time and time again or even share them with others! We have been writing lots of code to say “hello” so far in this course. Let’s create a package to allow us to say “hello” and “goodbye”. In your terminal window, type code sayings.py. In the text editor, code as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>def hello(name):<br>    print(f"hello, {name}")<br><br><br>def goodbye(name):<br>    print(f"goodbye, {name}")</div>
+        <p class="mt-3">Let’s see how we could implement code utilizing this package that we created. In the terminal window, type code say.py. In this new file in your text editor, type the following:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import sys<br><br>from sayings import goodbye<br><br>if len(sys.argv) == 2:<br>    goodbye(sys.argv[1])</div>
+    </section>
+
+    <!-- 9. Summing Up -->
+    <section class="reveal mb-12 p-6 bg-gradient-to-r from-teal-50 to-blue-50 dark:from-teal-900/20 dark:to-blue-900/20 rounded-xl">
+        <h2 class="text-2xl font-bold mb-3">Summing Up</h2>
+        <p class="mb-4">Libraries extend the abilities of Python. Some libraries are included by default with Python and simply need to be imported. Others are third-party packages that need to be installed using pip. You can make your own packages for use by yourself or others! In this lecture, you learned about…</p>
+        <ul class="list-disc ml-6 space-y-1">
+            <li>Libraries</li>
+            <li>Random</li>
+            <li>Statistics</li>
+            <li>Command-Line Arguments</li>
+            <li>Slice</li>
+            <li>Packages</li>
+            <li>APIs</li>
+            <li>Making Your Own Libraries</li>
+        </ul>
+        <div class="mt-4">
+            <a href="lec5.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition">Next Lecture →</a>
+        </div>
+    </section>
+
+    <!-- 10. Live Playground -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-teal-500">🚀</span> Live Playground</h2>
+        <p>Edit the code below and hit <strong>Run</strong>—no servers, no installs.</p>
+        <textarea id="playground" class="code-box w-full h-48 mt-3"># Try your own libraries!
+import random
+
+print(random.choice(["heads", "tails"]))</textarea>
+        <div class="flex items-center gap-3 mt-3">
+            <button onclick="runCode()" class="px-5 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition">▶ Run</button>
+            <button onclick="resetCode()" class="px-5 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Reset</button>
+        </div>
+        <div id="playground-out" class="output-box mt-3">Output will appear here…</div>
+    </section>
+</main>
+<!-- =========  PSET4 QUESTIONS & HINTS – DOPE STYLING  ========= -->
+<section class="reveal mt-12">
+
+    <!-- neon-gradient title -->
+    <h2 class="text-4xl font-extrabold mb-10 text-center bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-500 via-pink-500 to-rose-500 drop-shadow-[0_0_10px_rgba(236,72,153,0.5)] dark:drop-shadow-[0_0_15px_rgba(244,114,182,0.6)]">
+        🧠 PSET 4 – Libraries, Randomness, APIs
+    </h2>
+
+    <!-- glowing card grid -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- 1. Emojize -->
+        <div class="group relative bg-gradient-to-br from-fuchsia-50 to-pink-50 dark:from-gray-900 dark:to-fuchsia-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/30 ring-1 ring-fuchsia-200 dark:ring-fuchsia-700 hover:ring-fuchsia-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-fuchsia-500/20">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-fuchsia-500 to-pink-600 text-white font-bold shadow-lg drop-shadow-md">1</div>
+            <h3 class="text-xl font-bold mb-3 text-fuchsia-700 dark:text-fuchsia-300">Emojize</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Convert emoji aliases like :smile: → 😄 using an external library.</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-fuchsia-100 dark:bg-fuchsia-800/30 text-fuchsia-700 dark:text-fuchsia-300 text-xs font-medium">
+                emoji lib + alias→emoji
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Library laga ke kaam karo, khud emoji mat banao.</p>
+        </div>
+
+        <!-- 2. Letters -->
+        <div class="group relative bg-gradient-to-br from-rose-50 to-red-50 dark:from-gray-900 dark:to-rose-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-rose-200 dark:ring-rose-700 hover:ring-rose-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-rose-500/20">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-rose-500 to-red-600 text-white font-bold shadow-lg drop-shadow-md">2</div>
+            <h3 class="text-xl font-bold mb-3 text-rose-700 dark:text-rose-300">Frank, Ian & Glen’s Letters</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Randomly pick one name from a fixed list and print it.</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-800/30 text-rose-700 dark:text-rose-300 text-xs font-medium">
+                list + random.choice
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Naam list mein daalo, computer khud choose karega.</p>
+        </div>
+
+        <!-- 3. Guessing Game -->
+        <div class="group relative bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-gray-900 dark:to-indigo-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-indigo-200 dark:ring-indigo-700 hover:ring-indigo-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-500/20">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 text-white font-bold shadow-lg drop-shadow-md">3</div>
+            <h3 class="text-xl font-bold mb-3 text-indigo-700 dark:text-indigo-300">Guessing Game</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Random number banao, user guess kare, “Too large/small” hints do.</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-800/30 text-indigo-700 dark:text-indigo-300 text-xs font-medium">
+                random + loop + compare
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Number socho, user ko hint dete raho, sahi guess hone tak loop chalao.</p>
+        </div>
+
+        <!-- 4. Little Professor -->
+        <div class="group relative bg-gradient-to-br from-emerald-50 to-green-50 dark:from-gray-900 dark:to-emerald-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-emerald-200 dark:ring-emerald-700 hover:ring-emerald-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-500/20">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-emerald-500 to-green-600 text-white font-bold shadow-lg drop-shadow-md">4</div>
+            <h3 class="text-xl font-bold mb-3 text-emerald-700 dark:text-emerald-300">Little Professor</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Math quiz: level choose karo, random sums generate karo, score track karo.</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-800/30 text-emerald-700 dark:text-emerald-300 text-xs font-medium">
+                level→range + 3 tries + score
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Level 1/2/3 se digits decide karo, 3 chances, sahi answer pe score++.</p>
+        </div>
+
+        <!-- 5. Bitcoin Price Index -->
+        <div class="group relative bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-gray-900 dark:to-amber-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-amber-200 dark:ring-amber-700 hover:ring-amber-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-amber-500/20 md:col-span-2 lg:col-span-1">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-amber-500 to-yellow-600 text-white font-bold shadow-lg drop-shadow-md">5</div>
+            <h3 class="text-xl font-bold mb-3 text-amber-700 dark:text-amber-300">Bitcoin Price Index</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Live API se Bitcoin price lao, user kitna khareedna chahe uska total batao.</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-800/30 text-amber-700 dark:text-amber-300 text-xs font-medium">
+                requests + JSON + CLI args
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: API hit karo, rate nikalo, amount se multiply karo, error handle karo.</p>
+        </div>
+    </div>
+
+    <!-- flashy summary row -->
+    <div class="mt-10 p-5 bg-gradient-to-r from-fuchsia-500/10 via-pink-500/10 to-rose-500/10 dark:from-fuchsia-500/20 dark:via-pink-500/20 dark:to-rose-500/20 rounded-2xl border border-fuchsia-300 dark:border-fuchsia-700 text-center">
+        <p class="font-bold text-slate-800 dark:text-slate-200">🚀 Quick Memory Trigger</p>
+        <p class="text-sm mt-2 text-slate-600 dark:text-slate-300">
+            Emojize → external lib | Letters → random.choice | Guessing → loop + hints | Professor → level + score | Bitcoin → API + JSON
+        </p>
+    </div>
+</section>
+<!-- =========  FOOTER  ========= -->
+<footer class="bg-gray-900 text-white py-8 mt-12">
+    <div class="max-w-4xl mx-auto px-4 text-center text-gray-400">
+        © 2024 PythonLearn – built with ❤️ for every future Pythonista.
+    </div>
+</footer>
+
+<!-- =========  EXISTING JS  ========= -->
+<script>
+/* ----- dark mode toggle (respects your nav) ----- */
+if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.setAttribute('data-theme','dark');
+} else {
+    document.documentElement.setAttribute('data-theme','light');
+}
+
+/* ----- scroll reveal ----- */
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            anime({ targets: entry.target, opacity: 1, translateY: 0, duration: 600, easing: 'easeOutQuad' });
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: .15 });
+reveals.forEach(el => observer.observe(el));
+
+/* ----- copy code ----- */
+function copyCode(btn) {
+    const box = btn.parentElement;
+    const code = box.textContent.trim();
+    navigator.clipboard.writeText(code);
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1200);
+}
+
+/* ----- live runner (Skulpt) ----- */
+function outf(text) {
+    const out = document.getElementById('playground-out');
+    out.textContent += text;
+}
+function builtinRead(x) {
+    if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+        throw new Error("File not found: " + x);
+    return Sk.builtinFiles["files"][x];
+}
+function runCode() {
+    const prog = document.getElementById('playground').value;
+    document.getElementById('playground-out').textContent = '';
+    Sk.pre = "playground-out";
+    Sk.configure({ output: outf, read: builtinRead, __future__: Sk.python3 });
+    (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'playground-out';
+    const myPromise = Sk.misceval.asyncToPromise(() => Sk.importMainWithBody("<stdin>", false, prog, true));
+    myPromise.then(() => {
+        const out = document.getElementById('playground-out').textContent;
+        if (out.includes('heads') || out.includes('tails')) {
+            const cel = document.getElementById('celebrate');
+            if (cel) {
+                cel.classList.remove('hidden');
+                cel.querySelector('span').classList.add('check-celebration');
+            }
+        }
+    }, err => {
+        document.getElementById('playground-out').textContent = err.toString();
+    });
+}
+function resetCode() {
+    document.getElementById('playground').value = `import random
+
+print(random.choice(["heads", "tails"]))`;
+    document.getElementById('playground-out').textContent = 'Output will appear here…';
+}
+
+/* highlight current lecture */
+document.querySelectorAll('.lecture2-nav a').forEach(a => {
+    if (a.href.endsWith('lec4.html')) a.classList.add('bg-teal-700','text-white');
+});
+</script>
+</body>  </html>

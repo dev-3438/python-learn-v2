@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 1 – Conditionals & Control Flow ✨</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        :root { --bg: #ffffff; --text: #1f2937; --accent: #0d9488; --surface: #f9fafb; --border: #e5e7eb; }
+        [data-theme="dark"] { --bg: #0f172a; --text: #f1f5f9; --surface: #1e293b; --border: #334155; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); transition: background .3s, color .3s; }
+        .code-box { background: #1e293b; color: #e2e8f0; border-radius: .75rem; padding: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: .95rem; position: relative; overflow: hidden; }
+        .output-box { background: #0f172a; color: #10b981; border-radius: .75rem; padding: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: .95rem; min-height: 3rem; white-space: pre-wrap; }
+        .copy-btn { position: absolute; top: .75rem; right: .75rem; padding: .25rem .5rem; font-size: .75rem; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); color: #fff; border-radius: .5rem; cursor: pointer; transition: background .2s; }
+        .copy-btn:hover { background: rgba(255,255,255,.2); }
+        .reveal { opacity: 0; transform: translateY(30px); }
+        /* sticky mini nav */
+        .mini-nav { position: sticky; top: 64px; z: 30; background: var(--surface); border-bottom: 1px solid var(--border); }
+    </style>
+</head>
+<body>
+<!-- =========  TOP BAR  ========= -->
+<nav class="sticky top-0 z-40 bg-teal-700 text-white shadow-lg">
+    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+        <div class="text-2xl font-bold flex items-center gap-2">
+            <span class="hidden sm:inline">🐍</span> PythonLearn
+        </div>
+        <a href="course.html" class="text-sm sm:text-base hover:underline">← Back to Course</a>
+    </div>
+</nav>
+
+<!-- =========  MINI NAV  ========= -->
+<div class="lecture2-nav sticky top-16 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-gray-200 dark:border-gray-700">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap gap-2 justify-center">
+        <a href="lec0.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 0</a>
+        <a href="lec1.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 1</a>
+        <a href="lec2.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 2</a>
+        <a href="lec3.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 3</a>
+        <a href="lec4.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 4</a>
+        <a href="lec5.html" class="px-4 py-2 rounded-full bg-teal-700 text-white shadow">Lecture 5</a>
+        <a href="lec6.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 6</a>
+        <a href="lec7.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 7</a>
+        <a href="lec8.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 8</a>
+        <a href="lec9.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 9</a>
+    </div>
+</div>
+
+<!-- =========  MAIN CONTENT  ========= -->
+<main class="max-w-4xl mx-auto px-4 py-10">
+    <!-- hero -->
+    <header class="reveal mb-12 text-center">
+        <h1 class="text-4xl sm:text-5xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-blue-500">Lecture 5 – Unit Tests</h1>
+        <p class="text-lg text-gray-600 dark:text-gray-300">Replace print-and-pray with assert and pytest—test early, test often, test automatically.</p>
+    </header>
+
+    <!-- 1. Unit Tests -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-teal-600">🧪</span> Unit Tests</h2>
+        <p class="mb-4">
+            Up until now, you have been likely testing your own code using print statements. <br>
+            Alternatively, you may have been relying upon CS50 to test your code for you! <br>
+            It’s most common in industry to write code to test your own programs. <br>
+            In your console window, type code calculator.py. Note that you may have previously coded this file in a previous lecture. In the text editor, make sure that your code appears as follows:
+        </p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>def main():<br>    x = int(input("What's x? "))<br>    print("x squared is", square(x))<br><br><br>def square(n):<br>    return n * n<br><br><br>if __name__ == "__main__":<br>    main()</div>
+        <p class="mt-3">Following convention, let’s create a new test program by typing code test_calculator.py and modify your code in the text editor as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>from calculator import square<br><br><br>def main():<br>    test_square()<br><br><br>def test_square():<br>    if square(2) != 4:<br>        print("2 squared was not 4")<br>    if square(3) != 9:<br>        print("3 squared was not 9")<br><br><br>if __name__ == "__main__":<br>    main()</div>
+        <p class="mt-3">In the console window, type python test_calculator.py. You’ll notice that nothing is being outputted. It could be that everything is running fine! Alternatively, it could be that our test function did not discover one of the “corner cases” that could produce an error. <br> Right now, our code tests two conditions. If we wanted to test many more conditions, our test code could easily become bloated. How could we expand our test capabilities without expanding our test code?</p>
+    </section>
+
+    <!-- 2. assert -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-indigo-500">✅</span> assert</h2>
+        <p class="mb-4">Python’s assert command allows us to tell the interpreter that something, some assertion, is true. We can apply this to our test code as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>from calculator import square<br><br><br>def main():<br>    test_square()<br><br><br>def test_square():<br>    assert square(2) == 4<br>    assert square(3) == 9<br><br><br>if __name__ == "__main__":<br>    main()</div>
+        <p class="mt-3">We can purposely break our calculator code by modifying it as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>def square(n):<br>    return n + n</div>
+        <p class="mt-3">Now running python test_calculator.py in the console window, you will notice that an AssertionError is raised by the interpreter. Essentially, this is the interpreter telling us that one of our conditions was not met. <br> One of the challenges that we are now facing is that our code could become even more burdensome if we wanted to provide more descriptive error output to our users. Plausibly, we could code as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>from calculator import square<br><br><br>def main():<br>    test_square()<br><br><br>def test_square():<br>    try:<br>        assert square(2) == 4<br>    except AssertionError:<br>        print("2 squared is not 4")<br>    try:<br>        assert square(3) == 9<br>    except AssertionError:<br>        print("3 squared is not 9")<br>    try:<br>        assert square(-2) == 4<br>    except AssertionError:<br>        print("-2 squared is not 4")<br>    try:<br>        assert square(-3) == 9<br>    except AssertionError:<br>        print("-3 squared is not 9")<br>    try:<br>        assert square(0) == 0<br>    except AssertionError:<br>        print("0 squared is not 0")<br><br><br>if __name__ == "__main__":<br>    main()</div>
+        <p class="mt-3">Notice that running this code will produce multiple errors. However, it’s not producing all the errors above. This is a good illustration that it’s worth testing multiple cases such that you might catch situations where there are coding mistakes. <br> The above code illustrates a major challenge: How could we make it easier to test your code without dozens of lines of code like the above? <br> You can learn more in Python’s <a href="https://docs.python.org/3/reference/simple_stmts.html#assert" target="_blank" class="underline">documentation of assert</a>.</p>
+    </section>
+
+    <!-- 3. pytest -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-purple-500">🧪</span> pytest</h2>
+        <p class="mb-4">
+            pytest is a third-party library that allows you to unit test your program. That is, you can test your functions within your program. <br>
+            To utilize pytest please type pip install pytest into your console window. <br>
+            Before applying pytest to our own program, modify your test_square function as follows:
+        </p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>from calculator import square<br><br><br>def test_positive():<br>    assert square(2) == 4<br>    assert square(3) == 9<br><br><br>def test_negative():<br>    assert square(-2) == 4<br>    assert square(-3) == 9<br><br><br>def test_zero():<br>    assert square(0) == 0</div>
+        <p class="mt-3">pytest allows us to run our program directly through it, such that we can more easily view the results of our test conditions. In the terminal window, type pytest test_calculator.py. You’ll immediately notice that output will be provided. Notice the red F near the top of the output, indicating that something in your code failed. Further, notice that the red E provides some hints about the errors in your calculator.py program. Based upon the output, you can imagine a scenario where 3 * 3 has outputted 6 instead of 9. Based on the results of this test, we can go correct our calculator.py code as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>def square(n):<br>    return n * n</div>
+        <p class="mt-3">Finally, we can test that our program handles exceptions. Let’s modify test_calculator.py to do just that.</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import pytest<br><br>from calculator import square<br><br><br>def test_positive():<br>    assert square(2) == 4<br>    assert square(3) == 9<br><br><br>def test_negative():<br>    assert square(-2) == 4<br>    assert square(-3) == 9<br><br><br>def test_zero():<br>    assert square(0) == 0<br><br><br>def test_str():<br>    with pytest.raises(TypeError):<br>        square("cat")</div>
+        <p class="mt-3">Notice that instead of using assert, we are taking advantage of a function within the pytest library itself called raises which allows you to express that you expect an error to be raised. We need to go to the top of our program and add import pytest and then call pytest.raises with the type of error we are expecting. <br> Again, re-running pytest test_calculator.py, you will notice that no errors are found. <br> In summary, it’s up to you as a coder to define as many test conditions as you see fit! <br> You can learn more in <a href="https://docs.pytest.org/en/stable/" target="_blank" class="underline">Pytest’s documentation of pytest</a>.</p>
+    </section>
+
+    <!-- 4. Testing Strings -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-green-500">🧵</span> Testing Strings</h2>
+        <p class="mb-4">Going back in time, consider the following code hello.py:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>def main():<br>    name = input("What's your name? ")<br>    hello(name)<br><br><br>def hello(to="world"):<br>    print("hello,", to)<br><br><br>if __name__ == "__main__":<br>    main()</div>
+        <p class="mt-3">Consider the following code for test_hello.py:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>from hello import hello<br><br><br>def test_hello():<br>    assert hello("David") == "hello, David"<br>    assert hello() == "hello, world"</div>
+        <p class="mt-3">Looking at this code, do you think that this approach to testing will work well? Why might this test not work well? Notice that the hello function in hello.py prints something: That is, it does not return a value! <br> We can change our hello function within hello.py as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>def main():<br>    name = input("What's your name? ")<br>    print(hello(name))<br><br><br>def hello(to="world"):<br>    return f"hello, {to}"<br><br><br>if __name__ == "__main__":<br>    main()</div>
+        <p class="mt-3">Running pytest test_hello.py, our code will pass all tests! <br> As with our previous test case in this lesson, we can break out our tests separately:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>from hello import hello<br><br><br>def test_default():<br>    assert hello() == "hello, world"<br><br><br>def test_argument():<br>    assert hello("David") == "hello, David"</div>
+    </section>
+
+    <!-- 5. Organizing Tests into Folders -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-orange-500">📁</span> Organizing Tests into Folders</h2>
+        <p class="mb-4">Unit testing code using multiple tests is so common that you have the ability to run a whole folder of tests with a single command. <br> First, in the terminal window, execute mkdir test to create a folder called test. <br> Then, to create a test within that folder, type in the terminal window code test/test_hello.py. Notice that test/ instructs the terminal to create test_hello.py in the folder called test. <br> In the text editor window, modify the file to include the following code:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>from hello import hello<br><br><br>def test_default():<br>    assert hello() == "hello, world"<br><br><br>def test_argument():<br>    assert hello("David") == "hello, David"</div>
+        <p class="mt-3">pytest will not allow us to run tests as a folder simply with this file (or a whole set of files) alone without a special __init__ file. In your terminal window, create this file by typing code test/__init__.py. Note the test/ as before, as well as the double underscores on either side of init. Even leaving this __init__.py file empty, pytest is informed that the whole folder containing __init__.py has tests that can be run. <br> Now, typing pytest test in the terminal, you can run the entire test folder of code. <br> You can learn more in <a href="https://docs.pytest.org/en/stable/explanation/pythonpath.html" target="_blank" class="underline">Pytest’s documentation of import mechanisms</a>.</p>
+    </section>
+
+    <!-- 6. Summing Up -->
+    <section class="reveal mb-12 p-6 bg-gradient-to-r from-teal-50 to-blue-50 dark:from-teal-900/20 dark:to-blue-900/20 rounded-xl">
+        <h2 class="text-2xl font-bold mb-3">Summing Up</h2>
+        <p class="mb-4">Testing your code is a natural part of the programming process. Unit tests allow you to test specific aspects of your code. You can create your own programs that test your code. Alternatively, you can utilize frameworks like pytest to run your unit tests for you. In this lecture, you learned about…</p>
+        <ul class="list-disc ml-6 space-y-1">
+            <li>Unit tests</li>
+            <li>assert</li>
+            <li>pytest</li>
+        </ul>
+        <div class="mt-4">
+            <a href="lec6.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition">Next Lecture →</a>
+        </div>
+    </section>
+
+    <!-- 7. Live Playground -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-teal-500">🚀</span> Live Playground</h2>
+        <p>Edit the code below and hit <strong>Run</strong>—no servers, no installs.</p>
+        <textarea id="playground" class="code-box w-full h-48 mt-3"># Try your own tests!
+def square(n):
+    return n * n
+
+assert square(2) == 4
+assert square(-3) == 9
+print("All tests passed!")</textarea>
+        <div class="flex items-center gap-3 mt-3">
+            <button onclick="runCode()" class="px-5 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition">▶ Run</button>
+            <button onclick="resetCode()" class="px-5 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Reset</button>
+        </div>
+        <div id="playground-out" class="output-box mt-3">Output will appear here…</div>
+    </section>
+</main>
+<!-- =========  PSET5 QUESTIONS & HINTS – DOPE STYLING  ========= -->
+<section class="reveal mt-12">
+
+    <!-- neon-gradient title -->
+    <h2 class="text-4xl font-extrabold mb-10 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-violet-500 to-indigo-500 drop-shadow-[0_0_10px_rgba(139,92,246,0.5)] dark:drop-shadow-[0_0_15px_rgba(124,58,237,0.6)]">
+        🚀 PSET 5 – Testing Your Code
+    </h2>
+
+    <!-- flashy theme banner -->
+    <div class="mb-8 p-4 bg-gradient-to-r from-purple-500/10 via-violet-500/10 to-indigo-500/10 dark:from-purple-500/20 dark:via-violet-500/20 dark:to-indigo-500/20 rounded-xl border border-purple-300 dark:border-purple-700 text-center">
+        <p class="font-bold text-lg text-purple-800 dark:text-purple-200">“If your code isn’t tested, it’s just vibes.”</p>
+        <p class="text-sm text-purple-700 dark:text-purple-300">CS50 wants you to think like a pro, not a script kiddie.</p>
+    </div>
+
+    <!-- glowing card grid -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- 1. Testing My Twttr -->
+        <div class="group relative bg-gradient-to-br from-purple-50 to-violet-50 dark:from-gray-900 dark:to-purple-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/30 ring-1 ring-purple-200 dark:ring-purple-700 hover:ring-purple-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-500/20">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-purple-500 to-violet-600 text-white font-bold shadow-lg drop-shadow-md">1</div>
+            <h3 class="text-xl font-bold mb-3 text-purple-700 dark:text-purple-300">Testing My Twttr</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Unit-test your vowel-removal function from PSET-2.</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-800/30 text-purple-700 dark:text-purple-300 text-xs font-medium">
+                pytest + assert + edge cases
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Vowel hatane ka kaam thik karta hai ya nahi—har case mein check karo.</p>
+        </div>
+
+        <!-- 2. Testing Fuel -->
+        <div class="group relative bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-gray-900 dark:to-indigo-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-indigo-200 dark:ring-indigo-700 hover:ring-indigo-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-500/20">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 text-white font-bold shadow-lg drop-shadow-md">2</div>
+            <h3 class="text-xl font-bold mb-3 text-indigo-700 dark:text-indigo-300">Testing Fuel</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Test fraction→% conversion & error handling (1/0, cat/dog).</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-800/30 text-indigo-700 dark:text-indigo-300 text-xs font-medium">
+                pytest.raises + boundary
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Valid, invalid, edge—sab pe test. Exception aana chahiye toh aaye.</p>
+        </div>
+
+        <!-- 3. Testing Plates -->
+        <div class="group relative bg-gradient-to-br from-pink-50 to-rose-50 dark:from-gray-900 dark:to-pink-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-pink-200 dark:ring-pink-700 hover:ring-pink-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-pink-500/20">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-pink-500 to-rose-600 text-white font-bold shadow-lg drop-shadow-md">3</div>
+            <h3 class="text-xl font-bold mb-3 text-pink-700 dark:text-pink-300">Testing Plates</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Vanity-plate validator ke saare rules check karo.</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-100 dark:bg-pink-800/30 text-pink-700 dark:text-pink-300 text-xs font-medium">
+                bool returns + condition coverage
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Number pe start, symbol, zero first—galat plate pakdo toh False.</p>
+        </div>
+
+        <!-- 4. Testing Refuel -->
+        <div class="group relative bg-gradient-to-br from-cyan-50 to-teal-50 dark:from-gray-900 dark:to-cyan-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-cyan-200 dark:ring-cyan-700 hover:ring-cyan-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-500/20">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-cyan-500 to-teal-600 text-white font-bold shadow-lg drop-shadow-md">4</div>
+            <h3 class="text-xl font-bold mb-3 text-cyan-700 dark:text-cyan-300">Testing Refuel</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Fuel conversion ki accuracy & safe failure confirm karo.</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-100 dark:bg-cyan-800/30 text-cyan-700 dark:text-cyan-300 text-xs font-medium">
+                return check + exception
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Sahi % nikale ya graceful crash—donon test karo.</p>
+        </div>
+
+        <!-- 5. Testing Names -->
+        <div class="group relative bg-gradient-to-br from-emerald-50 to-green-50 dark:from-gray-900 dark:to-emerald-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-emerald-200 dark:ring-emerald-700 hover:ring-emerald-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-500/20 md:col-span-2 lg:col-span-1">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-emerald-500 to-green-600 text-white font-bold shadow-lg drop-shadow-md">5</div>
+            <h3 class="text-xl font-bold mb-3 text-emerald-700 dark:text-emerald-300">Testing Names</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">“Last, First” → “First Last” formatting test karo.</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-800/30 text-emerald-700 dark:text-emerald-300 text-xs font-medium">
+                strip + split + join tests
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Extra spaces, single name, full name—sab saaf chahiye output.</p>
+        </div>
+    </div>
+
+    <!-- topper memory map -->
+    <div class="mt-10 p-5 bg-gradient-to-r from-purple-500/10 via-violet-500/10 to-indigo-500/10 dark:from-purple-500/20 dark:via-violet-500/20 dark:to-indigo-500/20 rounded-2xl border border-purple-300 dark:border-purple-700 text-center">
+        <p class="font-bold text-slate-800 dark:text-slate-200">🧠 Topper Memory Map</p>
+        <p class="text-sm mt-2 text-slate-600 dark:text-slate-300">
+            PSET 5 = pytest | Assert everything | Test failures as much as success | Edge cases = free marks | Clean functions = easy testing
+        </p>
+    </div>
+
+    <!-- cs50 love note -->
+    <div class="mt-6 p-4 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 dark:from-indigo-500/20 dark:to-purple-500/20 rounded-xl border border-indigo-300 dark:border-indigo-700 text-center">
+        <p class="font-semibold text-indigo-800 dark:text-indigo-200">🏁 Why CS50 loves this PSET</p>
+        <p class="text-sm text-indigo-700 dark:text-indigo-300">
+            Real developers don’t trust their own code blindly. They verify. They test. They sleep peacefully 😌
+        </p>
+    </div>
+</section>
+<!-- =========  FOOTER  ========= -->
+<footer class="bg-gray-900 text-white py-8 mt-12">
+    <div class="max-w-4xl mx-auto px-4 text-center text-gray-400">
+        © 2024 PythonLearn – built with ❤️ for every future Pythonista.
+    </div>
+</footer>
+
+<!-- =========  EXISTING JS  ========= -->
+<script>
+/* ----- dark mode toggle (respects your nav) ----- */
+if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.setAttribute('data-theme','dark');
+} else {
+    document.documentElement.setAttribute('data-theme','light');
+}
+
+/* ----- scroll reveal ----- */
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            anime({ targets: entry.target, opacity: 1, translateY: 0, duration: 600, easing: 'easeOutQuad' });
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: .15 });
+reveals.forEach(el => observer.observe(el));
+
+/* ----- copy code ----- */
+function copyCode(btn) {
+    const box = btn.parentElement;
+    const code = box.textContent.trim();
+    navigator.clipboard.writeText(code);
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1200);
+}
+
+/* ----- live runner (Skulpt) ----- */
+function outf(text) {
+    const out = document.getElementById('playground-out');
+    out.textContent += text;
+}
+function builtinRead(x) {
+    if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+        throw new Error("File not found: " + x);
+    return Sk.builtinFiles["files"][x];
+}
+function runCode() {
+    const prog = document.getElementById('playground').value;
+    document.getElementById('playground-out').textContent = '';
+    Sk.pre = "playground-out";
+    Sk.configure({ output: outf, read: builtinRead, __future__: Sk.python3 });
+    (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'playground-out';
+    const myPromise = Sk.misceval.asyncToPromise(() => Sk.importMainWithBody("<stdin>", false, prog, true));
+    myPromise.then(() => {
+        const out = document.getElementById('playground-out').textContent;
+        if (out.includes('All tests passed!')) {
+            const cel = document.getElementById('celebrate');
+            if (cel) {
+                cel.classList.remove('hidden');
+                cel.querySelector('span').classList.add('check-celebration');
+            }
+        }
+    }, err => {
+        document.getElementById('playground-out').textContent = err.toString();
+    });
+}
+function resetCode() {
+    document.getElementById('playground').value = `def square(n):
+    return n * n
+
+assert square(2) == 4
+assert square(-3) == 9
+print("All tests passed!")`;
+    document.getElementById('playground-out').textContent = 'Output will appear here…';
+}
+
+/* highlight current lecture */
+document.querySelectorAll('.lecture2-nav a').forEach(a => {
+    if (a.href.endsWith('lec5.html')) a.classList.add('bg-teal-700','text-white');
+});
+</script>
+</body>

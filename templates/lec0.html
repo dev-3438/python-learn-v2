@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lecture 0 – Python First Steps ✨</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+      :root {
+        --bg: #ffffff;
+        --text: #1f2937;
+        --accent: #0d9488;
+        --accent-dark: #115e59;
+        --surface: #f9fafb;
+        --border: #e5e7eb;
+      }
+      [data-theme="dark"] {
+        --bg: #0f172a;
+        --text: #f1f5f9;
+        --surface: #1e293b;
+        --border: #334155;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        transition: background 0.3s, color 0.3s;
+      }
+      .code-box {
+        background: #1e293b;
+        color: #e2e8f0;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.95rem;
+        position: relative;
+        overflow: hidden;
+      }
+      .output-box {
+        background: #0f172a;
+        color: #10b981;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.95rem;
+        min-height: 3rem;
+        white-space: pre-wrap;
+      }
+      /* copy button */
+      .copy-btn {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+      /* scroll-reveal animation helper */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      /* tiny bounce for cta */
+      @keyframes bounce-once {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+      .bounce {
+        animation: bounce-once 0.6s ease;
+      }
+      /* celebration checkmark */
+      .check-celebration {
+        display: inline-block;
+        transform: scale(0);
+        animation: pop 0.4s forwards;
+      }
+      @keyframes pop {
+        to {
+          transform: scale(1.2);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- =========  TOP BAR  ========= -->
+    <nav class="sticky top-0 z-40 bg-teal-700 text-white shadow-lg">
+      <div
+        class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between"
+      >
+        <div class="text-2xl font-bold flex items-center gap-2">
+          <span class="hidden sm:inline">🐍</span> PythonLearn
+        </div>
+        <a href="course.html" class="text-sm sm:text-base hover:underline"
+          >← Back to Course</a
+        >
+      </div>
+    </nav>
+
+    <!-- =========  MINI NAV  ========= -->
+    <div
+      class="lecture2-nav sticky top-16 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-gray-200 dark:border-gray-700"
+    >
+      <div
+        class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap gap-2 justify-center"
+      >
+        <a
+          href="/lec0"
+          class="px-4 py-2 rounded-full bg-teal-700 text-white shadow"
+          >Lecture 0</a
+        >
+        <a
+          href="/lec1"
+          class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+          >Lecture 1</a
+        >
+        <a
+          href="lec2.html"
+          class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+          >Lecture 2</a
+        >
+        <a
+          href="lec3.html"
+          class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+          >Lecture 3</a
+        >
+        <a
+          href="lec4.html"
+          class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+          >Lecture 4</a
+        >
+        <a
+          href="lec5.html"
+          class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+          >Lecture 5</a
+        >
+        <a
+          href="lec6.html"
+          class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+          >Lecture 6</a
+        >
+        <a
+          href="lec7.html"
+          class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+          >Lecture 7</a
+        >
+        <a
+          href="lec8.html"
+          class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+          >Lecture 8</a
+        >
+        <a
+          href="lec9.html"
+          class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+          >Lecture 9</a
+        >
+      </div>
+    </div>
+
+    <body>
+      <!-- =========  MAIN CONTENT  ========= -->
+      <main class="max-w-4xl mx-auto px-4 py-10">
+        <!-- hero -->
+        <header class="reveal mb-12 text-center">
+          <h1
+            class="text-4xl sm:text-5xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-blue-500"
+          >
+            Lecture 0 – Creating Code with Python
+          </h1>
+          <p class="text-lg text-gray-600 dark:text-gray-300">
+            Let’s write code that works, fix bugs, and make friends with
+            functions—no experience needed!
+          </p>
+        </header>
+
+        <!-- 1. first program -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-teal-600">👋</span> Creating Code with Python
+          </h2>
+          <p class="mb-4">
+            VS Code is a text editor. In addition to editing text, you can
+            visually browse files and run text-based commands at a terminal.
+            <br />
+            In the terminal, you can execute <code>code hello.py</code> to start
+            coding. <br />
+            In the text editor above, you can type
+            <code>print("hello, world")</code>. This is a famous canonical
+            program that nearly all coders write during their learning process.
+            <br />
+            In the terminal window, you can execute commands. To run this
+            program, you are going to need to move your cursor to the bottom of
+            the screen, clicking in the terminal window. You can now type a
+            second command in the terminal window. Next to the dollar sign, type
+            <code>python hello.py</code> and press the enter key on your
+            keyboard. <br />
+            Recall that computers really only understand zeros and ones.
+            Therefore, when you run <code>python hello.py</code>, Python will
+            interpret the text that you created in <code>hello.py</code> and
+            translate it into the zeros and ones that the computer can
+            understand. <br />
+            The result of running the <code>python hello.py</code> program is
+            <code>hello, world</code>. <br />
+            Congrats! You just created your first program.
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button
+            >print("hello, world")
+          </div>
+          <div class="output-box mt-2">hello, world</div>
+        </section>
+
+        <!-- 2. functions -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-teal-600">🔧</span> Functions
+          </h2>
+          <p class="mb-4">
+            Functions are verbs or actions that the computer or computer
+            language will already know how to perform. <br />
+            In your <code>hello.py</code> program, the
+            <code>print</code> function knows how to print to the terminal
+            window. <br />
+            The <code>print</code> function takes arguments. In this case,
+            <code>"hello, world"</code> are the arguments that the
+            <code>print</code> function takes.
+          </p>
+        </section>
+
+        <!-- 3. bugs -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-red-500">🐛</span> Bugs
+          </h2>
+          <p class="mb-4">
+            Bugs are a natural part of coding. These are mistakes, problems for
+            you to solve! Don’t get discouraged! This is part of the process of
+            becoming a great programmer. <br />
+            Imagine that in our <code>hello.py</code> program we accidentally
+            typed <code>print("hello, world"</code>, forgetting the final
+            <code>)</code> required by the <code>print</code> function. If you
+            make this mistake, the interpreter will output an error in the
+            terminal window! <br />
+            Error messages can often inform you of your mistakes and provide
+            clues on how to fix them. However, there will be many times when the
+            interpreter is not this helpful.
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button
+            >print("hello, world"
+          </div>
+          <div class="output-box">SyntaxError: '(' was never closed</div>
+        </section>
+
+        <!-- 4. variables -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-indigo-500">📦</span> Variables
+          </h2>
+          <p class="mb-4">
+            A variable is just a container for a value within your own program.
+            <br />
+            In your program, you can introduce your own variable by editing it
+            to read
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>name
+            = input("What's your name? ")
+          </div>
+          <p class="mt-3">
+            Notice that this equal <code>=</code> sign in the middle of
+            <code>name = input("What's your name? ")</code> has a special role
+            in programming. This equal sign literally assigns what is on the
+            right to what is on the left. Therefore, the value returned by
+            <code>input("What's your name? ")</code> is assigned to
+            <code>name</code>.
+          </p>
+        </section>
+
+        <!-- 5. comments -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-gray-500">💬</span> Comments
+          </h2>
+          <p class="mb-4">
+            Comments are a way for programmers to track what they are doing in
+            their programs and even inform others about their intentions for a
+            block of code. In short, they are notes for yourself and others who
+            will see your code! <br />
+            You can add comments to your program to be able to see what it is
+            that your program is doing. You might edit your code as follows:
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button># Ask
+            the user for their name<br />name = input("What's your name? ")
+          </div>
+        </section>
+
+        <!-- 6. pseudocode -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-purple-500">🧠</span> Pseudocode
+          </h2>
+          <p class="mb-4">
+            Pseudocode is an important type of comment that becomes a special
+            type of to-do list, especially when you don’t understand how to
+            accomplish a coding task. For example, in your code, you might edit
+            your code to say:
+          </p>
+          <div class="code-box">
+            # Ask the user for their name<br />name = input("What's your name?
+            ")<br /><br /># Print hello<br />print("hello,")<br /><br /># Print
+            the name inputted<br />print(name)
+          </div>
+        </section>
+
+        <!-- 7. improving -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-green-500">✨</span> Improving Your First Python
+            Program
+          </h2>
+          <p class="mb-4">We can further edit our code as follows:</p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button># Ask
+            the user for their name<br />name = input("What's your name? ")<br /><br />#
+            Print hello and the inputted name<br />print("hello, " + name)
+          </div>
+          <p class="mt-3">
+            It turns out that some functions take many arguments. We can use a
+            comma <code>,</code> to pass in multiple arguments by editing our
+            code as follows:
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button># Ask
+            the user for their name<br />name = input("What's your name? ")<br /><br />#
+            Print hello and the inputted name<br />print("hello,", name)
+          </div>
+          <p class="mt-3">
+            The output in the terminal, if we typed “David” we would be
+            <code>hello, David</code>. Success.
+          </p>
+        </section>
+
+        <!-- 8. strings & parameters -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-green-500">🧵</span> Strings and Parameters
+          </h2>
+          <p class="mb-4">
+            A string, known as a <code>str</code> in Python, is a sequence of
+            text. <br />
+            Functions take arguments that influence their behavior. If we look
+            at the documentation for <code>print</code> you’ll notice we can
+            learn a lot about the arguments that the <code>print</code> function
+            takes. <br />
+            Looking at this documentation, you’ll learn that the
+            <code>print</code> function automatically includes the argument
+            <code>end='\n'</code>. This <code>\n</code> indicates that the
+            <code>print</code> function will automatically create a line break
+            when run. The function takes an argument called <code>end</code>,
+            and the default is to create a new line. <br />
+            However, we can technically provide an argument for
+            <code>end</code> ourselves such that a new line is not created!
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button
+            >print("hello,", end="")
+          </div>
+          <p class="mt-3">
+            Parameters, therefore, are arguments that can be taken by a
+            function.
+          </p>
+        </section>
+
+        <!-- 9. quotation marks -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-yellow-500">❝❞</span> A small problem with
+            quotation marks
+          </h2>
+          <p class="mb-4">
+            Notice how adding quotation marks as part of your string is
+            challenging. <code>print("hello,"friend"")</code> will not work, and
+            the interpreter will throw an error. <br />
+            Generally, there are two approaches to fixing this. First, you could
+            simply change the quotes to single quotation marks. <br />
+            Another, more commonly used approach would be to write
+            <code>print("hello, \"friend\"")</code>. The backslashes tell the
+            interpreter that the following character should be treated as a
+            quotation mark in the string and avoid an interpreter error.
+          </p>
+        </section>
+
+        <!-- 10. formatting strings -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-cyan-500">🪄</span> Formatting Strings
+          </h2>
+          <p class="mb-4">
+            Probably the most elegant way to use strings would be as follows:
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>name
+            = input("What's your name? ")<br />print(f"hello, {name}")
+          </div>
+          <p class="mt-3">
+            Notice the <code>f</code> in <code>print(f"hello, {name}")</code>.
+            This <code>f</code> is a special indicator for Python to treat this
+            string a special way, different than previous approaches we have
+            illustrated in this lecture. Expect that you will be using this
+            style of strings quite frequently in this course.
+          </p>
+        </section>
+
+        <!-- 11. more strings -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-emerald-500">🧹</span> More on Strings
+          </h2>
+          <p class="mb-4">
+            You should never expect your user to cooperate as intended.
+            Therefore, you will need to ensure that the input of your user is
+            corrected or checked. <br />
+            It turns out that built into strings is the ability to remove
+            whitespace from a string. By utilizing the <code>strip</code> method
+            on <code>name</code> (for example,
+            <code>name = name.strip()</code>), you will remove any whitespace
+            from the left and right of the user’s input. <br />
+            Using the <code>title</code> method, it would title case the user’s
+            name:
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>name
+            = input("What's your name? ").strip().title()
+          </div>
+        </section>
+
+        <!-- 12. integers -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-orange-500">🔢</span> Integers or int
+          </h2>
+          <p class="mb-4">
+            In Python, an integer is referred to as an <code>int</code>. <br />
+            In the world of mathematics, we are familiar with <code>+</code>,
+            <code>-</code>, <code>*</code>, <code>/</code>, and
+            <code>%</code> operators. That last operator <code>%</code> or
+            modulo operator may not be very familiar to you. <br />
+            You don’t have to use the text editor window to run Python code.
+            Down in your terminal, you can run <code>python</code> alone. You
+            will be presented with <code>>>></code> in the terminal window. You
+            can then run live, interactive code. You could type
+            <code>1+1</code>, and it will run that calculation. This mode will
+            not commonly be used during this course.
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>x =
+            int(input("What's x? "))<br />y = int(input("What's y? "))<br />print(x
+            + y)
+          </div>
+        </section>
+
+        <!-- 13. readability -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-sky-500">👀</span> Readability Wins
+          </h2>
+          <p class="mb-4">
+            When deciding on your approach to a coding task, remember that one
+            could make a reasonable argument for many approaches to the same
+            problem. <br />
+            Regardless of what approach you take to a programming task, remember
+            that your code must be readable. You should use comments to give
+            yourself and others clues about what your code is doing. Further,
+            you should create code in a way that is readable.
+          </p>
+        </section>
+
+        <!-- 14. floats -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-indigo-500">🌊</span> Float Basics
+          </h2>
+          <p class="mb-4">
+            A floating point value is a real number that has a decimal point in
+            it, such as <code>0.52</code>. <br />
+            You can change your code to support floats as follows:
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>x =
+            float(input("What's x? "))<br />y = float(input("What's y? "))<br />print(x
+            + y)
+          </div>
+          <p class="mt-3">
+            Let’s imagine, however, that you want to round the total to the
+            nearest integer. Looking at the Python documentation for
+            <code>round</code>, you’ll see that the available arguments are
+            <code>round(number[, ndigits])</code>. Those square brackets
+            indicate that something optional can be specified by the programmer.
+            Therefore, you could do <code>round(n)</code> to round a digit to
+            its nearest integer. <br />
+            What if we wanted to format the output of long numbers? For example,
+            rather than seeing <code>1000</code>, you may wish to see
+            <code>1,000</code>. You could modify your code as follows:
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>z =
+            round(x + y)<br />print(f"{z:,}")
+          </div>
+        </section>
+
+        <!-- 15. more floats -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-violet-500">🧮</span> More on Floats
+          </h2>
+          <p class="mb-4">
+            How can we round floating point values? First, modify your code as
+            follows:
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>z = x
+            / y<br />print(z)
+          </div>
+          <p class="mt-3">
+            Let’s imagine that we want to round this down. We could modify our
+            code as follows:
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>z =
+            round(x / y, 2)<br />print(z)
+          </div>
+          <p class="mt-3">
+            We could also use an f-string to format the output as follows:
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button
+            >print(f"{z:.2f}")
+          </div>
+        </section>
+
+        <!-- 16. def -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-yellow-500">🔨</span> Def
+          </h2>
+          <p class="mb-4">
+            Wouldn’t it be nice to create our own functions? <br />
+            We can create our own function called <code>hello</code> as follows:
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>def
+            hello(to="world"):<br />
+            print("hello,", to)
+          </div>
+        </section>
+
+        <!-- 17. returning values -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-pink-500">↩️</span> Returning Values
+          </h2>
+          <p class="mb-4">
+            You can imagine many scenarios where you don’t just want a function
+            to perform an action but also to return a value back to the main
+            function. For example, rather than simply printing the calculation
+            of <code>x + y</code>, you may want a function to return the value
+            of this calculation back to another part of your program. This
+            “passing back” of a value we call a return value.
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>def
+            square(n):<br />
+            return n * n
+          </div>
+        </section>
+
+        <!-- 18. summing up -->
+        <section
+          class="reveal mb-12 p-6 bg-gradient-to-r from-teal-50 to-blue-50 dark:from-teal-900/20 dark:to-blue-900/20 rounded-xl"
+        >
+          <h2 class="text-2xl font-bold mb-3">Summing Up</h2>
+          <p class="mb-4">
+            Through the work of this single lecture, you have learned abilities
+            that you will use countless times in your own programs. You have
+            learned about…
+          </p>
+          <ul class="list-disc ml-6 space-y-1">
+            <li>Creating your first programs in Python;</li>
+            <li>Functions;</li>
+            <li>Bugs;</li>
+            <li>Variables;</li>
+            <li>Comments;</li>
+            <li>Pseudocode;</li>
+            <li>Strings;</li>
+            <li>Parameters;</li>
+            <li>Formatted Strings;</li>
+            <li>Integers;</li>
+            <li>Principles of readability;</li>
+            <li>Floats;</li>
+            <li>Creating your own functions; and</li>
+            <li>Return values.</li>
+          </ul>
+          <div class="mt-4">
+            <a
+              href="lec1.html"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition"
+              >Next Lecture →</a
+            >
+          </div>
+        </section>
+
+        <!-- 19. live playground (kept for interactivity) -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-teal-500">🚀</span> Live Playground
+          </h2>
+          <p>
+            Edit the code below and hit <strong>Run</strong>—no servers, no
+            installs.
+          </p>
+          <textarea id="playground" class="code-box w-full h-48 mt-3">
+# try your own ideas!
+name = input("What's your name? ")
+print(f"hello, {name}")</textarea
+          >
+          <div class="flex items-center gap-3 mt-3">
+            <button
+              onclick="runCode()"
+              class="px-5 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition"
+            >
+              ▶ Run
+            </button>
+            <button
+              onclick="resetCode()"
+              class="px-5 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+            >
+              Reset
+            </button>
+          </div>
+          <div id="playground-out" class="output-box mt-3">
+            Output will appear here…
+          </div>
+        </section>
+      </main>
+      <!-- =========  PSET1 QUESTIONS & HINTS – DOPE STYLING  ========= -->
+
+      <!-- =========  FOOTER  ========= -->
+      <footer class="bg-gray-900 text-white py-8 mt-12">
+        <div class="max-w-4xl mx-auto px-4 text-center text-gray-400">
+          © 2024 PythonLearn – built with ❤️ for every future Pythonista.
+        </div>
+      </footer>
+
+      <!-- =========  EXISTING JS  ========= -->
+      <script>
+        /* ----- dark mode toggle (respects your nav) ----- */
+        if (
+          localStorage.theme === "dark" ||
+          (!("theme" in localStorage) &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        } else {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+
+        /* ----- scroll reveal ----- */
+        const reveals = document.querySelectorAll(".reveal");
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                anime({
+                  targets: entry.target,
+                  opacity: 1,
+                  translateY: 0,
+                  duration: 600,
+                  easing: "easeOutQuad",
+                });
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.15 }
+        );
+        reveals.forEach((el) => observer.observe(el));
+
+        /* ----- copy code ----- */
+        function copyCode(btn) {
+          const box = btn.parentElement;
+          const code = box.textContent.trim();
+          navigator.clipboard.writeText(code);
+          btn.textContent = "Copied!";
+          setTimeout(() => (btn.textContent = "Copy"), 1200);
+        }
+
+        /* ----- live runner (Skulpt) ----- */
+        function outf(text) {
+          const out = document.getElementById("playground-out");
+          out.textContent += text;
+        }
+        function builtinRead(x) {
+          if (
+            Sk.builtinFiles === undefined ||
+            Sk.builtinFiles["files"][x] === undefined
+          )
+            throw new Error("File not found: " + x);
+          return Sk.builtinFiles["files"][x];
+        }
+        function runCode() {
+          const prog = document.getElementById("playground").value;
+          document.getElementById("playground-out").textContent = "";
+          Sk.pre = "playground-out";
+          Sk.configure({
+            output: outf,
+            read: builtinRead,
+            __future__: Sk.python3,
+          });
+          (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target =
+            "playground-out";
+          const myPromise = Sk.misceval.asyncToPromise(() =>
+            Sk.importMainWithBody("<stdin>", false, prog, true)
+          );
+          myPromise.then(
+            () => {
+              const out = document.getElementById("playground-out").textContent;
+              if (out.includes("°F") || out.includes("°C")) {
+                const cel = document.getElementById("celebrate");
+                cel.classList.remove("hidden");
+                cel.querySelector("span").classList.add("check-celebration");
+              }
+            },
+            (err) => {
+              document.getElementById("playground-out").textContent =
+                err.toString();
+            }
+          );
+        }
+        function resetCode() {
+          document.getElementById(
+            "playground"
+          ).value = `name = input("What's your name? ")
+print(f"hello, {name}")`;
+          document.getElementById("playground-out").textContent =
+            "Output will appear here…";
+        }
+
+        /* highlight current lecture */
+        document.querySelectorAll(".lecture2-nav a").forEach((a) => {
+          if (a.href.endsWith("lec0.html"))
+            a.classList.add("bg-teal-700", "text-white");
+        });
+      </script>
+    </body>
+  </body>
+</html>

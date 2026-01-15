@@ -1,0 +1,353 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 7 – Regular Expressions ✨</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        :root { --bg: #ffffff; --text: #1f2937; --accent: #0d9488; --surface: #f9fafb; --border: #e5e7eb; }
+        [data-theme="dark"] { --bg: #0f172a; --text: #f1f5f9; --surface: #1e293b; --border: #334155; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); transition: background .3s, color .3s; }
+        .code-box { background: #1e293b; color: #e2e8f0; border-radius: .75rem; padding: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: .95rem; position: relative; overflow: hidden; }
+        .output-box { background: #0f172a; color: #10b981; border-radius: .75rem; padding: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: .95rem; min-height: 3rem; white-space: pre-wrap; }
+        .copy-btn { position: absolute; top: .75rem; right: .75rem; padding: .25rem .5rem; font-size: .75rem; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); color: #fff; border-radius: .5rem; cursor: pointer; transition: background .2s; }
+        .copy-btn:hover { background: rgba(255,255,255,.2); }
+        .reveal { opacity: 0; transform: translateY(30px); }
+        .mini-nav { position: sticky; top: 64px; z-index: 30; background: var(--surface); border-bottom: 1px solid var(--border); }
+    </style>
+</head><body>
+<!-- =========  TOP BAR  ========= -->
+<nav class="sticky top-0 z-40 bg-teal-700 text-white shadow-lg">
+    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+        <div class="text-2xl font-bold flex items-center gap-2">
+            <span class="hidden sm:inline">🐍</span> PythonLearn
+        </div>
+        <a href="course.html" class="text-sm sm:text-base hover:underline">← Back to Course</a>
+    </div>
+</nav>
+
+<!-- =========  MINI NAV  ========= -->
+<div class="lecture2-nav sticky top-16 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-gray-200 dark:border-gray-700">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap gap-2 justify-center">
+        <a href="lec0.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 0</a>
+        <a href="lec1.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 1</a>
+        <a href="lec2.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 2</a>
+        <a href="lec3.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 3</a>
+        <a href="lec4.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 4</a>
+        <a href="lec5.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 5</a>
+        <a href="lec6.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 6</a>
+        <a href="lec7.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 7</a>
+        <a href="lec8.html" class="px-4 py-2 rounded-full bg-teal-700 text-white shadow">Lecture 8</a>
+        <a href="lec9.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 9</a>
+    </div>
+</div>
+
+<!-- =========  MAIN CONTENT  ========= -->
+<main class="max-w-4xl mx-auto px-4 py-10">
+    <!-- hero -->
+    <header class="reveal mb-12 text-center">
+        <h1 class="text-4xl sm:text-5xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-blue-500">Lecture 8 – Object-Oriented Programming</h1>
+        <p class="text-lg text-gray-600 dark:text-gray-300">Classes, inheritance, decorators, operator overloading—build your own types with super-powers.</p>
+    </header>
+
+    <!-- 1. Object-Oriented Programming -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-teal-600">🏗️</span> Object-Oriented Programming</h2>
+        <p class="mb-4">
+            There are different paradigms of programming. As you learn other languages, you will start recognizing patterns like these. <br>
+            Up until this point, you have worked procedurally step-by-step. <br>
+            Object-oriented programming (OOP) is a compelling solution to programming-related problems. <br>
+            To begin, type code student.py in the terminal window and code as follows:
+        </p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>name = input("Name: ")<br>house = input("House: ")<br>print(f"{name} from {house}")</div>
+        <p class="mt-3">Drawing on our work from previous weeks, we can create functions to abstract away parts of this program.</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>def main():<br>    name, house = get_student()<br>    print(f"{name} from {house}")<br><br><br>def get_student():<br>    name = input("Name: ")<br>    house = input("House: ")<br>    return name, house<br><br><br>if __name__ == "__main__":<br>    main()</div>
+    </section>
+
+    <!-- 2. Classes -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-indigo-500">🧱</span> Classes</h2>
+        <p class="mb-4">Classes are a way by which, in object-oriented programming, we can create our own type of data and give them names. A class is like a mold for a type of data – where we can invent our own data type and give them a name.</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>class Student:<br>    def __init__(self, name, house):<br>        self.name = name<br>        self.house = house<br><br>    def __str__(self):<br>        return f"{self.name} from {self.house}"<br><br><br>def main():<br>    student = get_student()<br>    print(student)<br><br><br>def get_student():<br>    name = input("Name: ")<br>    house = input("House: ")<br>    return Student(name, house)<br><br><br>if __name__ == "__main__":<br>    main()</div>
+        <p class="mt-3">Notice by convention that Student is capitalized. Further, notice the ... simply means that we will later return to finish that portion of our code. Further, notice that in get_student, we can create a student of class Student using the syntax student = Student(). Further, notice that we utilize “dot notation” to access attributes of this variable student of class Student. <br> You can learn more in Python’s <a href="https://docs.python.org/3/tutorial/classes.html" target="_blank" class="underline">documentation of classes</a>.</p>
+    </section>
+
+    <!-- 3. raise -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-red-500">⚠️</span> raise</h2>
+        <p class="mb-4">Object-oriented programming encourages you to encapsulate all the functionality of a class within the class definition. What if something goes wrong? What if someone tries to type in something random? What if someone tries to create a student without a name? Modify your code as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>class Student:<br>    def __init__(self, name, house):<br>        if not name:<br>            raise ValueError("Missing name")<br>        if house not in ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]:<br>            raise ValueError("Invalid house")<br>        self.name = name<br>        self.house = house<br><br>    def __str__(self):<br>        return f"{self.name} from {self.house}"</div>
+        <p class="mt-3">Notice how we check now that a name is provided and a proper house is designated. It turns out we can create our own exceptions that alerts the programmer to a potential error created by the user called raise. In the case above, we raise ValueError with a specific error message.</p>
+    </section>
+
+    <!-- 4. Decorators -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-purple-500">🎨</span> Decorators</h2>
+        <p class="mb-4">Properties can be utilized to harden our code. In Python, we define properties using function “decorators”, which begin with @. Modify your code as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>class Student:<br>    def __init__(self, name, house):<br>        self.name = name<br>        self.house = house<br><br>    @property<br>    def name(self):<br>        return self._name<br><br>    @name.setter<br>    def name(self, name):<br>        if not name:<br>            raise ValueError("Invalid name")<br>        self._name = name<br><br>    @property<br>    def house(self):<br>        return self._house<br><br>    @house.setter<br>    def house(self, house):<br>        if house not in ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]:<br>            raise ValueError("Invalid house")<br>        self._house = house</div>
+        <p class="mt-3">Notice how we’ve written @property above a function called house. Doing so defines house as a property of our class. With house as a property, we gain the ability to define how some attribute of our class, _house, should be set and retrieved. Indeed, we can now define a function called a “setter”, via @house.setter, which will be called whenever the house property is set—for example, with student.house = "Gryffindor". Here, we’ve made our setter validate values of house for us. Notice how we raise a ValueError if the value of house is not any of the Harry Potter houses, otherwise, we’ll use house to update the value of _house. Why _house and not house? house is a property of our class, with functions via which a user attempts to set our class attribute. _house is that class attribute itself. The leading underscore, _, indicates to users they need not (and indeed, shouldn’t!) modify this value directly. _house should only be set through the house setter. Notice how the house property simply returns that value of _house, our class attribute that has presumably been validated using our house setter. When a user calls student.house, they’re getting the value of _house through our house “getter”. <br> You can learn more in Python’s <a href="https://docs.python.org/3/library/functions.html#property" target="_blank" class="underline">documentation of methods</a>.</p>
+    </section>
+
+    <!-- 5. Connecting to Previous Work in this Course -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-green-500">🔗</span> Connecting to Previous Work in this Course</h2>
+        <p class="mb-4">While not explicitly stated in past portions of this course, you have been using classes and objects the whole way through. If you dig into the documentation of int, you’ll see that it is a class with a constructor. It’s a blueprint for creating objects of type int. You can learn more in Python’s documentation of int. Strings too are also a class. If you have used str.lower(), you were using a method that came within the str class. You can learn more in Python’s documentation of str. list is also a class. Looking at that documentation for list, you can see the methods that are contained therein, like list.append(). You can learn more in Python’s documentation of list. dict is also a class within Python. You can learn more in Python’s documentation of dict.</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>print(type(50))<br>print(type("hello, world"))<br>print(type([]))<br>print(type(list()))<br>print(type({}))<br>print(type(dict()))</div>
+        <div class="output-box mt-2">&lt;class 'int'&gt;<br>&lt;class 'str'&gt;<br>&lt;class 'list'&gt;<br>&lt;class 'list'&gt;<br>&lt;class 'dict'&gt;<br>&lt;class 'dict'&gt;</div>
+    </section>
+
+    <!-- 6. Class Methods -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-yellow-500">🔧</span> Class Methods</h2>
+        <p class="mb-4">Sometimes, we want to add functionality to a class itself, not to instances of that class. @classmethod is a function that we can use to add functionality to a class as a whole.</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import random<br><br><br>class Hat:<br><br>    houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]<br><br>    @classmethod<br>    def sort(cls, name):<br>        print(name, "is in", random.choice(cls.houses))<br><br><br>Hat.sort("Harry")</div>
+        <p class="mt-3">Notice how the __init__ method is removed because we don’t need to instantiate a hat anywhere in our code. self, therefore, is no longer relevant and is removed. We specify this sort as a @classmethod, replacing self with cls. Finally, notice how Hat is capitalized by convention near the end of this code, because this is the name of our class.</p>
+    </section>
+
+    <!-- 7. Static Methods -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-orange-500">🧍</span> Static Methods</h2>
+        <p class="mb-4">It turns out that besides @classmethods, which are distinct from instance methods, there are other types of methods as well. Using @staticmethod may be something you might wish to explore. While not covered explicitly in this course, you are welcome to go and learn more about static methods and their distinction from class methods.</p>
+    </section>
+
+    <!-- 8. Inheritance -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-pink-500">🧬</span> Inheritance</h2>
+        <p class="mb-4">Inheritance is, perhaps, the most powerful feature of object-oriented programming. It just so happens that you can create a class that “inherits” methods, variables, and attributes from another class.</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>class Wizard:<br>    def __init__(self, name):<br>        if not name:<br>            raise ValueError("Missing name")<br>        self.name = name<br><br><br>class Student(Wizard):<br>    def __init__(self, name, house):<br>        super().__init__(name)<br>        self.house = house<br><br><br>class Professor(Wizard):<br>    def __init__(self, name, subject):<br>        super().__init__(name)<br>        self.subject = subject</div>
+        <p class="mt-3">Notice that there is a class above called Wizard and a class called Student. Further, notice that there is a class called Professor. Both students and professors have names. Also, both students and professors are wizards. Therefore, both Student and Professor inherit the characteristics of Wizard. Within the “child” class Student, Student can inherit from the “parent” or “super” class Wizard as the line super().__init__(name) runs the init method of Wizard. Finally, notice that the last lines of this code create a wizard called Albus, a student called Harry, and so on.</p>
+    </section>
+
+    <!-- 9. Inheritance and Exceptions -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-red-500">🔗</span> Inheritance and Exceptions</h2>
+        <p class="mb-4">While we have just introduced inheritance, we have been using this all along during our use of exceptions. It just so happens that exceptions come in a hierarchy, where there are children, parent, and grandparent classes. These are illustrated below:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>BaseException<br> +-- KeyboardInterrupt<br> +-- Exception<br>      +-- ArithmeticError<br>      |    +-- ZeroDivisionError<br>      +-- AssertionError<br>      +-- AttributeError<br>      +-- EOFError<br>      +-- ImportError<br>      |    +-- ModuleNotFoundError<br>      +-- LookupError<br>      |    +-- KeyError<br>      +-- NameError<br>      +-- SyntaxError<br>      |    +-- IndentationError<br>      +-- ValueError</div>
+        <p class="mt-3">You can learn more in Python’s <a href="https://docs.python.org/3/library/exceptions.html" target="_blank" class="underline">documentation of exceptions</a>.</p>
+    </section>
+
+    <!-- 10. Operator Overloading -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-cyan-500">➕</span> Operator Overloading</h2>
+        <p class="mb-4">Some operators such as + and - can be “overloaded” such that they can have more abilities beyond simple arithmetic. In your terminal window, type code vault.py. Then, code as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>class Vault:<br>    def __init__(self, galleons=0, sickles=0, knuts=0):<br>        self.galleons = galleons<br>        self.sickles = sickles<br>        self.knuts = knuts<br><br>    def __str__(self):<br>        return f"{self.galleons} Galleons, {self.sickles} Sickles, {self.knuts} Knuts"<br><br>    def __add__(self, other):<br>        galleons = self.galleons + other.galleons<br>        sickles = self.sickles + other.sickles<br>        knuts = self.knuts + other.knuts<br>        return Vault(galleons, sickles, knuts)<br><br><br>potter = Vault(100, 50, 25)<br>print(potter)<br><br>weasley = Vault(25, 50, 100)<br>print(weasley)<br><br>total = potter + weasley<br>print(total)</div>
+        <p class="mt-3">Notice how the __str__ method returns a formatted string. Further, notice how the __add__ method allows for the addition of the values of two vaults. self is what is on the left of the + operand. other is what is right of the +. <br> You can learn more in Python’s <a href="https://docs.python.org/3/reference/datamodel.html#special-method-names" target="_blank" class="underline">documentation of operator overloading</a>.</p>
+    </section>
+
+    <!-- 11. Summing Up -->
+    <section class="reveal mb-12 p-6 bg-gradient-to-r from-teal-50 to-blue-50 dark:from-teal-900/20 dark:to-blue-900/20 rounded-xl">
+        <h2 class="text-2xl font-bold mb-3">Summing Up</h2>
+        <p class="mb-4">Now, you’ve learned a whole new level of capability through object-oriented programming.</p>
+        <ul class="list-disc ml-6 space-y-1">
+            <li>Object-oriented programming</li>
+            <li>Classes</li>
+            <li>raise</li>
+            <li>Class Methods</li>
+            <li>Static Methods</li>
+            <li>Inheritance</li>
+            <li>Operator Overloading</li>
+        </ul>
+        <div class="mt-4">
+            <a href="lec9.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition">Next Lecture →</a>
+        </div>
+    </section>
+
+    <!-- 12. Live Playground -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-teal-500">🚀</span> Live Playground</h2>
+        <p>Edit the code below and hit <strong>Run</strong>—no servers, no installs.</p>
+        <textarea id="playground" class="code-box w-full h-48 mt-3"># Try your own class!
+class Student:
+    def __init__(self, name, house):
+        self.name = name
+        self.house = house
+
+    def __str__(self):
+        return f"{self.name} from {self.house}"
+
+harry = Student("Harry", "Gryffindor")
+print(harry)</textarea>
+        <div class="flex items-center gap-3 mt-3">
+            <button onclick="runCode()" class="px-5 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition">▶ Run</button>
+            <button onclick="resetCode()" class="px-5 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Reset</button>
+        </div>
+        <div id="playground-out" class="output-box mt-3">Output will appear here…</div>
+    </section>
+</main>
+<!-- =========  PSET8 QUESTIONS & HINTS – DOPE STYLING  ========= -->
+<section class="reveal mt-12">
+
+    <!-- neon-gradient title -->
+    <h2 class="text-4xl font-extrabold mb-10 text-center bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-rose-500 to-fuchsia-500 drop-shadow-[0_0_10px_rgba(236,72,153,0.5)] dark:drop-shadow-[0_0_15px_rgba(244,114,182,0.6)]">
+        🌸 PSET 8 – OOP, Dates, PDFs & Vibes
+    </h2>
+
+    <!-- glowing card grid -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- 1. Seasons of Love -->
+        <div class="group relative bg-gradient-to-br from-pink-50 to-rose-50 dark:from-gray-900 dark:to-pink-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/30 ring-1 ring-pink-200 dark:ring-pink-700 hover:ring-pink-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-pink-500/20">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-pink-500 to-rose-600 text-white font-bold shadow-lg drop-shadow-md">1</div>
+            <h3 class="text-xl font-bold mb-3 text-pink-700 dark:text-pink-300">Seasons of Love</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Birth date (YYYY-MM-DD) → age in minutes → print in words (no numerals, no “and”).</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-100 dark:bg-pink-800/30 text-pink-700 dark:text-pink-300 text-xs font-medium">
+                datetime + inflect
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: midnight to midnight → days×24×60 → inflect.engine().number_to_words(minutes) → strip “and”.</p>
+        </div>
+
+        <!-- 2. Cookie Jar -->
+        <div class="group relative bg-gradient-to-br from-amber-50 to-orange-50 dark:from-gray-900 dark:to-amber-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-amber-200 dark:ring-amber-700 hover:ring-amber-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-amber-500/20">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-amber-500 to-orange-600 text-white font-bold shadow-lg drop-shadow-md">2</div>
+            <h3 class="text-xl font-bold mb-3 text-amber-700 dark:text-amber-300">Cookie Jar</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Jar class: capacity, deposit, withdraw, 🍪 string; raise ValueError on bad ops.</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-800/30 text-amber-700 dark:text-amber-300 text-xs font-medium">
+                OOP + validation
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: __init__ capacity int ≥0, deposit/withdraw check overflow/underflow, __str__ returns "🍪"*size.</p>
+        </div>
+
+        <!-- 3. CS50 Shirtificate -->
+        <div class="group relative bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-gray-900 dark:to-emerald-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-emerald-200 dark:ring-emerald-700 hover:ring-emerald-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-500/20 md:col-span-2 lg:col-span-1">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-bold shadow-lg drop-shadow-md">3</div>
+            <h3 class="text-xl font-bold mb-3 text-emerald-700 dark:text-emerald-300">CS50 Shirtificate</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">User name lo, fpdf2 se shirt image pe name centered daal ke shirtificate.pdf banao.</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-800/30 text-emerald-700 dark:text-emerald-300 text-xs font-medium">
+                fpdf2 + image + text
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: pdf.add_page(), pdf.image("shirt.png", x=0, y=0, w=pdf.w), pdf.set_font, pdf.cell(center=True) → output shirtificate.pdf.</p>
+        </div>
+    </div>
+
+    <!-- core themes banner -->
+    <div class="mt-10 p-5 bg-gradient-to-r from-pink-500/10 via-rose-500/10 to-fuchsia-500/10 dark:from-pink-500/20 dark:via-rose-500/20 dark:to-fuchsia-500/20 rounded-2xl border border-pink-300 dark:border-pink-700 text-center">
+        <p class="font-bold text-slate-800 dark:text-slate-200">🧠 Core Themes in PSET 8</p>
+        <p class="text-sm mt-2 text-slate-600 dark:text-slate-300">
+            OOP: classes, encapsulation, __init__, __str__ | Validation: constructor & method checks | Libraries: external PDF + word libs | Modularity: small testable functions
+        </p>
+    </div>
+
+    <!-- output expectations table -->
+    <div class="mt-6 overflow-x-auto">
+        <table class="w-full text-sm text-left text-slate-700 dark:text-slate-300 rounded-xl shadow-lg ring-1 ring-slate-200 dark:ring-slate-700">
+            <thead class="text-xs uppercase bg-gradient-to-r from-pink-100 to-rose-100 dark:from-pink-900/40 dark:to-rose-900/40">
+                <tr>
+                    <th scope="col" class="px-6 py-3 rounded-tl-lg">Problem</th>
+                    <th scope="col" class="px-6 py-3 rounded-tr-lg">Expected Output Format</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="bg-white/70 dark:bg-gray-800/50 border-b dark:border-slate-700">
+                    <td class="px-6 py-4 font-medium text-pink-700 dark:text-pink-300">Seasons of Love</td>
+                    <td class="px-6 py-4">Eight hundred twenty‑two thousand five hundred thirty‑six minutes</td>
+                </tr>
+                <tr class="bg-white/70 dark:bg-gray-800/50 border-b dark:border-slate-700">
+                    <td class="px-6 py-4 font-medium text-amber-700 dark:text-amber-300">Cookie Jar</td>
+                    <td class="px-6 py-4">🍪🍪🍪</td>
+                </tr>
+                <tr class="bg-white/70 dark:bg-gray-800/50">
+                    <td class="px-6 py-4 font-medium text-emerald-700 dark:text-emerald-300 rounded-bl-lg">Shirtificate</td>
+                    <td class="px-6 py-4 rounded-br-lg">A PDF with a stylised certificate</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- footer note -->
+    <p class="mt-4 text-xs text-center text-slate-500 dark:text-slate-400">
+        Exact string formatting matters — tests are strict. Happy coding! 🎀
+    </p>
+</section>
+<!-- =========  FOOTER  ========= -->
+<footer class="bg-gray-900 text-white py-8 mt-12">
+    <div class="max-w-4xl mx-auto px-4 text-center text-gray-400">
+        © 2024 PythonLearn – built with ❤️ for every future Pythonista.
+    </div>
+</footer>
+
+<!-- =========  EXISTING JS  ========= -->
+<script>
+/* ----- dark mode toggle (respects your nav) ----- */
+if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.setAttribute('data-theme','dark');
+} else {
+    document.documentElement.setAttribute('data-theme','light');
+}
+
+/* ----- scroll reveal ----- */
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            anime({ targets: entry.target, opacity: 1, translateY: 0, duration: 600, easing: 'easeOutQuad' });
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: .15 });
+reveals.forEach(el => observer.observe(el));
+
+/* ----- copy code ----- */
+function copyCode(btn) {
+    const box = btn.parentElement;
+    const code = box.textContent.trim();
+    navigator.clipboard.writeText(code);
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1200);
+}
+
+/* ----- live runner (Skulpt) ----- */
+function outf(text) {
+    const out = document.getElementById('playground-out');
+    out.textContent += text;
+}
+function builtinRead(x) {
+    if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+        throw new Error("File not found: " + x);
+    return Sk.builtinFiles["files"][x];
+}
+function runCode() {
+    const prog = document.getElementById('playground').value;
+    document.getElementById('playground-out').textContent = '';
+    Sk.pre = "playground-out";
+    Sk.configure({ output: outf, read: builtinRead, __future__: Sk.python3 });
+    (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'playground-out';
+    const myPromise = Sk.misceval.asyncToPromise(() => Sk.importMainWithBody("<stdin>", false, prog, true));
+    myPromise.then(() => {
+        const out = document.getElementById('playground-out').textContent;
+        if (out.includes('from')) {
+            const cel = document.getElementById('celebrate');
+            if (cel) {
+                cel.classList.remove('hidden');
+                cel.querySelector('span').classList.add('check-celebration');
+            }
+        }
+    }, err => {
+        document.getElementById('playground-out').textContent = err.toString();
+    });
+}
+function resetCode() {
+    document.getElementById('playground').value = `class Student:
+    def __init__(self, name, house):
+        self.name = name
+        self.house = house
+
+    def __str__(self):
+        return f"{self.name} from {self.house}"
+
+harry = Student("Harry", "Gryffindor")
+print(harry)`;
+    document.getElementById('playground-out').textContent = 'Output will appear here…';
+}
+
+/* highlight current lecture */
+document.querySelectorAll('.lecture2-nav a').forEach(a => {
+    if (a.href.endsWith('lec8.html')) a.classList.add('bg-teal-700','text-white');
+});
+</script>
+</body></html>

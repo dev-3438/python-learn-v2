@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Python Quiz - PythonLearn</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Animation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+    <!-- ECharts for Data Visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+
+    <!-- Custom Styles -->
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+
+      :root {
+        --primary-color: #0d9488;
+        --secondary-color: #1e293b;
+        --accent-color: #f97316;
+        --text-primary: #1f2937;
+        --text-secondary: #6b7280;
+        --bg-primary: #ffffff;
+        --bg-secondary: #f9fafb;
+      }
+
+      [data-theme="dark"] {
+        --text-primary: #f1f5f9;
+        --text-secondary: #94a3b8;
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+      }
+
+      * {
+        font-family: "Inter", sans-serif;
+      }
+
+      body {
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        transition: all 0.3s ease;
+      }
+
+      .glassmorphism {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .nav-link {
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .nav-link.active::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #0d9488;
+      }
+
+      .quiz-container {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .quiz-header {
+        background: linear-gradient(135deg, #0d9488, #10b981);
+        color: white;
+        padding: 2rem;
+        text-align: center;
+      }
+
+      .quiz-body {
+        padding: 2rem;
+      }
+
+      .question-card {
+        background: var(--bg-secondary);
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .question-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .option-button {
+        width: 100%;
+        padding: 1rem;
+        text-align: left;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        background: white;
+        transition: all 0.3s ease;
+        margin-bottom: 0.75rem;
+        cursor: pointer;
+      }
+
+      .option-button:hover {
+        border-color: #0d9488;
+        background: #f0fdfa;
+        transform: translateX(4px);
+      }
+
+      .option-button.selected {
+        border-color: #0d9488;
+        background: #0d9488;
+        color: white;
+      }
+
+      .option-button.correct {
+        border-color: #10b981;
+        background: #10b981;
+        color: white;
+      }
+
+      .option-button.incorrect {
+        border-color: #ef4444;
+        background: #ef4444;
+        color: white;
+      }
+
+      .option-button:disabled {
+        cursor: not-allowed;
+        opacity: 0.7;
+      }
+
+      .progress-bar {
+        height: 8px;
+        background: #e5e7eb;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #0d9488, #10b981);
+        transition: width 0.5s ease;
+      }
+
+      .quiz-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .stat-card {
+        text-align: center;
+        padding: 1rem;
+        background: var(--bg-secondary);
+        border-radius: 8px;
+      }
+
+      .stat-number {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #0d9488;
+        display: block;
+      }
+
+      .feedback-panel {
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .feedback-correct {
+        background: #dcfce7;
+        border: 1px solid #bbf7d0;
+        color: #166534;
+      }
+
+      .feedback-incorrect {
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        color: #dc2626;
+      }
+
+      .feedback-explanation {
+        background: #f0f9ff;
+        border: 1px solid #bae6fd;
+        color: #0c4a6e;
+      }
+
+      .quiz-complete {
+        text-align: center;
+        padding: 3rem 2rem;
+      }
+
+      .score-circle {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: conic-gradient(#0d9488 0deg, #e5e7eb 0deg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 2rem;
+        position: relative;
+      }
+
+      .score-circle::before {
+        content: "";
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: white;
+      }
+
+      .score-text {
+        position: relative;
+        z-index: 1;
+        font-size: 2rem;
+        font-weight: 800;
+        color: #0d9488;
+      }
+
+      .topic-selector {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .topic-card {
+        background: white;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 1.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+      }
+
+      .topic-card:hover {
+        border-color: #0d9488;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .topic-card.selected {
+        border-color: #0d9488;
+        background: #f0fdfa;
+      }
+
+      .topic-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .timer {
+        background: #fef3c7;
+        color: #92400e;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .timer.warning {
+        background: #fecaca;
+        color: #dc2626;
+      }
+
+      @media (max-width: 768px) {
+        .quiz-body {
+          padding: 1rem;
+        }
+
+        .question-card {
+          padding: 1rem;
+        }
+
+        .quiz-stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glassmorphism bg-teal-700">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <!-- Logo -->
+          <div class="flex items-center">
+            <div class="text-2xl font-bold text-white">🐍 PythonLearn</div>
+          </div>
+
+          <!-- Desktop Navigation -->
+          <div class="hidden md:flex items-center space-x-10">
+            <a
+              href="/"
+              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2 active"
+              >Home</a
+            >
+            <a
+              href="/course"
+              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2"
+              >Course</a
+            >
+            <a
+              href="/playground"
+              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2"
+              >Playground</a
+            >
+            <a
+              href="/quiz"
+              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2"
+              >Quiz</a
+            >
+            <a
+              href="/projects"
+              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2"
+              >Projects</a
+            >
+            <a
+              href="/login"
+              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2"
+              >signup</a
+            >
+            <button
+              id="theme-toggle"
+              class="p-3 rounded-xl text-slate-700 hover:bg-slate-100 hover:text-primary-600 transition-all duration-300"
+            >
+              <span id="theme-icon">🌙</span>
+            </button>
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <div class="md:hidden">
+            <button id="mobile-menu-btn" class="text-white hover:text-teal-300">
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden">
+          <div
+            class="px-2 pt-2 pb-3 space-y-1 bg-black bg-opacity-50 rounded-lg mt-2"
+          >
+            <a
+              href="index.html"
+              class="block px-3 py-2 text-white hover:text-teal-300"
+              >Home</a
+            >
+            <a
+              href="course.html"
+              class="block px-3 py-2 text-white hover:text-teal-300"
+              >Course</a
+            >
+            <a
+              href="playground.html"
+              class="block px-3 py-2 text-white hover:text-teal-300"
+              >Playground</a
+            >
+            <a
+              href="quiz.html"
+              class="block px-3 py-2 text-white hover:text-teal-300"
+              >Quiz</a
+            >
+            <a
+              href="projects.html"
+              class="block px-3 py-2 text-white hover:text-teal-300"
+              >Projects</a
+            >
+            <a
+              href="about.html"
+              class="block px-3 py-2 text-white hover:text-teal-300"
+              >About</a
+            >
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Quiz Header -->
+    <section
+      class="pt-20 pb-8 bg-gradient-to-r from-teal-600 to-blue-600 text-white"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">
+            Python Quiz Challenge
+          </h1>
+          <p class="text-xl mb-8 max-w-3xl mx-auto">
+            Test your Python knowledge with our interactive quizzes. Get instant
+            feedback and detailed explanations for every question.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4 text-sm">
+            <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full"
+              >Multiple Topics</span
+            >
+            <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full"
+              >Instant Feedback</span
+            >
+            <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full"
+              >Detailed Explanations</span
+            >
+            <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full"
+              >Progress Tracking</span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Topic Selection -->
+    <section class="py-12" id="topic-selection">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-bold mb-4">Choose Your Quiz Topic</h2>
+          <p class="text-xl text-gray-600">
+            Select a topic to test your Python knowledge
+          </p>
+        </div>
+
+        <div class="topic-selector">
+          <div class="topic-card" data-topic="basics">
+            <div class="topic-icon">🐍</div>
+            <h3 class="text-xl font-semibold mb-2">Python Basics</h3>
+            <p class="text-gray-600">Variables, data types, and basic syntax</p>
+            <div class="mt-4 text-sm text-teal-600 font-semibold">
+              15 Questions • 10 min
+            </div>
+          </div>
+
+          <div class="topic-card" data-topic="operators">
+            <div class="topic-icon">➗</div>
+            <h3 class="text-xl font-semibold mb-2">Operators</h3>
+            <p class="text-gray-600">
+              Arithmetic, comparison, and logical operators
+            </p>
+            <div class="mt-4 text-sm text-teal-600 font-semibold">
+              12 Questions • 8 min
+            </div>
+          </div>
+
+          <div class="topic-card" data-topic="control-flow">
+            <div class="topic-icon">🔄</div>
+            <h3 class="text-xl font-semibold mb-2">Control Flow</h3>
+            <p class="text-gray-600">If statements, loops, and conditionals</p>
+            <div class="mt-4 text-sm text-teal-600 font-semibold">
+              18 Questions • 12 min
+            </div>
+          </div>
+
+          <div class="topic-card" data-topic="functions">
+            <div class="topic-icon">⚡</div>
+            <h3 class="text-xl font-semibold mb-2">Functions</h3>
+            <p class="text-gray-600">
+              Function definition, parameters, and return values
+            </p>
+            <div class="mt-4 text-sm text-teal-600 font-semibold">
+              14 Questions • 10 min
+            </div>
+          </div>
+
+          <div class="topic-card" data-topic="data-structures">
+            <div class="topic-icon">📊</div>
+            <h3 class="text-xl font-semibold mb-2">Data Structures</h3>
+            <p class="text-gray-600">Lists, dictionaries, tuples, and sets</p>
+            <div class="mt-4 text-sm text-teal-600 font-semibold">
+              20 Questions • 15 min
+            </div>
+          </div>
+
+          <div class="topic-card" data-topic="mixed">
+            <div class="topic-icon">🎯</div>
+            <h3 class="text-xl font-semibold mb-2">Mixed Challenge</h3>
+            <p class="text-gray-600">Random questions from all topics</p>
+            <div class="mt-4 text-sm text-teal-600 font-semibold">
+              25 Questions • 20 min
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quiz Interface -->
+    <section class="py-12 hidden" id="quiz-interface">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Quiz Stats -->
+        <div class="quiz-stats">
+          <div class="stat-card">
+            <span class="stat-number" id="current-question">1</span>
+            <span class="text-sm text-gray-600">Question</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="quiz-score">0</span>
+            <span class="text-sm text-gray-600">Correct</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="quiz-timer">10:00</span>
+            <span class="text-sm text-gray-600">Time</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="quiz-progress">0%</span>
+            <span class="text-sm text-gray-600">Progress</span>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+
+        <!-- Quiz Container -->
+        <div class="quiz-container">
+          <div class="quiz-header">
+            <h2 class="text-2xl font-bold mb-2" id="quiz-title">
+              Python Basics Quiz
+            </h2>
+            <p class="text-teal-100" id="quiz-description">
+              Test your fundamental Python knowledge
+            </p>
+          </div>
+
+          <div class="quiz-body">
+            <!-- Question Content -->
+            <div id="question-content">
+              <div class="question-card">
+                <div class="flex justify-between items-start mb-4">
+                  <h3 class="text-xl font-semibold" id="question-text">
+                    Which of the following is the correct way to create a
+                    variable in Python?
+                  </h3>
+                  <span class="text-sm text-gray-500" id="question-number"
+                    >Question 1 of 15</span
+                  >
+                </div>
+
+                <div class="space-y-3" id="options-container">
+                  <button class="option-button" data-option="0">
+                    A. var x = 5
+                  </button>
+                  <button class="option-button" data-option="1">
+                    B. x = 5
+                  </button>
+                  <button class="option-button" data-option="2">
+                    C. int x = 5
+                  </button>
+                  <button class="option-button" data-option="3">
+                    D. create x = 5
+                  </button>
+                </div>
+
+                <div id="feedback-container"></div>
+              </div>
+            </div>
+
+            <!-- Quiz Navigation -->
+            <div class="flex justify-between items-center mt-6">
+              <button
+                id="prev-button"
+                class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                disabled
+              >
+                Previous
+              </button>
+
+              <div class="flex space-x-4">
+                <button
+                  id="skip-button"
+                  class="px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors"
+                >
+                  Skip Question
+                </button>
+                <button
+                  id="next-button"
+                  class="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
+                  disabled
+                >
+                  Next Question
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quiz Results -->
+    <section class="py-12 hidden" id="quiz-results">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="quiz-container">
+          <div class="quiz-complete">
+            <div class="score-circle" id="score-circle">
+              <div class="score-text" id="final-score">85%</div>
+            </div>
+
+            <h2 class="text-3xl font-bold mb-4">Quiz Complete!</h2>
+            <p class="text-xl text-gray-600 mb-6" id="score-message">
+              Excellent work! You have a strong understanding of Python basics.
+            </p>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+              <div class="text-center">
+                <div
+                  class="text-3xl font-bold text-teal-600"
+                  id="correct-answers"
+                >
+                  12
+                </div>
+                <div class="text-gray-600">Correct Answers</div>
+              </div>
+              <div class="text-center">
+                <div
+                  class="text-3xl font-bold text-orange-600"
+                  id="incorrect-answers"
+                >
+                  3
+                </div>
+                <div class="text-gray-600">Incorrect Answers</div>
+              </div>
+              <div class="text-center">
+                <div class="text-3xl font-bold text-blue-600" id="total-time">
+                  8:45
+                </div>
+                <div class="text-gray-600">Time Taken</div>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+              <button
+                id="retake-quiz"
+                class="px-8 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
+              >
+                Retake Quiz
+              </button>
+              <button
+                id="review-answers"
+                class="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Review Answers
+              </button>
+              <button
+                id="try-another-topic"
+                class="px-8 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+              >
+                Try Another Topic
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Performance Analytics -->
+    <section class="py-12 bg-gray-50" id="performance-section">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-bold mb-4">Your Quiz Performance</h2>
+          <p class="text-xl text-gray-600">
+            Track your progress and identify areas for improvement
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Score Chart -->
+          <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold mb-4">Recent Quiz Scores</h3>
+            <div id="score-chart" style="height: 300px"></div>
+          </div>
+
+          <!-- Topic Performance -->
+          <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold mb-4">Performance by Topic</h3>
+            <div id="topic-chart" style="height: 300px"></div>
+          </div>
+        </div>
+
+        <!-- Achievement Badges -->
+        <div class="mt-12">
+          <h3 class="text-2xl font-bold text-center mb-8">Your Achievements</h3>
+          <div class="flex flex-wrap justify-center gap-4">
+            <div class="bg-white p-4 rounded-lg shadow-lg text-center">
+              <div class="text-4xl mb-2">🏆</div>
+              <div class="font-semibold">First Quiz</div>
+              <div class="text-sm text-gray-600">Completed your first quiz</div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-lg text-center">
+              <div class="text-4xl mb-2">🎯</div>
+              <div class="font-semibold">Perfect Score</div>
+              <div class="text-sm text-gray-600">Scored 100% on a quiz</div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-lg text-center">
+              <div class="text-4xl mb-2">⚡</div>
+              <div class="font-semibold">Speed Demon</div>
+              <div class="text-sm text-gray-600">
+                Completed quiz in record time
+              </div>
+            </div>
+            <div
+              class="bg-white p-4 rounded-lg shadow-lg text-center opacity-50"
+            >
+              <div class="text-4xl mb-2">🔥</div>
+              <div class="font-semibold">Streak Master</div>
+              <div class="text-sm text-gray-600">5 quizzes in a row</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-4 gap-8">
+          <div>
+            <div class="text-2xl font-bold mb-4">🐍 PythonLearn</div>
+            <p class="text-gray-400 mb-4">
+              Learn Python the smart way with our interactive platform designed
+              for modern learners.
+            </p>
+          </div>
+
+          <div>
+            <h4 class="font-bold mb-4">Learning</h4>
+            <ul class="space-y-2 text-gray-400">
+              <li>
+                <a href="course.html" class="hover:text-white"
+                  >Course Curriculum</a
+                >
+              </li>
+              <li>
+                <a href="playground.html" class="hover:text-white"
+                  >Code Playground</a
+                >
+              </li>
+              <li>
+                <a href="quiz.html" class="hover:text-white"
+                  >Interactive Quizzes</a
+                >
+              </li>
+              <li>
+                <a href="projects.html" class="hover:text-white"
+                  >Project Gallery</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-bold mb-4">Resources</h4>
+            <ul class="space-y-2 text-gray-400">
+              <li>
+                <a href="about.html" class="hover:text-white">About Us</a>
+              </li>
+              <li><a href="#" class="hover:text-white">Blog</a></li>
+              <li><a href="#" class="hover:text-white">Documentation</a></li>
+              <li><a href="#" class="hover:text-white">Community</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-bold mb-4">Support</h4>
+            <ul class="space-y-2 text-gray-400">
+              <li><a href="#" class="hover:text-white">Help Center</a></li>
+              <li><a href="#" class="hover:text-white">Contact Us</a></li>
+              <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+              <li><a href="#" class="hover:text-white">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400"
+        >
+          <p>
+            &copy; 2024 PythonLearn. All rights reserved. Made with ❤️ for
+            Python learners worldwide.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Main JavaScript -->
+    <script src="main.js"></script>
+
+    <!-- Quiz-specific JavaScript -->
+
+    <!-- =========  FIXED QUIZ ENGINE  ========= -->
+    <script>
+      /* ===========================================================
+   PYTHON QUIZ – BUG-FREE, FULLY STAND-ALONE
+   =========================================================== */
+      class PythonQuiz {
+        constructor() {
+          this.currentTopic = null;
+          this.questions = [];
+          this.currentIndex = 0;
+          this.score = 0;
+          this.answers = [];
+          this.timeRemaining = 0;
+          this.timer = null;
+          this.startTime = null;
+
+          /* --------------  QUIZ BANK  ---------------- */
+          this.quizData = {
+            basics: {
+              title: "Python Basics Quiz",
+              description: "Test your fundamental Python knowledge",
+              timeLimit: 600, // 10 min
+              questions: [
+                // ORIGINAL QUESTIONS
+                {
+                  question:
+                    "Which of the following is the correct way to create a variable in Python?",
+                  options: ["var x = 5", "x = 5", "int x = 5", "create x = 5"],
+                  correct: 1,
+                  explanation:
+                    "In Python you just assign:  x = 5 .  No declarative keyword is needed.",
+                },
+                {
+                  question: "What will print(type(42)) output?",
+                  options: [
+                    "<class 'int'>",
+                    "<class 'float'>",
+                    "<class 'number'>",
+                    "Error",
+                  ],
+                  correct: 0,
+                  explanation: "42 is an integer literal ⇒ <class 'int'>.",
+                },
+                {
+                  question:
+                    "Which of these is **not** a valid Python string delimiter?",
+                  options: ["'hi'", '"hi"', "`hi`", '"""hi"""'],
+                  correct: 2,
+                  explanation:
+                    "Back-quotes (`) are **not** string delimiters in Python.",
+                },
+                // ADD THESE 10 NEW BASICS QUESTIONS
+                {
+                  question: "What is the result of: type(3.14)?",
+                  options: [
+                    "<class 'int'>",
+                    "<class 'float'>",
+                    "<class 'decimal'>",
+                    "<class 'double'>",
+                  ],
+                  correct: 1,
+                  explanation:
+                    "3.14 is a floating-point literal ⇒ <class 'float'>.",
+                },
+                {
+                  question:
+                    "Which of these variable names is invalid in Python?",
+                  options: ["_user", "2nd_name", "user_name", "userName"],
+                  correct: 1,
+                  explanation:
+                    "Variable names cannot start with a number in Python.",
+                },
+                {
+                  question: "What is the output of: print(type(True))",
+                  options: [
+                    "<class 'bool'>",
+                    "<class 'int'>",
+                    "<class 'str'>",
+                    "Error",
+                  ],
+                  correct: 0,
+                  explanation: "True is a boolean literal ⇒ <class 'bool'>.",
+                },
+                {
+                  question: "Which operator checks the type of a variable?",
+                  options: ["typeof()", "type()", "checktype()", "gettype()"],
+                  correct: 1,
+                  explanation: "type() function returns the type of an object.",
+                },
+                {
+                  question: "What is the result of: isinstance(5, int)?",
+                  options: ["True", "False", "Error", "5"],
+                  correct: 0,
+                  explanation:
+                    "isinstance() checks if 5 is an instance of int class.",
+                },
+                {
+                  question: "Which of these is a mutable data type?",
+                  options: ["tuple", "string", "list", "int"],
+                  correct: 2,
+                  explanation:
+                    "Lists are mutable - you can change their contents after creation.",
+                },
+                {
+                  question: "What does id() function return?",
+                  options: [
+                    "Variable name",
+                    "Memory address",
+                    "Data type",
+                    "Object value",
+                  ],
+                  correct: 1,
+                  explanation: "id() returns the memory address of an object.",
+                },
+                {
+                  question: "What is the output of: x, y = 1, 2; print(x, y)",
+                  options: ["1 2", "2 1", "Error", "1, 2"],
+                  correct: 0,
+                  explanation: "Multiple assignment: x gets 1, y gets 2.",
+                },
+                {
+                  question: "Which keyword deletes a variable?",
+                  options: ["remove", "delete", "del", "destroy"],
+                  correct: 2,
+                  explanation:
+                    "del keyword is used to delete variables in Python.",
+                },
+                {
+                  question: "What is the result of: None == False?",
+                  options: ["True", "False", "Error", "None"],
+                  correct: 1,
+                  explanation: "None is not equal to False in Python.",
+                },
+              ],
+            },
+            operators: {
+              title: "Python Operators Quiz",
+              description: "Test your knowledge of Python operators",
+              timeLimit: 480, // 8 min
+              questions: [
+                // ORIGINAL QUESTIONS
+                {
+                  question: "What is 10 // 3 ?",
+                  options: ["3.33", "3", "4", "3.0"],
+                  correct: 1,
+                  explanation: "// is floor-division ⇒ 3 .",
+                },
+                {
+                  question: "Which operator is exponentiation?",
+                  options: ["^", "**", "^^", "exp"],
+                  correct: 1,
+                  explanation: "** is exponentiation:  2**3 = 8 .",
+                },
+                // ADD THESE 10 NEW OPERATORS QUESTIONS
+                {
+                  question: "What is the result of: 2 ** 3 ** 2?",
+                  options: ["64", "512", "81", "18"],
+                  correct: 1,
+                  explanation:
+                    "Exponentiation is right-associative: 2 ** (3 ** 2) = 2 ** 9 = 512",
+                },
+                {
+                  question: "What does 5 % 2 return?",
+                  options: ["2.5", "2", "1", "0"],
+                  correct: 2,
+                  explanation:
+                    "% is modulo operator: 5 divided by 2 leaves remainder 1.",
+                },
+                {
+                  question: "What is 15 // 4?",
+                  options: ["3.75", "3", "4", "3.0"],
+                  correct: 1,
+                  explanation: "// is floor division: 15 ÷ 4 = 3 remainder 3.",
+                },
+                {
+                  question:
+                    "Which operator checks if both objects are the same?",
+                  options: ["==", "===", "is", "equals"],
+                  correct: 2,
+                  explanation:
+                    "is operator checks if both variables point to the same object in memory.",
+                },
+                {
+                  question: "What is the result of: 2 + 3 * 4?",
+                  options: ["20", "14", "9", "16"],
+                  correct: 1,
+                  explanation:
+                    "Multiplication has higher precedence: 3 * 4 = 12, then 2 + 12 = 14.",
+                },
+                {
+                  question: "What does += operator do?",
+                  options: [
+                    "Addition and assignment",
+                    "Increment only",
+                    "Concatenation",
+                    "Multiplication",
+                  ],
+                  correct: 0,
+                  explanation: "x += 5 is equivalent to x = x + 5.",
+                },
+                {
+                  question: "What is the result of: 'Hello' + 'World'?",
+                  options: [
+                    "HelloWorld",
+                    "Hello World",
+                    "Error",
+                    "Hello+World",
+                  ],
+                  correct: 0,
+                  explanation: "+ operator concatenates strings in Python.",
+                },
+                {
+                  question: "Which operator has the highest precedence?",
+                  options: ["**", "*", "+", "%"],
+                  correct: 0,
+                  explanation:
+                    "** (exponentiation) has the highest precedence in Python.",
+                },
+                {
+                  question: "What is the result of: not True and False?",
+                  options: ["True", "False", "Error", "None"],
+                  correct: 1,
+                  explanation:
+                    "not has higher precedence: (not True) and False = False and False = False.",
+                },
+                {
+                  question: "What does |= operator do?",
+                  options: [
+                    "Bitwise OR assignment",
+                    "Logical OR",
+                    "Union assignment",
+                    "Both A and C",
+                  ],
+                  correct: 3,
+                  explanation:
+                    "|= performs bitwise OR for integers and union for sets.",
+                },
+              ],
+            },
+            "control-flow": {
+              title: "Control-Flow Quiz",
+              description: "Loops and conditionals",
+              timeLimit: 720, // 12 min
+              questions: [
+                // ORIGINAL QUESTIONS
+                {
+                  question: "What does range(3) produce?",
+                  options: ["0 1 2", "1 2 3", "0 1 2 3", "Error"],
+                  correct: 0,
+                  explanation: "range(3) ⇒ 0,1,2  (stop value exclusive).",
+                },
+                {
+                  question: "Which keyword exits a loop prematurely?",
+                  options: ["exit", "break", "stop", "quit"],
+                  correct: 1,
+                  explanation: "break leaves the loop immediately.",
+                },
+                // ADD THESE 10 NEW CONTROL-FLOW QUESTIONS
+                {
+                  question:
+                    "What is the output of: for i in range(3): print(i * 2, end=' ')",
+                  options: ["0 1 2", "0 2 4", "0 2 6", "0 1 2 3 4 5"],
+                  correct: 1,
+                  explanation: "i takes values 0, 1, 2; i * 2 gives 0, 2, 4.",
+                },
+                {
+                  question:
+                    "How many times will print be executed: for i in range(10): if i == 5: break; print(i)",
+                  options: ["5 times", "10 times", "6 times", "4 times"],
+                  correct: 0,
+                  explanation:
+                    "Loop breaks when i == 5, so prints 0, 1, 2, 3, 4 (5 times).",
+                },
+                {
+                  question:
+                    "What is the value of x after: x = 0; while x < 10: x += 2; print(x)",
+                  options: ["8", "10", "12", "9"],
+                  correct: 1,
+                  explanation:
+                    "Loop continues while x < 10, exits when x = 10.",
+                },
+                {
+                  question: "Which keyword skips to the next iteration?",
+                  options: ["skip", "next", "continue", "pass"],
+                  correct: 2,
+                  explanation:
+                    "continue skips the rest of the current iteration.",
+                },
+                {
+                  question:
+                    "What is the output of: for i in 'Python': if i == 't': pass; print(i, end=',')",
+                  options: [
+                    "P,y,t,h,o,n,",
+                    "P,y,h,o,n,",
+                    "P,y,t,h,o,n",
+                    "Error",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "pass does nothing, so all characters are printed.",
+                },
+                {
+                  question: "When is the else block of a for loop executed?",
+                  options: [
+                    "Always",
+                    "If loop completes without break",
+                    "If loop breaks",
+                    "Never",
+                  ],
+                  correct: 1,
+                  explanation:
+                    "else executes only if the loop wasn't terminated by break.",
+                },
+                {
+                  question: "What does enumerate(['a', 'b']) return?",
+                  options: [
+                    "[(0, 'a'), (1, 'b')]",
+                    "['a', 'b']",
+                    "(0, 'a'), (1, 'b')",
+                    "Error",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "enumerate() returns tuples of (index, value) pairs.",
+                },
+                {
+                  question:
+                    "What is the output of: nums = [1, 2, 3]; for n in nums: if n > 2: print('Large'); break; else: print('Small')",
+                  options: ["Large", "Small", "Large Small", "Small Large"],
+                  correct: 0,
+                  explanation:
+                    "Loop breaks when n = 3, so only 'Large' is printed.",
+                },
+                {
+                  question:
+                    "Which is correct list comprehension for even numbers?",
+                  options: [
+                    "[x for x in numbers if x % 2 == 0]",
+                    "[x if x % 2 == 0 for x in numbers]",
+                    "[x for x in numbers else x % 2 == 0]",
+                    "[x where x % 2 == 0 in numbers]",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "Correct syntax: [expression for item in iterable if condition]",
+                },
+                {
+                  question:
+                    "What is the output of: for i in range(1, 4): for j in range(1, 3): print(i * j, end=' ')",
+                  options: [
+                    "1 2 3 4 5 6",
+                    "1 2 2 4 3 6",
+                    "1 2 3 2 4 6",
+                    "1 2 3 4 6 9",
+                  ],
+                  correct: 1,
+                  explanation:
+                    "Nested loops: (1×1, 1×2), (2×1, 2×2), (3×1, 3×2) = 1 2 2 4 3 6",
+                },
+              ],
+            },
+            functions: {
+              title: "Functions Quiz",
+              description: "Defining and calling functions",
+              timeLimit: 600,
+              questions: [
+                // ORIGINAL QUESTION
+                {
+                  question: "How do you define a function in Python?",
+                  options: [
+                    "function foo():",
+                    "def foo():",
+                    "func foo():",
+                    "define foo():",
+                  ],
+                  correct: 1,
+                  explanation: "Keyword is  def foo():  .",
+                },
+                // ADD THESE 10 NEW FUNCTIONS QUESTIONS
+                {
+                  question:
+                    "What is the output of: def add(a, b=5): return a + b; print(add(3))",
+                  options: ["8", "3", "5", "Error"],
+                  correct: 0,
+                  explanation: "Default parameter used: 3 + 5 = 8",
+                },
+                {
+                  question: "Which keyword returns a value from a function?",
+                  options: ["return", "yield", "output", "give"],
+                  correct: 0,
+                  explanation:
+                    "return keyword sends a value back from the function.",
+                },
+                {
+                  question: "What is a lambda function?",
+                  options: [
+                    "Anonymous function",
+                    "Recursive function",
+                    "Generator function",
+                    "Class method",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "Lambda functions are small anonymous functions defined with lambda keyword.",
+                },
+                {
+                  question: "What does *args allow in a function?",
+                  options: [
+                    "Unlimited positional arguments",
+                    "Unlimited keyword arguments",
+                    "Required arguments",
+                    "Default arguments",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "*args collects extra positional arguments into a tuple.",
+                },
+                {
+                  question:
+                    "What is the output of: def func(x, y=2): return x * y; print(func(4, 3))",
+                  options: ["12", "8", "6", "7"],
+                  correct: 0,
+                  explanation: "y parameter overridden: 4 * 3 = 12",
+                },
+                {
+                  question: "Which decorator indicates a static method?",
+                  options: [
+                    "@staticmethod",
+                    "@classmethod",
+                    "@property",
+                    "@static",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "@staticmethod decorator creates methods that don't need self parameter.",
+                },
+                {
+                  question: "What is recursion?",
+                  options: [
+                    "Function calling itself",
+                    "Loop inside function",
+                    "Multiple returns",
+                    "Function inheritance",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "Recursion is when a function calls itself in its definition.",
+                },
+                {
+                  question: "What does **kwargs collect?",
+                  options: [
+                    "Keyword arguments as dict",
+                    "Positional arguments as list",
+                    "Default values",
+                    "Required arguments",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "**kwargs collects extra keyword arguments into a dictionary.",
+                },
+                {
+                  question:
+                    "What is the output of: def outer(x): def inner(y): return x + y; return inner; f = outer(10); print(f(5))",
+                  options: ["15", "10", "5", "Error"],
+                  correct: 0,
+                  explanation:
+                    "Closure: inner function remembers x=10, so 10 + 5 = 15",
+                },
+                {
+                  question:
+                    "Which built-in function applies a function to all items in a list?",
+                  options: ["map()", "filter()", "reduce()", "apply()"],
+                  correct: 0,
+                  explanation:
+                    "map() applies a function to every item in an iterable.",
+                },
+              ],
+            },
+            "data-structures": {
+              title: "Data-Structures Quiz",
+              description: "Lists, dicts, tuples, sets",
+              timeLimit: 900, // 15 min
+              questions: [
+                // ORIGINAL QUESTION
+                {
+                  question: "Which bracket type creates a list?",
+                  options: ["()", "{}", "[]", "<>"],
+                  correct: 2,
+                  explanation: "[] ⇒ list , {} ⇒ dict , () ⇒ tuple .",
+                },
+                // ADD THESE 10 NEW DATA STRUCTURES QUESTIONS
+                {
+                  question: "What is the output of: len([1, 2, 3, [4, 5]])?",
+                  options: ["5", "4", "3", "Error"],
+                  correct: 1,
+                  explanation:
+                    "The nested list counts as one element: total 4 elements.",
+                },
+                {
+                  question: "How do you create an empty dictionary?",
+                  options: ["{}", "[]", "()", "dict()"],
+                  correct: 0,
+                  explanation: "{} creates an empty dictionary.",
+                },
+                {
+                  question: "What is the output of: {1, 2, 2, 3}?",
+                  options: ["{1, 2, 2, 3}", "{1, 2, 3}", "[1, 2, 3]", "Error"],
+                  correct: 1,
+                  explanation:
+                    "Sets automatically remove duplicates: {1, 2, 3}",
+                },
+                {
+                  question: "Which method adds an element to a list?",
+                  options: ["add()", "append()", "insert()", "extend()"],
+                  correct: 1,
+                  explanation:
+                    "append() adds a single element to the end of a list.",
+                },
+                {
+                  question: "What is the output of: tuple([1, 2, 3])?",
+                  options: ["(1, 2, 3)", "[1, 2, 3]", "{1, 2, 3}", "Error"],
+                  correct: 0,
+                  explanation: "tuple() converts a list to a tuple.",
+                },
+                {
+                  question:
+                    "How do you access the value for key 'name' in a dictionary?",
+                  options: [
+                    "dict['name']",
+                    "dict.name",
+                    "dict.get('name')",
+                    "Both A and C",
+                  ],
+                  correct: 3,
+                  explanation: "Both dict['name'] and dict.get('name') work.",
+                },
+                {
+                  question: "What is the output of: [1, 2] + [3, 4]?",
+                  options: [
+                    "[1, 2, 3, 4]",
+                    "[4, 6]",
+                    "[1, 2], [3, 4]",
+                    "Error",
+                  ],
+                  correct: 0,
+                  explanation: "+ operator concatenates lists.",
+                },
+                {
+                  question: "Which data structure is immutable?",
+                  options: ["list", "dictionary", "tuple", "set"],
+                  correct: 2,
+                  explanation:
+                    "Tuples are immutable - you cannot change their contents.",
+                },
+                {
+                  question: "What does dict.keys() return?",
+                  options: [
+                    "List of keys",
+                    "Tuple of keys",
+                    "Dict_keys object",
+                    "Set of keys",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "dict.keys() returns a dict_keys object (view of keys).",
+                },
+                {
+                  question:
+                    "What is the output of: list(set([1, 2, 2, 3, 3, 3]))?",
+                  options: [
+                    "[1, 2, 3]",
+                    "[1, 2, 2, 3, 3, 3]",
+                    "{1, 2, 3}",
+                    "Error",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "set removes duplicates, list converts back to list.",
+                },
+              ],
+            },
+            mixed: {
+              title: "Mixed Challenge",
+              description: "Random questions from every topic",
+              timeLimit: 1200, // 20 min
+              questions: [
+                // ADD THESE 10 MIXED QUESTIONS
+                {
+                  question: "What is the output of: print('Python'[1:4])?",
+                  options: ["Pyt", "yth", "thon", "Python"],
+                  correct: 1,
+                  explanation:
+                    "String slicing [1:4] gets characters at indices 1, 2, 3: 'y', 't', 'h'.",
+                },
+                {
+                  question: "Which exception is raised for division by zero?",
+                  options: [
+                    "ValueError",
+                    "ZeroDivisionError",
+                    "ArithmeticError",
+                    "TypeError",
+                  ],
+                  correct: 1,
+                  explanation:
+                    "ZeroDivisionError is raised when dividing by zero.",
+                },
+                {
+                  question: "What does import this do?",
+                  options: [
+                    "Imports random module",
+                    "Shows Zen of Python",
+                    "Imports this module",
+                    "Error",
+                  ],
+                  correct: 1,
+                  explanation:
+                    "import this displays the Zen of Python by Tim Peters.",
+                },
+                {
+                  question: "What is the output of: bool('False')?",
+                  options: ["True", "False", "Error", "None"],
+                  correct: 0,
+                  explanation:
+                    "Non-empty strings are truthy, so bool('False') is True.",
+                },
+                {
+                  question: "Which method removes whitespace from both ends?",
+                  options: ["strip()", "trim()", "remove()", "clean()"],
+                  correct: 0,
+                  explanation:
+                    "strip() removes whitespace from both ends of a string.",
+                },
+                {
+                  question: "What is the output of: max([1, 5, 2, 8, 3])?",
+                  options: ["8", "1", "5", "3"],
+                  correct: 0,
+                  explanation:
+                    "max() returns the largest value in the iterable.",
+                },
+                {
+                  question: "What does __init__ represent in a class?",
+                  options: [
+                    "Destructor",
+                    "Constructor",
+                    "Initializer",
+                    "Both B and C",
+                  ],
+                  correct: 3,
+                  explanation:
+                    "__init__ is the constructor/initializer method in Python classes.",
+                },
+                {
+                  question:
+                    "What is the output of: sorted('python', reverse=True)?",
+                  options: [
+                    "['y', 't', 's', 'o', 'n', 'h', 'p']",
+                    "['y', 't', 's', 'r', 'q', 'p', 'o', 'n', 'm', 'l', 'k', 'j', 'i', 'h']",
+                    "['y', 't', 's', 'r', 'q', 'p', 'o', 'n', 'm', 'l', 'k', 'j', 'i', 'h', 'g']",
+                    "['y', 't', 's', 'r', 'q', 'p', 'o', 'n', 'm', 'l', 'k', 'j', 'i', 'h', 'g', 'f']",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "sorted() with reverse=True sorts in descending order: y, t, s, r, q, p, o, n, h",
+                },
+                {
+                  question: "What does * do in function parameters?",
+                  options: [
+                    "Keyword arguments",
+                    "Variable positional arguments",
+                    "Default arguments",
+                    "Required arguments",
+                  ],
+                  correct: 1,
+                  explanation:
+                    "*args allows a function to accept any number of positional arguments.",
+                },
+                {
+                  question: "What is the output of: 'hello'.count('l')?",
+                  options: ["1", "2", "3", "4"],
+                  correct: 1,
+                  explanation:
+                    "count() returns the number of occurrences: 'l' appears twice in 'hello'.",
+                },
+              ],
+            },
+          };
+
+          /* ---------------  MIXED BUILDER  ----------------- */
+          const allQuestions = Object.values(this.quizData)
+            .flatMap((q) => q.questions)
+            .filter((q) => q); // skip empty mixed array
+          this.quizData.mixed.questions = allQuestions
+            .map((q) => ({ ...q, question: q.question.replace("**", "") })) // remove markdown
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 25);
+
+          this.init();
+        }
+
+        /* -------------------------------------------------- */
+        init() {
+          this.setupEventListeners();
+          this.loadPerformanceData();
+        }
+
+        setupEventListeners() {
+          // topic cards
+          document
+            .querySelectorAll(".topic-card")
+            .forEach((card) =>
+              card.addEventListener("click", () =>
+                this.selectTopic(card.dataset.topic)
+              )
+            );
+
+          // nav
+          document
+            .getElementById("next-button")
+            .addEventListener("click", () => this.nextQuestion());
+          document
+            .getElementById("prev-button")
+            .addEventListener("click", () => this.prevQuestion());
+          document
+            .getElementById("skip-button")
+            .addEventListener("click", () => this.skipQuestion());
+
+          // results
+          document
+            .getElementById("retake-quiz")
+            .addEventListener("click", () => this.retakeQuiz());
+          document
+            .getElementById("review-answers")
+            .addEventListener("click", () => this.reviewAnswers());
+          document
+            .getElementById("try-another-topic")
+            .addEventListener("click", () => this.tryAnotherTopic());
+        }
+
+        /* -------------------------------------------------- */
+        selectTopic(topic) {
+          const data = this.quizData[topic];
+          if (!data) return;
+
+          this.currentTopic = topic;
+          this.questions = data.questions;
+          this.currentIndex = 0;
+          this.score = 0;
+          this.answers = [];
+          this.timeRemaining = data.timeLimit;
+          this.startTime = Date.now();
+
+          // UI switch
+          document.getElementById("topic-selection").classList.add("hidden");
+          document.getElementById("quiz-interface").classList.remove("hidden");
+          document.getElementById("quiz-results").classList.add("hidden");
+
+          // header
+          document.getElementById("quiz-title").textContent = data.title;
+          document.getElementById("quiz-description").textContent =
+            data.description;
+
+          this.startTimer();
+          this.loadQuestion();
+        }
+
+        startTimer() {
+          this.timer = setInterval(() => {
+            this.timeRemaining--;
+            this.updateTimerDisplay();
+            if (this.timeRemaining <= 0) this.finishQuiz();
+          }, 1000);
+        }
+
+        updateTimerDisplay() {
+          const min = Math.floor(this.timeRemaining / 60);
+          const sec = this.timeRemaining % 60;
+          const display = `${min}:${sec.toString().padStart(2, "0")}`;
+          document.getElementById("quiz-timer").textContent = display;
+
+          const wrap = document.getElementById("quiz-timer").parentElement;
+          wrap.classList.toggle("warning", this.timeRemaining <= 60);
+        }
+
+        loadQuestion() {
+          const q = this.questions[this.currentIndex];
+          if (!q) return;
+
+          document.getElementById("current-question").textContent =
+            this.currentIndex + 1;
+          document.getElementById("question-number").textContent = `Question ${
+            this.currentIndex + 1
+          } of ${this.questions.length}`;
+
+          const progress =
+            ((this.currentIndex + 1) / this.questions.length) * 100;
+          document.getElementById("quiz-progress").textContent = `${Math.round(
+            progress
+          )}%`;
+          document.getElementById("progress-fill").style.width = `${progress}%`;
+
+          document.getElementById("question-text").textContent = q.question;
+
+          const container = document.getElementById("options-container");
+          container.innerHTML = "";
+          q.options.forEach((opt, i) => {
+            const btn = document.createElement("button");
+            btn.className = "option-button";
+            btn.dataset.option = i;
+            btn.textContent = `${String.fromCharCode(65 + i)}. ${opt}`;
+            btn.addEventListener("click", () => this.selectAnswer(i));
+            container.appendChild(btn);
+          });
+
+          document.getElementById("feedback-container").innerHTML = "";
+          document.getElementById("prev-button").disabled =
+            this.currentIndex === 0;
+          document.getElementById("next-button").disabled = true;
+          document.getElementById("skip-button").disabled = false;
+        }
+
+        selectAnswer(idx) {
+          const q = this.questions[this.currentIndex];
+          const ok = idx === q.correct;
+
+          this.answers[this.currentIndex] = {
+            selected: idx,
+            correct: ok,
+            question: q.question,
+          };
+          if (ok) {
+            this.score++;
+            document.getElementById("quiz-score").textContent = this.score;
+          }
+
+          // colour buttons
+          document.querySelectorAll(".option-button").forEach((b, i) => {
+            b.disabled = true;
+            if (i === idx) b.classList.add(ok ? "correct" : "incorrect");
+            if (i === q.correct) b.classList.add("correct");
+          });
+
+          this.showFeedback(ok, q.explanation);
+          document.getElementById("next-button").disabled = false;
+          document.getElementById("skip-button").disabled = true;
+        }
+
+        showFeedback(ok, explanation) {
+          const box = document.getElementById("feedback-container");
+          const cls = ok ? "feedback-correct" : "feedback-incorrect";
+          const icon = ok ? "✅" : "❌";
+          const txt = ok ? "Correct!" : "Incorrect";
+          box.innerHTML = `
+          <div class="feedback-panel ${cls}">
+            <div class="flex items-center mb-2"><span class="text-2xl mr-2">${icon}</span><span class="font-bold">${txt}</span></div>
+            <div class="feedback-panel feedback-explanation"><p><strong>Explanation:</strong> ${explanation}</p></div>
+          </div>`;
+        }
+
+        nextQuestion() {
+          if (this.currentIndex < this.questions.length - 1) {
+            this.currentIndex++;
+            this.loadQuestion();
+          } else {
+            this.finishQuiz();
+          }
+        }
+        prevQuestion() {
+          if (this.currentIndex > 0) {
+            this.currentIndex--;
+            this.loadQuestion();
+          }
+        }
+        skipQuestion() {
+          this.answers[this.currentIndex] = {
+            selected: -1,
+            correct: false,
+            question: this.questions[this.currentIndex].question,
+            skipped: true,
+          };
+          this.nextQuestion();
+        }
+
+        finishQuiz() {
+          if (this.timer) clearInterval(this.timer);
+          const totalTime = Math.floor((Date.now() - this.startTime) / 1000);
+          this.showResults(
+            Math.round((this.score / this.questions.length) * 100),
+            totalTime
+          );
+        }
+
+        showResults(percentage, totalTime) {
+          document.getElementById("quiz-interface").classList.add("hidden");
+          document.getElementById("quiz-results").classList.remove("hidden");
+
+          const deg = (percentage / 100) * 360;
+          document.getElementById(
+            "score-circle"
+          ).style.background = `conic-gradient(#0d9488 ${deg}deg, #e5e7eb ${deg}deg)`;
+
+          document.getElementById("final-score").textContent = `${percentage}%`;
+          document.getElementById("correct-answers").textContent = this.score;
+          document.getElementById("incorrect-answers").textContent =
+            this.questions.length - this.score;
+
+          const min = Math.floor(totalTime / 60);
+          const sec = totalTime % 60;
+          document.getElementById("total-time").textContent = `${min}:${sec
+            .toString()
+            .padStart(2, "0")}`;
+          document.getElementById("score-message").textContent =
+            this.getScoreMessage(percentage);
+
+          this.saveResults(percentage, totalTime);
+        }
+
+        getScoreMessage(pct) {
+          if (pct >= 90) return "Outstanding! You have mastered this topic. 🎉";
+          if (pct >= 80)
+            return "Excellent work! You have a strong understanding. 👏";
+          if (pct >= 70) return "Good job! You're on the right track. 👍";
+          if (pct >= 60) return "Not bad! Keep practicing to improve. 💪";
+          return "Keep learning! Practice makes perfect. 📚";
+        }
+
+        saveResults(percentage, time) {
+          const res = {
+            topic: this.currentTopic,
+            score: percentage,
+            correct: this.score,
+            total: this.questions.length,
+            time,
+            date: new Date().toISOString(),
+          };
+          const saved = JSON.parse(
+            localStorage.getItem("quiz-results") || "[]"
+          );
+          saved.push(res);
+          localStorage.setItem("quiz-results", JSON.stringify(saved));
+        }
+
+        retakeQuiz() {
+          this.selectTopic(this.currentTopic);
+        }
+        reviewAnswers() {
+          alert("Answer-review sheet coming soon!");
+        }
+        tryAnotherTopic() {
+          document.getElementById("quiz-results").classList.add("hidden");
+          document.getElementById("topic-selection").classList.remove("hidden");
+        }
+
+        /* -------------------------------------------------- */
+        /*  CHARTS – only render when ECharts lib is ready   */
+        /* -------------------------------------------------- */
+        loadPerformanceData() {
+          if (typeof echarts === "undefined") return;
+          const saved = JSON.parse(
+            localStorage.getItem("quiz-results") || "[]"
+          );
+          if (saved.length) {
+            this.createScoreChart(saved);
+            this.createTopicChart(saved);
+          }
+        }
+        createScoreChart(data) {
+          const chart = echarts.init(document.getElementById("score-chart"));
+          const last = data.slice(-10);
+          chart.setOption({
+            tooltip: { trigger: "axis" },
+            xAxis: {
+              type: "category",
+              data: last.map((_, i) => `Quiz ${i + 1}`),
+            },
+            yAxis: { type: "value", min: 0, max: 100 },
+            series: [
+              {
+                data: last.map((r) => r.score),
+                type: "line",
+                smooth: true,
+                itemStyle: { color: "#0d9488" },
+                areaStyle: { color: "rgba(13,148,136,.1)" },
+              },
+            ],
+          });
+        }
+        createTopicChart(data) {
+          const chart = echarts.init(document.getElementById("topic-chart"));
+          const avg = {};
+          data.forEach((r) => {
+            if (!avg[r.topic]) avg[r.topic] = [];
+            avg[r.topic].push(r.score);
+          });
+          const pieData = Object.keys(avg).map((k) => ({
+            name: k.charAt(0).toUpperCase() + k.slice(1),
+            value: (avg[k].reduce((a, b) => a + b, 0) / avg[k].length).toFixed(
+              1
+            ),
+          }));
+          chart.setOption({
+            tooltip: { trigger: "item" },
+            series: [{ type: "pie", radius: "60%", data: pieData }],
+          });
+        }
+      }
+
+      /* ------------------  BOOTSTRAP  ------------------ */
+      document.addEventListener("DOMContentLoaded", () => {
+        window.pythonQuiz = new PythonQuiz();
+      });
+    </script>
+    <!-- =========  END FIXED QUIZ ENGINE  ========= -->
+  </body>
+</html>

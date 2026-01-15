@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 0 – Python First Steps ✨</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        :root {
+            --bg: #ffffff;
+            --text: #1f2937;
+            --accent: #0d9488;
+            --accent-dark: #115e59;
+            --surface: #f9fafb;
+            --border: #e5e7eb;
+        }
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --text: #f1f5f9;
+            --surface: #1e293b;
+            --border: #334155;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: background .3s, color .3s;
+        }
+        .code-box {
+            background: #1e293b;
+            color: #e2e8f0;
+            border-radius: .75rem;
+            padding: 1.25rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .95rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .output-box {
+            background: #0f172a;
+            color: #10b981;
+            border-radius: .75rem;
+            padding: 1.25rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .95rem;
+            min-height: 3rem;
+            white-space: pre-wrap;
+        }
+        /* copy button */
+        .copy-btn {
+            position: absolute;
+            top: .75rem;
+            right: .75rem;
+            padding: .25rem .5rem;
+            font-size: .75rem;
+            background: rgba(255,255,255,.1);
+            border: 1px solid rgba(255,255,255,.2);
+            color: #fff;
+            border-radius: .5rem;
+            cursor: pointer;
+            transition: background .2s;
+        }
+        .copy-btn:hover {
+            background: rgba(255,255,255,.2);
+        }
+        /* scroll-reveal animation helper */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        /* tiny bounce for cta */
+        @keyframes bounce-once {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .bounce {
+            animation: bounce-once .6s ease;
+        }
+        /* celebration checkmark */
+        .check-celebration {
+            display: inline-block;
+            transform: scale(0);
+            animation: pop .4s forwards;
+        }
+        @keyframes pop {
+            to { transform: scale(1.2); }
+        }
+    </style>
+</head> 
+<body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 0 – Python First Steps ✨</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        :root {
+            --bg: #ffffff;
+            --text: #1f2937;
+            --accent: #0d9488;
+            --accent-dark: #115e59;
+            --surface: #f9fafb;
+            --border: #e5e7eb;
+        }
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --text: #f1f5f9;
+            --surface: #1e293b;
+            --border: #334155;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: background .3s, color .3s;
+        }
+        .code-box {
+            background: #1e293b;
+            color: #e2e8f0;
+            border-radius: .75rem;
+            padding: 1.25rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .95rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .output-box {
+            background: #0f172a;
+            color: #10b981;
+            border-radius: .75rem;
+            padding: 1.25rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .95rem;
+            min-height: 3rem;
+            white-space: pre-wrap;
+        }
+        /* copy button */
+        .copy-btn {
+            position: absolute;
+            top: .75rem;
+            right: .75rem;
+            padding: .25rem .5rem;
+            font-size: .75rem;
+            background: rgba(255,255,255,.1);
+            border: 1px solid rgba(255,255,255,.2);
+            color: #fff;
+            border-radius: .5rem;
+            cursor: pointer;
+            transition: background .2s;
+        }
+        .copy-btn:hover {
+            background: rgba(255,255,255,.2);
+        }
+        /* scroll-reveal animation helper */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        /* tiny bounce for cta */
+        @keyframes bounce-once {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .bounce {
+            animation: bounce-once .6s ease;
+        }
+        /* celebration checkmark */
+        .check-celebration {
+            display: inline-block;
+            transform: scale(0);
+            animation: pop .4s forwards;
+        }
+        @keyframes pop {
+            to { transform: scale(1.2); }
+        }
+    </style>
+</head> 
+<body>
+    <body>
+<!-- =========  TOP BAR  ========= -->
+<nav class="sticky top-0 z-40 bg-teal-700 text-white shadow-lg">
+    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+        <div class="text-2xl font-bold flex items-center gap-2">
+            <span class="hidden sm:inline">🐍</span> PythonLearn
+        </div>
+        <a href="course.html" class="text-sm sm:text-base hover:underline">← Back to Course</a>
+    </div>
+</nav>
+
+<!-- =========  MINI NAV  ========= -->
+<div class="lecture2-nav sticky top-16 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-gray-200 dark:border-gray-700">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap gap-2 justify-center">
+        <a href="lec0.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 0</a>
+        <a href="lec1.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 1</a>
+        <a href="lec2.html" class="px-4 py-2 rounded-full bg-teal-700 text-white shadow">Lecture 2</a>
+        <a href="lec3.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 3</a>
+        <a href="lec4.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 4</a>
+        <a href="lec5.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 5</a>
+        <a href="lec6.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 6</a>
+        <a href="lec7.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 7</a>
+        <a href="lec8.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 8</a>
+        <a href="lec9.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 9</a>
+    </div>
+</div>
+
+<!-- =========  MAIN CONTENT  ========= -->
+<main class="max-w-4xl mx-auto px-4 py-10">
+    <!-- hero -->
+    <header class="reveal mb-12 text-center">
+        <h1 class="text-4xl sm:text-5xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-blue-500">Lecture 2 – Loops</h1>
+        <p class="text-lg text-gray-600 dark:text-gray-300">Repeat yourself—intelligently—with while, for, lists, dicts, and Mario-style blocks.</p>
+    </header>
+
+    <!-- 1. Loops -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-teal-600">🔁</span> Loops</h2>
+        <p class="mb-4">
+            Essentially, loops are a way to do something over and over again. <br>
+            Begin by typing <code>code cat.py</code> in the terminal window. <br>
+            In the text editor, begin with the following code:
+        </p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>print("meow")<br>print("meow")<br>print("meow")</div>
+        <div class="output-box mt-2">meow<br>meow<br>meow</div>
+        <p class="mt-3">Running this code by typing <code>python cat.py</code>, you’ll notice that the program meows three times. <br> Loops enable you to create a block of code that executes over and over again.</p>
+    </section>
+
+    <!-- 2. While Loops -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-indigo-500">⏳</span> While Loops</h2>
+        <p class="mb-4">The while loop is nearly universal throughout all coding languages. Such a loop will repeat a block of code over and over again.</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>i = 0<br>while i < 3:<br>    print("meow")<br>    i += 1</div>
+        <div class="output-box mt-2">meow<br>meow<br>meow</div>
+        <p class="mt-3">Notice how changing the operator to <code>i < 3</code> allows our code to function as intended. We begin by counting with 0 and it iterates through our loop three times, producing three meows.</p>
+    </section>
+
+    <!-- 3. For Loops -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-purple-500">🔁</span> For Loops</h2>
+        <p class="mb-4">A for loop is a different type of loop. To best understand a for loop, it’s best to begin by talking about a new variable type called a list in Python.</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>for _ in range(3):<br>    print("meow")</div>
+        <div class="output-box mt-2">meow<br>meow<br>meow</div>
+        <p class="mt-3">Notice how clean this code is compared to your previous while loop code.</p>
+    </section>
+
+    <!-- 4. Improving with User Input -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-green-500">👤</span> Improving with User Input</h2>
+        <p class="mb-4">Perhaps we want to get input from our user. We can use loops as a way of validating the input of the user. A common paradigm within Python is to use a while loop to validate the input of the user.</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>def main():<br>    meow(get_number())<br><br>def get_number():<br>    while True:<br>        n = int(input("What's n? "))<br>        if n > 0:<br>            return n<br><br>def meow(n):<br>    for _ in range(n):<br>        print("meow")<br><br>main()</div>
+    </section>
+
+    <!-- 5. More About Lists -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-yellow-500">🧾</span> More About Lists</h2>
+        <p class="mb-4">Consider the world of Hogwarts from the famed Harry Potter universe. In the terminal, type <code>code hogwarts.py</code>.</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>students = ["Hermione", "Harry", "Ron"]<br><br>for student in students:<br>    print(student)</div>
+        <div class="output-box mt-2">Hermione<br>Harry<br>Ron</div>
+    </section>
+
+    <!-- 6. Length -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-pink-500">📏</span> Length</h2>
+        <p class="mb-4">We can utilize <code>len</code> as a way of checking the length of the list called students.</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>students = ["Hermione", "Harry", "Ron"]<br><br>for i in range(len(students)):<br>    print(i + 1, students[i])</div>
+        <div class="output-box mt-2">1 Hermione<br>2 Harry<br>3 Ron</div>
+    </section>
+
+    <!-- 7. Dictionaries -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-cyan-500">📖</span> Dictionaries</h2>
+        <p class="mb-4"><code>dict</code>s or dictionaries are a data structure that allows you to associate keys with values.</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>students = {<br>    "Hermione": "Gryffindor",<br>    "Harry": "Gryffindor",<br>    "Ron": "Gryffindor",<br>    "Draco": "Slytherin",<br>}<br><br>for student in students:<br>    print(student, students[student], sep=", ")</div>
+        <div class="output-box mt-2">Hermione, Gryffindor<br>Harry, Gryffindor<br>Ron, Gryffindor<br>Draco, Slytherin</div>
+    </section>
+
+    <!-- 8. Mario -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-red-500">🧱</span> Mario</h2>
+        <p class="mb-4">Remember that the classic game Mario has a hero jumping over bricks. Let’s create a textual representation of this game.</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>def main():<br>    print_square(3)<br><br>def print_square(size):<br>    for i in range(size):<br>        print_row(size)<br><br>def print_row(width):<br>    print("#" * width)<br><br>main()</div>
+        <div class="output-box mt-2">###<br>###<br>###</div>
+    </section>
+
+    <!-- 9. Summing Up -->
+    <section class="reveal mb-12 p-6 bg-gradient-to-r from-teal-50 to-blue-50 dark:from-teal-900/20 dark:to-blue-900/20 rounded-xl">
+        <h2 class="text-2xl font-bold mb-3">Summing Up</h2>
+        <p class="mb-4">You now have another power in your growing list of your Python abilities. In this lecture, we addressed…</p>
+        <ul class="list-disc ml-6 space-y-1">
+            <li>Loops</li>
+            <li>while</li>
+            <li>for</li>
+            <li>len</li>
+            <li>list</li>
+            <li>dict</li>
+        </ul>
+        <div class="mt-4">
+            <a href="lec3.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition">Next Lecture →</a>
+        </div>
+    </section>
+
+    <!-- 10. Live Playground -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-teal-500">🚀</span> Live Playground</h2>
+        <p>Edit the code below and hit <strong>Run</strong>—no servers, no installs.</p>
+        <textarea id="playground" class="code-box w-full h-48 mt-3"># Try your own loops!
+for i in range(3):
+    print("meow")</textarea>
+        <div class="flex items-center gap-3 mt-3">
+            <button onclick="runCode()" class="px-5 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition">▶ Run</button>
+            <button onclick="resetCode()" class="px-5 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Reset</button>
+        </div>
+        <div id="playground-out" class="output-box mt-3">Output will appear here…</div>
+    </section>
+</main>
+<!-- =========  PSET3 QUESTIONS & HINTS – DOPE STYLING  ========= -->
+<section class="reveal mt-12">
+
+    <!-- neon-gradient title -->
+    <h2 class="text-4xl font-extrabold mb-10 text-center bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 drop-shadow-[0_0_10px_rgba(167,139,250,0.5)] dark:drop-shadow-[0_0_15px_rgba(196,181,253,0.6)]">
+        🎯 PSET 2 – Loops, Strings, Math
+    </h2>
+
+    <!-- glowing card grid -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- 1. Camel Case -->
+        <div class="group relative bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-gray-900 dark:to-indigo-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/30 ring-1 ring-indigo-200 dark:ring-indigo-700 hover:ring-indigo-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-500/20">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-bold shadow-lg drop-shadow-md">1</div>
+            <h3 class="text-xl font-bold mb-3 text-indigo-700 dark:text-indigo-300">Camel Case</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Take a camelCase string (like helloWorld) → convert it to hello_world. Bro basically Python is asking you to humble the camel and turn it into a snake 🐍😩.</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-800/30 text-indigo-700 dark:text-indigo-300 text-xs font-medium">
+                loop + .isupper() + "_"
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Jab bhi bada letter dikhe, uske pehle "_" chipkao aur chhota bana do.</p>
+        </div>
+
+        <!-- 2. Coke Machine -->
+        <div class="group relative bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-purple-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-purple-200 dark:ring-purple-700 hover:ring-purple-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-500/20">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-purple-500 to-pink-600 text-white font-bold shadow-lg drop-shadow-md">2</div>
+            <h3 class="text-xl font-bold mb-3 text-purple-700 dark:text-purple-300">Coke Machine</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">User needs to pay 50 cents. They insert coins: 25, 10, or 5. Keep subtracting from 50, print how much is due. When zero or negative → print change owed (if any).</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-800/30 text-purple-700 dark:text-purple-300 text-xs font-medium">
+                while + subtraction + [25,10,5]
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: User ko Coke kharidni hai. Jab tak 50 poora nahi hota, tab tak coins dalo. Baaki bacha toh “change owed”.</p>
+        </div>
+
+        <!-- 3. Just Setting Up My Twttr -->
+        <div class="group relative bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-900 dark:to-green-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-green-200 dark:ring-green-700 hover:ring-green-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-green-500/20">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-green-500 to-emerald-600 text-white font-bold shadow-lg drop-shadow-md">3</div>
+            <h3 class="text-xl font-bold mb-3 text-green-700 dark:text-green-300">Just Setting Up My Twttr</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Remove all vowels (a, e, i, o, u) from user input. Input: twitter → Output: twttr</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-100 dark:bg-green-800/30 text-green-700 dark:text-green-300 text-xs font-medium">
+                "aeiouAEIOU" + loop
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Twitter → Twttr. Bas vowels ka boycott chal raha hai.</p>
+        </div>
+
+        <!-- 4. Vanity Plates -->
+        <div class="group relative bg-gradient-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-orange-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-orange-200 dark:ring-orange-700 hover:ring-orange-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-orange-500/20">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-orange-500 to-amber-600 text-white font-bold shadow-lg drop-shadow-md">4</div>
+            <h3 class="text-xl font-bold mb-3 text-orange-700 dark:text-orange-300">Vanity Plates</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Given a plate like "CS50", check if it's valid based on MASS rules: 2–6 chars, start with 2 letters, numbers only at end, first number ≠ 0, no punctuation.</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-800/30 text-orange-700 dark:text-orange-300 text-xs font-medium">
+                isalpha() + isdigit() + rules
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Number beech mein nahi aayega, sirf end mein aayega. Aur zero se start nahi hoga. Plate ko thoda sanskari bana do.</p>
+        </div>
+
+        <!-- 5. Nutrition Facts -->
+        <div class="group relative bg-gradient-to-br from-pink-50 to-rose-50 dark:from-gray-900 dark:to-pink-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/30 ring-1 ring-pink-200 dark:ring-pink-700 hover:ring-pink-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-pink-500/20 md:col-span-2 lg:col-span-1">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-pink-500 to-rose-600 text-white font-bold shadow-lg drop-shadow-md">5</div>
+            <h3 class="text-xl font-bold mb-3 text-pink-700 dark:text-pink-300">Nutrition Facts</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Given a fruit name → print calories from CS50’s dictionary. Example: Input: "apple" → Output: Calories: 130</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-100 dark:bg-pink-800/30 text-pink-700 dark:text-pink-300 text-xs font-medium">
+                dict + .lower()
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Fruit ka naam do, uski calories nikaalo. Bas Google ban jao thode time ke liye.</p>
+        </div>
+    </div>
+
+    <!-- flashy summary row -->
+    <div class="mt-10 p-5 bg-gradient-to-r from-teal-500/10 via-cyan-500/10 to-blue-500/10 dark:from-teal-500/20 dark:via-cyan-500/20 dark:to-blue-500/20 rounded-2xl border border-teal-300 dark:border-teal-700 text-center">
+        <p class="font-bold text-slate-800 dark:text-slate-200">🔥 Quick Memory Trigger</p>
+        <p class="text-sm mt-2 text-slate-600 dark:text-slate-300">
+            Camel → snake_case | Coke → 50¢ coin loop | Twttr → vowel boycott | Plates → end-numbers only | Nutrition → dict lookup
+        </p>
+    </div>
+</section>
+<!-- =========  FOOTER  ========= -->
+<footer class="bg-gray-900 text-white py-8 mt-12">
+    <div class="max-w-4xl mx-auto px-4 text-center text-gray-400">
+        © 2024 PythonLearn – built with ❤️ for every future Pythonista.
+    </div>
+</footer>
+
+<!-- =========  EXISTING JS  ========= -->
+<script>
+/* ----- dark mode toggle (respects your nav) ----- */
+if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.setAttribute('data-theme','dark');
+} else {
+    document.documentElement.setAttribute('data-theme','light');
+}
+
+/* ----- scroll reveal ----- */
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            anime({ targets: entry.target, opacity: 1, translateY: 0, duration: 600, easing: 'easeOutQuad' });
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: .15 });
+reveals.forEach(el => observer.observe(el));
+
+/* ----- copy code ----- */
+function copyCode(btn) {
+    const box = btn.parentElement;
+    const code = box.textContent.trim();
+    navigator.clipboard.writeText(code);
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1200);
+}
+
+/* ----- live runner (Skulpt) ----- */
+function outf(text) {
+    const out = document.getElementById('playground-out');
+    out.textContent += text;
+}
+function builtinRead(x) {
+    if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+        throw new Error("File not found: " + x);
+    return Sk.builtinFiles["files"][x];
+}
+function runCode() {
+    const prog = document.getElementById('playground').value;
+    document.getElementById('playground-out').textContent = '';
+    Sk.pre = "playground-out";
+    Sk.configure({ output: outf, read: builtinRead, __future__: Sk.python3 });
+    (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'playground-out';
+    const myPromise = Sk.misceval.asyncToPromise(() => Sk.importMainWithBody("<stdin>", false, prog, true));
+    myPromise.then(() => {
+        const out = document.getElementById('playground-out').textContent;
+        if (out.includes('meow')) {
+            const cel = document.getElementById('celebrate');
+            if (cel) {
+                cel.classList.remove('hidden');
+                cel.querySelector('span').classList.add('check-celebration');
+            }
+        }
+    }, err => {
+        document.getElementById('playground-out').textContent = err.toString();
+    });
+}
+function resetCode() {
+    document.getElementById('playground').value = `for i in range(3):
+    print("meow")`;
+    document.getElementById('playground-out').textContent = 'Output will appear here…';
+}
+
+/* highlight current lecture */
+document.querySelectorAll('.lecture2-nav a').forEach(a => {
+    if (a.href.endsWith('lec2.html')) a.classList.add('bg-teal-700','text-white');
+});
+</script>
+</body>
+</body></html>

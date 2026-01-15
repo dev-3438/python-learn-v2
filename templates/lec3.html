@@ -1,0 +1,397 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 3 – Exceptions & Error Handling ✨</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        :root { --bg: #ffffff; --text: #1f2937; --accent: #0d9488; --surface: #f9fafb; --border: #e5e7eb; }
+        [data-theme="dark"] { --bg: #0f172a; --text: #f1f5f9; --surface: #1e293b; --border: #334155; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); transition: background .3s, color .3s; }
+        .code-box { background: #1e293b; color: #e2e8f0; border-radius: .75rem; padding: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: .95rem; position: relative; overflow: hidden; }
+        .output-box { background: #0f172a; color: #10b981; border-radius: .75rem; padding: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: .95rem; min-height: 3rem; white-space: pre-wrap; }
+        .copy-btn { position: absolute; top: .75rem; right: .75rem; padding: .25rem .5rem; font-size: .75rem; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); color: #fff; border-radius: .5rem; cursor: pointer; transition: background .2s; }
+        .copy-btn:hover { background: rgba(255,255,255,.2); }
+        .reveal { opacity: 0; transform: translateY(30px); }
+        .mini-nav { position: sticky; top: 64px; z-index: 30; background: var(--surface); border-bottom: 1px solid var(--border); }
+    </style>
+</head>
+<body>
+<nav class="sticky top-0 z-40 bg-teal-700 text-white shadow-lg">
+    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+        <div class="text-2xl font-bold flex items-center gap-2"><span class="hidden sm:inline">🐍</span> PythonLearn</div>
+        <a href="course.html" class="text-sm sm:text-base hover:underline">← Back to Course</a>
+    </div>
+</nav>
+
+<div class="mini-nav">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap gap-2 justify-center">
+        <a href="lec0.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 0</a>
+        <a href="lec1.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 1</a>
+        <a href="lec2.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 2</a>
+        <a href="lec3.html" class="px-4 py-2 rounded-full bg-teal-700 text-white shadow">Lecture 3</a>
+        <a href="lec4.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 4</a>
+        <a href="lec5.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 5</a>
+        <a href="lec6.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 6</a>
+        <a href="lec7.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 7</a>
+        <a href="lec8.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 8</a>
+        <a href="lec9.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 9</a>
+    </div>
+</div>
+
+<main class="max-w-4xl mx-auto px-4 py-10">
+    <header class="reveal mb-12 text-center">
+        <h1 class="text-4xl sm:text-5xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-blue-500">Lecture 3 – Exceptions & Error Handling</h1>
+        <p class="text-lg text-gray-600 dark:text-gray-300">Make your programs bullet-proof by catching (and fixing) runtime problems.</p>
+    </header>
+
+    <!-- 1. Exceptions (verbatim text) -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span>🚨</span> Exceptions</h2>
+        <p class="mb-4">Exceptions are things that go wrong within our coding. Exceptions are problems that arise while your program is running.</p>
+        <p class="mb-4">In our text editor, type code hello.py to create a new file. Type as follows (with the intentional errors included):</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>print("hello, world)</div>
+        <p class="mt-4">Notice that we intentionally left out a quotation mark.</p>
+        <p class="mt-4">Running python hello.py in the terminal produces an error. The interpreter reports a syntax error. Syntax errors generally mean you should double-check that you typed your code correctly.</p>
+        <p class="mt-4">You can learn more in Python’s documentation of Errors and Exceptions.</p>
+    </section>
+
+    <!-- 2. Runtime Errors (verbatim text) -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span>⚠️</span> Runtime Errors</h2>
+        <p class="mb-4">Runtime errors refer to those created by unexpected behavior within your code. For example, perhaps you intended for a user to input a number, but they input a character instead. Your program may throw an error because of this unexpected input from the user.</p>
+        <p class="mb-4">In your terminal window, run code number.py. Code as follows in your text editor:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>x = int(input("What's x? "))
+print(f"x is {x}")</div>
+        <p class="mt-4">Notice that by including the f, we tell Python to interpolate what is in the curly braces as the value of x. Further, testing out your code, you can imagine how one could easily type in a string or a character instead of a number. Even still, a user could type nothing at all – simply hitting the enter key.</p>
+        <p class="mt-4">As programmers, we should be defensive to ensure that our users are entering what we expected.</p>
+        <p class="mt-4">If we run this program and type “cat”, we’ll see ValueError: invalid literal for int() with base 10: 'cat'. In other words, the int function cannot convert the text “cat” into a number.</p>
+        <p class="mt-4">An effective strategy to fix this potential error would be to create “error handling” to ensure the user behaves as we intend.</p>
+        <p class="mt-4">You can learn more in Python’s documentation of Errors and Exceptions.</p>
+    </section>
+
+    <!-- 3. try (verbatim text) -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span>🛡️</span> try</h2>
+        <p class="mb-4">In Python try and except are ways of testing out user input before something goes wrong. Modify your code as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>try:
+    x = int(input("What's x?"))
+    print(f"x is {x}")
+except ValueError:
+    print("x is not an integer")</div>
+        <p class="mt-4">Notice that, running this code, inputting 50 will be accepted. However, typing in cat will produce an error visible to the user, instructing them why their input was not accepted.</p>
+        <p class="mt-4">This is still not the best way to implement this code. Notice that we are trying to do two lines of code. For best practice, we should only try the fewest lines of code possible that we are concerned could fail. Adjust your code as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>try:
+    x = int(input("What's x?"))
+except ValueError:
+    print("x is not an integer")
+
+print(f"x is {x}")</div>
+        <p class="mt-4">Notice that while this accomplishes our goal of trying as few lines as possible, we now face a new error! We face a NameError where x is not defined. Look at this code and consider: Why is x not defined in some cases?</p>
+        <p class="mt-4">Indeed, if you examine the order of operations in x = int(input("What's x?")), working right to left, it could take an incorrectly inputted character and attempt to assign it as an integer. If this fails, the assignment of the value of x never occurs. Therefore, there is no x to print on our final line of code.</p>
+    </section>
+
+    <!-- 4. else (verbatim text) -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span>✅</span> else</h2>
+        <p class="mb-4">It turns out that there is another way to implement try that could catch errors of this nature.</p>
+        <p class="mb-4">Adjust your code as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>try:
+    x = int(input("What's x?"))
+except ValueError:
+    print("x is not an integer")
+else:
+    print(f"x is {x}")</div>
+        <p class="mt-4">Notice that if no exception occurs, it will then run the block of code within else. Running python number.py and supplying 50, you’ll notice that the result will be printed. Trying again, this time supplying cat, you’ll notice that the program now catches the error.</p>
+        <p class="mt-4">Considering improving our code, notice that we are being a bit rude to our user. If our user does not cooperate, we currently simply end our program. Consider how we can use a loop to prompt the user for x and if they don’t prompt again!</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>while True:
+    try:
+        x = int(input("What's x?"))
+    except ValueError:
+        print("x is not an integer")
+    else:
+        break
+
+print(f"x is {x}")</div>
+        <p class="mt-4">Notice that while True will loop forever. If the user succeeds in supplying the correct input, we can break from the loop and then print the output. Now, a user that inputs something incorrectly will be asked for input again.</p>
+    </section>
+
+    <!-- 5. Creating a Function to Get an Integer (verbatim text) -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span>🔧</span> Creating a Function to Get an Integer</h2>
+        <p class="mb-4">Surely, there are many times that we would want to get an integer from our user. Modify your code as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>def main():
+    x = get_int()
+    print(f"x is {x}")
+
+
+def get_int():
+    while True:
+        try:
+            x = int(input("What's x?"))
+        except ValueError:
+            print("x is not an integer")
+        else:
+            break
+    return x
+
+
+main()</div>
+        <p class="mt-4">Notice that we are manifesting many great properties. First, we have abstracted away the ability to get an integer. Now, this whole program boils down to the first three lines of the program.</p>
+        <p class="mt-4">Even still, we can improve this program. Consider what else you could do to improve this program. Modify your code as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>def main():
+    x = get_int()
+    print(f"x is {x}")
+
+
+def get_int():
+    while True:
+        try:
+            x = int(input("What's x?"))
+        except ValueError:
+            print("x is not an integer")
+        else:
+            return x
+
+
+main()</div>
+        <p class="mt-4">Notice that return will not only break you out of a loop, but it will also return a value.</p>
+        <p class="mt-4">Some people may argue you could do the following:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>def main():
+    x = get_int()
+    print(f"x is {x}")
+
+
+def get_int():
+    while True:
+        try:
+            return int(input("What's x?"))
+        except ValueError:
+            print("x is not an integer")
+
+
+main()</div>
+        <p class="mt-4">Notice this does the same thing as the previous iteration of our code, simply with fewer lines.</p>
+    </section>
+
+    <!-- 6. pass (verbatim text) -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span>🚧</span> pass</h2>
+        <p class="mb-4">We can make it such that our code does not warn our user, but simply re-asks them our prompting question by modifying our code as follows:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>def main():
+    x = get_int()
+    print(f"x is {x}")
+
+
+def get_int():
+    while True:
+        try:
+            return int(input("What's x?"))
+        except ValueError:
+            pass
+
+
+main()</div>
+        <p class="mt-4">Notice that our code will still function but will not repeatedly inform the user of their error. In some cases, you’ll want to be very clear to the user what error is being produced. Other times, you might decide that you simply want to ask them for input again.</p>
+    </section>
+
+    <!-- 7. Final refinement (verbatim text) -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span>🎁</span> One Final Refinement</h2>
+        <p class="mb-4">One final refinement that could improve the implementation of this get_int function. Right now, notice that we are relying currently upon the honor system that the x is in both the main and get_int functions. We probably want to pass in a prompt that the user sees when asked for input. Modify your code as follows.</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>def main():
+    x = get_int("What's x? ")
+    print(f"x is {x}")
+
+
+def get_int(prompt):
+    while True:
+        try:
+            return int(input(prompt))
+        except ValueError:
+            pass
+
+
+main()</div>
+        <p class="mt-4">You can learn more in Python’s documentation of pass.</p>
+    </section>
+
+    <!-- 8. live playground -->
+    <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span>🕹️</span> Live Playground – Break & Fix</h2>
+        <textarea id="playground" class="code-box w-full h-48"># Try typing "cat" or decimals when asked!
+def get_int(prompt):
+    while True:
+        try:
+            return int(input(prompt))
+        except ValueError:
+            pass   # silent retry
+
+age = get_int("Age: ")
+print(f"You are {age} years old.")
+print("Thanks!")</textarea>
+        <div class="flex items-center gap-3 mt-3">
+            <button onclick="runCode()" class="px-5 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition">▶ Run</button>
+            <button onclick="resetCode()" class="px-5 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Reset</button>
+        </div>
+        <div id="playground-out" class="output-box mt-3">Output will appear here…</div>
+    </section>
+
+    <!-- 9. Summing Up (verbatim text) -->
+    <section class="reveal mb-12 p-6 bg-gradient-to-r from-teal-50 to-blue-50 dark:from-teal-900/20 dark:to-blue-900/20 rounded-xl">
+        <h2 class="text-2xl font-bold mb-3">Summing Up</h2>
+        <p>Errors are inevitable in your code. However, you have the opportunity to use what was learned today to help prevent these errors. In this lecture, you learned about…</p>
+        <ul class="list-disc ml-6 space-y-1 mt-2">
+            <li>Exceptions</li>
+            <li>Value Errors</li>
+            <li>Runtime Errors</li>
+            <li><code>try</code></li>
+            <li><code>else</code></li>
+            <li><code>pass</code></li>
+        </ul>
+    </section>
+</main>
+<section class="reveal mt-12">
+
+    <!-- neon-gradient title -->
+    <h2 class="text-4xl font-extrabold mb-10 text-center bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 drop-shadow-[0_0_10px_rgba(45,212,191,0.5)] dark:drop-shadow-[0_0_15px_rgba(94,234,212,0.6)]">
+        🎯 PSET 3 – Exceptions, Files, CSV
+    </h2>
+
+    <!-- glowing card grid -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- 1. Fuel -->
+        <div class="group relative bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-gray-900 dark:to-emerald-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/30 ring-1 ring-emerald-200 dark:ring-emerald-700 hover:ring-emerald-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-500/20">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-bold shadow-lg drop-shadow-md">1</div>
+            <h3 class="text-xl font-bold mb-3 text-emerald-700 dark:text-emerald-300">Fuel</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Take "3/4" → convert to 75%. If ≤1% print "E", if ≥99% print "F", else print XX%.</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-800/30 text-emerald-700 dark:text-emerald-300 text-xs font-medium">
+                try/except + split + round
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Fraction valid ho, warna dubara pucho. 1% se kam? Tank almost khali. 99% se zyada? Tank full. Simple.</p>
+        </div>
+
+        <!-- 2. Felipe’s Taqueria -->
+        <div class="group relative bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-gray-900 dark:to-cyan-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-cyan-200 dark:ring-cyan-700 hover:ring-cyan-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-500/20">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 text-white font-bold shadow-lg drop-shadow-md">2</div>
+            <h3 class="text-xl font-bold mb-3 text-cyan-700 dark:text-cyan-300">Felipe’s Taqueria</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Input a food item → program prints its price. Case-insensitive, no errors if item not found.</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-100 dark:bg-cyan-800/30 text-cyan-700 dark:text-cyan-300 text-xs font-medium">
+                dict + .lower() + no errors
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Menu mein milta ho toh price batao, warna chup chap reh jao.</p>
+        </div>
+
+        <!-- 3. Grocery List -->
+        <div class="group relative bg-gradient-to-br from-violet-50 to-purple-50 dark:from-gray-900 dark:to-violet-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-violet-200 dark:ring-violet-700 hover:ring-violet-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-violet-500/20">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-violet-500 to-purple-600 text-white font-bold shadow-lg drop-shadow-md">3</div>
+            <h3 class="text-xl font-bold mb-3 text-violet-700 dark:text-violet-300">Grocery List</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">User enters items one per line. When Ctrl-D pressed → print items alphabetically with quantities.</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-100 dark:bg-violet-800/30 text-violet-700 dark:text-violet-300 text-xs font-medium">
+                dict + EOFError + sort
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: User jab tak likhe, tab tak list banao. Ctrl+D aate hi totals dikha do.</p>
+        </div>
+
+        <!-- 4. Outdated -->
+        <div class="group relative bg-gradient-to-br from-amber-50 to-orange-50 dark:from-gray-900 dark:to-amber-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-amber-200 dark:ring-amber-700 hover:ring-amber-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-amber-500/20">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-amber-500 to-orange-600 text-white font-bold shadow-lg drop-shadow-md">4</div>
+            <h3 class="text-xl font-bold mb-3 text-amber-700 dark:text-amber-300">Outdated</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Convert dates into YYYY-MM-DD format. Accepts "September 8, 2022" or "9/8/2022" → output "2022-09-08".</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-800/30 text-amber-700 dark:text-amber-300 text-xs font-medium">
+                split + month list + zero-pad
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Date chahe slashes mein ho ya English mein, akhir mein ISO format chahiye. Month ka number dhundo, baaki pad do.</p>
+        </div>
+
+        <!-- 5. File Extensions -->
+        <div class="group relative bg-gradient-to-br from-slate-50 to-gray-50 dark:from-gray-900 dark:to-slate-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/30 ring-1 ring-slate-200 dark:ring-slate-700 hover:ring-slate-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-slate-500/20 md:col-span-2 lg:col-span-1">
+            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-slate-500 to-gray-600 text-white font-bold shadow-lg drop-shadow-md">5</div>
+            <h3 class="text-xl font-bold mb-3 text-slate-700 dark:text-slate-300">File Extensions</h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Input a filename → print its MIME type. cat.png → "image/png", unknown → "application/octet-stream".</p>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800/30 text-slate-700 dark:text-slate-300 text-xs font-medium">
+                .lower() + rsplit + dict
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Bas file ka extension pakdo. Agar famous extension hua toh MIME type batao, warna “octet-stream” bhej do.</p>
+        </div>
+    </div>
+
+    <!-- flashy summary row -->
+    <div class="mt-10 p-5 bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-cyan-500/10 dark:from-emerald-500/20 dark:via-teal-500/20 dark:to-cyan-500/20 rounded-2xl border border-emerald-300 dark:border-emerald-700 text-center">
+        <p class="font-bold text-slate-800 dark:text-slate-200">🔥 Quick Memory Trigger</p>
+        <p class="text-sm mt-2 text-slate-600 dark:text-slate-300">
+            Fuel → fraction → % | Taqueria → dict lookup | Grocery → EOF counter | Outdated → any→ISO | Extensions → ext→MIME
+        </p>
+    </div>
+</section>
+<footer class="bg-gray-900 text-white py-8 mt-12">
+    <div class="max-w-4xl mx-auto px-4 text-center text-gray-400">© 2024 PythonLearn – built with ❤️ for every future Pythonista.</div>
+</footer>
+
+<script>
+/* dark mode */
+if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.setAttribute('data-theme','dark');
+}
+/* scroll reveal */
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            anime({ targets: entry.target, opacity: 1, translateY: 0, duration: 600, easing: 'easeOutQuad' });
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: .15 });
+reveals.forEach(el => observer.observe(el));
+
+/* copy code */
+function copyCode(btn) {
+    const box = btn.parentElement;
+    const code = box.textContent.trim();
+    navigator.clipboard.writeText(code);
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1200);
+}
+
+/* Skulpt runner */
+function outf(text) { document.getElementById('playground-out').textContent += text; }
+function builtinRead(x) {
+    if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+        throw new Error("File not found: " + x);
+    return Sk.builtinFiles["files"][x];
+}
+function runCode() {
+    const prog = document.getElementById('playground').value;
+    document.getElementById('playground-out').textContent = '';
+    Sk.pre = "playground-out";
+    Sk.configure({ output: outf, read: builtinRead, __future__: Sk.python3 });
+    const myPromise = Sk.misceval.asyncToPromise(() => Sk.importMainWithBody("<stdin>", false, prog, true));
+    myPromise.then(() => {}, err => document.getElementById('playground-out').textContent = err.toString());
+}
+function resetCode() {
+    document.getElementById('playground').value = `def get_int(prompt):
+    while True:
+        try:
+            return int(input(prompt))
+        except ValueError:
+            pass   # silent retry
+
+age = get_int("Age: ")
+print(f"You are {age} years old.")
+print("Thanks!")`;
+    document.getElementById('playground-out').textContent = 'Output will appear here…';
+}
+
+/* highlight current lecture */
+document.querySelectorAll('.mini-nav a').forEach(a => { if (a.href.endsWith('lec3.html')) a.classList.add('bg-teal-700','text-white'); });
+</script>
+</body>
+</html>
