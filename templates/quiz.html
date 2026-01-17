@@ -16,23 +16,84 @@
 
     <!-- Custom Styles -->
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
-
       :root {
-        --primary-color: #0d9488;
-        --secondary-color: #1e293b;
-        --accent-color: #f97316;
-        --text-primary: #1f2937;
-        --text-secondary: #6b7280;
-        --bg-primary: #ffffff;
-        --bg-secondary: #f9fafb;
+        /* -------- Modern Tech Brand Colors (freeCodeCamp/Codecademy style) -------- */
+        --primary-600: #3b82f6; /* blue - primary action */
+        --primary-700: #2563eb;
+        --primary-800: #1d4ed8;
+
+        --secondary-600: #6366f1; /* indigo - secondary action */
+        --secondary-700: #4f46e5;
+        --secondary-800: #4338ca;
+
+        --accent-500: #10b981; /* green - success/positive */
+        --accent-600: #059669;
+
+        /* -------- Neutral light-scale -------- */
+        --slate-50: #f8fafc; /* page bg        */
+        --slate-100: #f1f5f9; /* card bg        */
+        --slate-200: #e2e8f0; /* border / line  */
+        --slate-300: #cbd5e1;
+        --slate-400: #94a3b8;
+        --slate-600: #475569; /* body text      */
+        --slate-700: #334155; /* heading text   */
+        --slate-800: #1e293b;
+        --slate-900: #0f172a; /* darkest text   */
+
+        --white: #ffffff;
       }
 
+      /* ---------------------------------------------------------
+   DARK-MODE OVERRIDES (auto or via data-theme="dark")
+   --------------------------------------------------------- */
       [data-theme="dark"] {
-        --text-primary: #f1f5f9;
-        --text-secondary: #94a3b8;
-        --bg-primary: #0f172a;
-        --bg-secondary: #1e293b;
+        /* desaturated but recognisable brand colours */
+        --primary-600: #2dd4bf; /* brighter teal   */
+        --primary-700: #14b8a6;
+        --primary-800: #0d9488;
+
+        --secondary-600: #fb923c; /* softer orange   */
+        --secondary-700: #f97316;
+        --secondary-800: #ea580c;
+
+        --accent-500: #4ade80; /* mint green       */
+
+        /* inverted neutral scale */
+        --slate-50: #0b1120; /* page bg          */
+        --slate-100: #111827; /* card / elevated  */
+        --slate-200: #1f2937; /* border           */
+        --slate-300: #374151;
+        --slate-400: #4b5563;
+        --slate-600: #9ca3af; /* body text        */
+        --slate-700: #d1d5db; /* heading text     */
+        --slate-800: #e5e7eb;
+        --slate-900: #f9fafb; /* lightest text    */
+
+        --white: #0b1120; /* same as page bg  */
+      }
+
+      /* automatic dark if user has system preference */
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          /* copy the exact same block as [data-theme="dark"] */
+          --primary-600: #2dd4bf;
+          --primary-700: #14b8a6;
+          --primary-800: #0d9488;
+          --secondary-600: #fb923c;
+          --secondary-700: #f97316;
+          --secondary-800: #ea580c;
+          --accent-500: #4ade80;
+          --slate-50: #0b1120;
+          --slate-100: #111827;
+          --slate-200: #1f2937;
+          --slate-300: #374151;
+          --slate-400: #4b5563;
+          --slate-600: #9ca3af;
+          --slate-700: #d1d5db;
+          --slate-800: #e5e7eb;
+          --slate-900: #f9fafb;
+          --white: #0b1120;
+        }
       }
 
       * {
@@ -40,98 +101,289 @@
       }
 
       body {
-        background: var(--bg-primary);
-        color: var(--text-primary);
-        transition: all 0.3s ease;
+        background: var(--slate-50);
+        color: var(--slate-900);
+        line-height: 1.6;
+        overflow-x: hidden;
       }
 
-      .glassmorphism {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+      /* Premium Navigation - Sticky with better styling */
+      .nav-glassmorphism {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
       }
 
       .nav-link {
         position: relative;
-        transition: all 0.3s ease;
+        font-weight: 500;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
-      .nav-link.active::after {
+      .nav-link::after {
         content: "";
         position: absolute;
-        bottom: -4px;
+        bottom: -2px;
         left: 0;
         right: 0;
         height: 2px;
-        background: #0d9488;
+        background: linear-gradient(
+          90deg,
+          var(--primary-600),
+          var(--secondary-600)
+        );
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
       }
 
+      .nav-link:hover::after,
+      .nav-link.active::after {
+        transform: scaleX(1);
+      }
+
+      .nav-link.active {
+        color: var(--primary-600);
+        font-weight: 600;
+      }
+
+      /* Custom Button Styles */
+      .btn-login,
+      .btn-signup {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn-login:hover,
+      .btn-signup:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-login::before,
+      .btn-signup::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.2);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .btn-login:hover::before,
+      .btn-signup:hover::before {
+        opacity: 1;
+      }
+
+      .btn-login {
+        background: var(--secondary-600);
+        color: var(--white);
+        border: 2px solid var(--secondary-600);
+      }
+
+      .btn-signup {
+        background: var(--primary-600);
+        color: var(--white);
+        border: 2px solid var(--primary-600);
+      }
+
+      .btn-login:hover {
+        background: var(--secondary-700);
+      }
+
+      .btn-signup:hover {
+        background: var(--primary-700);
+      }
+
+      /* Premium Cards */
+      .card-premium {
+        background: var(--white);
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card-premium::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-600),
+          var(--secondary-600)
+        );
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .card-premium:hover::before {
+        transform: scaleX(1);
+      }
+
+      .card-premium:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Premium Typography */
+      .section-title {
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+      }
+
+      .section-subtitle {
+        font-size: clamp(1rem, 2vw, 1.25rem);
+        font-weight: 400;
+        line-height: 1.6;
+        color: var(--slate-600);
+      }
+
+      .text-gradient {
+        background: linear-gradient(
+          135deg,
+          var(--primary-600),
+          var(--secondary-600)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Animations */
+      .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .animate-in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Smooth Scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Quiz-specific premium styles */
       .quiz-container {
-        background: white;
-        border-radius: 16px;
+        background: var(--white);
+        border-radius: 20px;
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
         overflow: hidden;
         transition: all 0.3s ease;
+        border: 1px solid var(--slate-200);
+      }
+
+      .quiz-container:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
       }
 
       .quiz-header {
-        background: linear-gradient(135deg, #0d9488, #10b981);
+        background: linear-gradient(
+          135deg,
+          var(--primary-600),
+          var(--primary-700)
+        );
         color: white;
         padding: 2rem;
         text-align: center;
+        position: relative;
+        overflow: hidden;
       }
 
-      .quiz-body {
-        padding: 2rem;
+      .quiz-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/><circle cx="10" cy="60" r="0.5" fill="white" opacity="0.1"/><circle cx="90" cy="40" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        opacity: 0.3;
+        z-index: 1;
+      }
+
+      .quiz-header > * {
+        position: relative;
+        z-index: 2;
       }
 
       .question-card {
-        background: var(--bg-secondary);
-        border-radius: 12px;
+        background: var(--slate-100);
+        border-radius: 16px;
         padding: 2rem;
         margin-bottom: 1.5rem;
         transition: all 0.3s ease;
+        border: 1px solid var(--slate-200);
       }
 
       .question-card:hover {
-        transform: translateY(-2px);
+        transform: translateY(-4px);
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        border-color: var(--primary-300);
       }
 
       .option-button {
         width: 100%;
         padding: 1rem;
         text-align: left;
-        border: 2px solid #e5e7eb;
+        border: 2px solid var(--slate-200);
         border-radius: 8px;
-        background: white;
+        background: var(--white);
         transition: all 0.3s ease;
         margin-bottom: 0.75rem;
         cursor: pointer;
+        font-weight: 500;
+        color: var(--slate-700);
       }
 
       .option-button:hover {
-        border-color: #0d9488;
-        background: #f0fdfa;
+        border-color: var(--primary-600);
+        background: var(--slate-50);
         transform: translateX(4px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
       }
 
       .option-button.selected {
-        border-color: #0d9488;
-        background: #0d9488;
+        border-color: var(--primary-600);
+        background: var(--primary-600);
         color: white;
+        box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
       }
 
       .option-button.correct {
-        border-color: #10b981;
-        background: #10b981;
+        border-color: var(--accent-600);
+        background: var(--accent-600);
         color: white;
+        box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
       }
 
       .option-button.incorrect {
         border-color: #ef4444;
         background: #ef4444;
         color: white;
+        box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
       }
 
       .option-button:disabled {
@@ -141,7 +393,7 @@
 
       .progress-bar {
         height: 8px;
-        background: #e5e7eb;
+        background: var(--slate-200);
         border-radius: 4px;
         overflow: hidden;
         margin-bottom: 1.5rem;
@@ -149,7 +401,11 @@
 
       .progress-fill {
         height: 100%;
-        background: linear-gradient(90deg, #0d9488, #10b981);
+        background: linear-gradient(
+          90deg,
+          var(--primary-600),
+          var(--primary-700)
+        );
         transition: width 0.5s ease;
       }
 
@@ -163,14 +419,21 @@
       .stat-card {
         text-align: center;
         padding: 1rem;
-        background: var(--bg-secondary);
-        border-radius: 8px;
+        background: var(--slate-100);
+        border-radius: 12px;
+        border: 1px solid var(--slate-200);
+        transition: all 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
       }
 
       .stat-number {
         font-size: 2rem;
         font-weight: 800;
-        color: #0d9488;
+        color: var(--primary-600);
         display: block;
       }
 
@@ -208,7 +471,10 @@
         width: 150px;
         height: 150px;
         border-radius: 50%;
-        background: conic-gradient(#0d9488 0deg, #e5e7eb 0deg);
+        background: conic-gradient(
+          var(--primary-600) 0deg,
+          var(--slate-200) 0deg
+        );
         display: flex;
         align-items: center;
         justify-content: center;
@@ -222,7 +488,7 @@
         width: 120px;
         height: 120px;
         border-radius: 50%;
-        background: white;
+        background: var(--white);
       }
 
       .score-text {
@@ -230,40 +496,47 @@
         z-index: 1;
         font-size: 2rem;
         font-weight: 800;
-        color: #0d9488;
+        color: var(--primary-600);
       }
 
       .topic-selector {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
         margin-bottom: 2rem;
       }
 
       .topic-card {
-        background: white;
-        border: 2px solid #e5e7eb;
-        border-radius: 12px;
+        background: var(--white);
+        border: 2px solid var(--slate-200);
+        border-radius: 16px;
         padding: 1.5rem;
         cursor: pointer;
         transition: all 0.3s ease;
         text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
       }
 
       .topic-card:hover {
-        border-color: #0d9488;
-        transform: translateY(-2px);
+        border-color: var(--primary-600);
+        transform: translateY(-4px);
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
       }
 
       .topic-card.selected {
-        border-color: #0d9488;
-        background: #f0fdfa;
+        border-color: var(--primary-600);
+        background: var(--slate-50);
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
       }
 
       .topic-icon {
         font-size: 3rem;
         margin-bottom: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .topic-card:hover .topic-icon {
+        transform: scale(1.1);
       }
 
       .timer {
@@ -282,13 +555,14 @@
         color: #dc2626;
       }
 
+      /* Responsive Design */
       @media (max-width: 768px) {
         .quiz-body {
-          padding: 1rem;
+          padding: 1.5rem;
         }
 
         .question-card {
-          padding: 1rem;
+          padding: 1.5rem;
         }
 
         .quiz-stats {
@@ -299,19 +573,19 @@
   </head>
   <body>
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 glassmorphism bg-teal-700">
+    <nav class="fixed top-0 left-0 right-0 z-50 nav-glassmorphism">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
+        <div class="flex justify-between items-center h-20">
           <!-- Logo -->
           <div class="flex items-center">
-            <div class="text-2xl font-bold text-white">🐍 PythonLearn</div>
+            <div class="text-3xl font-bold text-gradient">🐍 PythonLearn</div>
           </div>
 
           <!-- Desktop Navigation -->
           <div class="hidden md:flex items-center space-x-10">
             <a
               href="/"
-              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2 active"
+              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2"
               >Home</a
             >
             <a
@@ -326,19 +600,15 @@
             >
             <a
               href="/quiz"
-              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2"
+              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2 active"
               >Quiz</a
             >
             <a
-              href="/projects"
-              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2"
-              >Projects</a
-            >
-            <a
               href="/login"
-              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2"
-              >signup</a
+              class="px-5 py-2 rounded-lg text-white font-semibold btn-signup transition duration-300"
             >
+              Login
+            </a>
             <button
               id="theme-toggle"
               class="p-3 rounded-xl text-slate-700 hover:bg-slate-100 hover:text-primary-600 transition-all duration-300"
@@ -349,7 +619,10 @@
 
           <!-- Mobile Menu Button -->
           <div class="md:hidden">
-            <button id="mobile-menu-btn" class="text-white hover:text-teal-300">
+            <button
+              id="mobile-menu-btn"
+              class="text-slate-700 hover:text-primary-600"
+            >
               <svg
                 class="w-6 h-6"
                 fill="none"
@@ -370,37 +643,27 @@
         <!-- Mobile Navigation -->
         <div id="mobile-menu" class="hidden md:hidden">
           <div
-            class="px-2 pt-2 pb-3 space-y-1 bg-black bg-opacity-50 rounded-lg mt-2"
+            class="px-2 pt-2 pb-3 space-y-1 bg-white rounded-xl shadow-lg mt-2 border border-slate-200"
           >
             <a
               href="/"
-              class="block px-3 py-2 text-white hover:text-teal-300"
+              class="block px-3 py-2 text-slate-700 hover:text-primary-600 hover:bg-slate-50 rounded-lg transition-colors"
               >Home</a
             >
             <a
               href="/course"
-              class="block px-3 py-2 text-white hover:text-teal-300"
+              class="block px-3 py-2 text-slate-700 hover:text-primary-600 hover:bg-slate-50 rounded-lg transition-colors"
               >Course</a
             >
             <a
               href="/playground"
-              class="block px-3 py-2 text-white hover:text-teal-300"
+              class="block px-3 py-2 text-slate-700 hover:text-primary-600 hover:bg-slate-50 rounded-lg transition-colors"
               >Playground</a
             >
             <a
               href="/quiz"
-              class="block px-3 py-2 text-white hover:text-teal-300"
+              class="block px-3 py-2 text-slate-700 hover:text-primary-600 hover:bg-slate-50 rounded-lg transition-colors"
               >Quiz</a
-            >
-            <a
-              href="/projects"
-              class="block px-3 py-2 text-white hover:text-teal-300"
-              >Projects</a
-            >
-            <a
-              href="/about"
-              class="block px-3 py-2 text-white hover:text-teal-300"
-              >About</a
             >
           </div>
         </div>
@@ -409,136 +672,196 @@
 
     <!-- Quiz Header -->
     <section
-      class="pt-20 pb-8 bg-gradient-to-r from-teal-600 to-blue-600 text-white"
+      class="pt-24 pb-12 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 text-white relative overflow-hidden"
     >
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center">
-          <h1 class="text-4xl md:text-5xl font-bold mb-4">
-            Python Quiz Challenge
-          </h1>
-          <p class="text-xl mb-8 max-w-3xl mx-auto">
-            Test your Python knowledge with our interactive quizzes. Get instant
-            feedback and detailed explanations for every question.
-          </p>
-          <div class="flex flex-wrap justify-center gap-4 text-sm">
-            <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full"
-              >Multiple Topics</span
-            >
-            <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full"
-              >Instant Feedback</span
-            >
-            <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full"
-              >Detailed Explanations</span
-            >
-            <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full"
-              >Progress Tracking</span
-            >
-          </div>
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10"
+      >
+        <h1
+          class="text-4xl md:text-5xl font-bold mb-4 section-title text-white"
+        >
+          Python Quiz Challenge
+        </h1>
+        <p
+          class="text-xl mb-8 max-w-3xl mx-auto section-subtitle text-white/95"
+        >
+          Test your Python knowledge with our interactive quizzes. Get instant
+          feedback and detailed explanations for every question.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 text-sm">
+          <span
+            class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full border border-white/30 font-semibold"
+            >Multiple Topics</span
+          >
+          <span
+            class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full border border-white/30 font-semibold"
+            >Instant Feedback</span
+          >
+          <span
+            class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full border border-white/30 font-semibold"
+            >Detailed Explanations</span
+          >
+          <span
+            class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full border border-white/30 font-semibold"
+            >Progress Tracking</span
+          >
         </div>
       </div>
     </section>
 
     <!-- Topic Selection -->
-    <section class="py-12" id="topic-selection">
+    <section class="py-12 bg-slate-50" id="topic-selection">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-8">
-          <h2 class="text-3xl font-bold mb-4">Choose Your Quiz Topic</h2>
-          <p class="text-xl text-gray-600">
+        <div class="text-center mb-8 animate-on-scroll">
+          <h2 class="section-title text-slate-900 mb-4">
+            Choose Your Quiz Topic
+          </h2>
+          <p class="section-subtitle max-w-3xl mx-auto">
             Select a topic to test your Python knowledge
           </p>
         </div>
 
         <div class="topic-selector">
-          <div class="topic-card" data-topic="basics">
+          <div
+            class="topic-card card-premium animate-on-scroll"
+            data-topic="basics"
+          >
             <div class="topic-icon">🐍</div>
-            <h3 class="text-xl font-semibold mb-2">Python Basics</h3>
-            <p class="text-gray-600">Variables, data types, and basic syntax</p>
-            <div class="mt-4 text-sm text-teal-600 font-semibold">
+            <h3 class="text-xl font-bold mb-2 text-slate-900">Python Basics</h3>
+            <p class="text-slate-600">
+              Variables, data types, and basic syntax
+            </p>
+            <div class="mt-4 text-sm text-blue-600 font-semibold">
               15 Questions • 10 min
             </div>
           </div>
 
-          <div class="topic-card" data-topic="operators">
+          <div
+            class="topic-card card-premium animate-on-scroll"
+            data-topic="operators"
+          >
             <div class="topic-icon">➗</div>
-            <h3 class="text-xl font-semibold mb-2">Operators</h3>
-            <p class="text-gray-600">
+            <h3 class="text-xl font-bold mb-2 text-slate-900">Operators</h3>
+            <p class="text-slate-600">
               Arithmetic, comparison, and logical operators
             </p>
-            <div class="mt-4 text-sm text-teal-600 font-semibold">
+            <div class="mt-4 text-sm text-blue-600 font-semibold">
               12 Questions • 8 min
             </div>
           </div>
 
-          <div class="topic-card" data-topic="control-flow">
+          <div
+            class="topic-card card-premium animate-on-scroll"
+            data-topic="control-flow"
+          >
             <div class="topic-icon">🔄</div>
-            <h3 class="text-xl font-semibold mb-2">Control Flow</h3>
-            <p class="text-gray-600">If statements, loops, and conditionals</p>
-            <div class="mt-4 text-sm text-teal-600 font-semibold">
+            <h3 class="text-xl font-bold mb-2 text-slate-900">Control Flow</h3>
+            <p class="text-slate-600">If statements, loops, and conditionals</p>
+            <div class="mt-4 text-sm text-blue-600 font-semibold">
               18 Questions • 12 min
             </div>
           </div>
 
-          <div class="topic-card" data-topic="functions">
+          <div
+            class="topic-card card-premium animate-on-scroll"
+            data-topic="functions"
+          >
             <div class="topic-icon">⚡</div>
-            <h3 class="text-xl font-semibold mb-2">Functions</h3>
-            <p class="text-gray-600">
+            <h3 class="text-xl font-bold mb-2 text-slate-900">Functions</h3>
+            <p class="text-slate-600">
               Function definition, parameters, and return values
             </p>
-            <div class="mt-4 text-sm text-teal-600 font-semibold">
+            <div class="mt-4 text-sm text-blue-600 font-semibold">
               14 Questions • 10 min
             </div>
           </div>
 
-          <div class="topic-card" data-topic="data-structures">
+          <div
+            class="topic-card card-premium animate-on-scroll"
+            data-topic="data-structures"
+          >
             <div class="topic-icon">📊</div>
-            <h3 class="text-xl font-semibold mb-2">Data Structures</h3>
-            <p class="text-gray-600">Lists, dictionaries, tuples, and sets</p>
-            <div class="mt-4 text-sm text-teal-600 font-semibold">
+            <h3 class="text-xl font-bold mb-2 text-slate-900">
+              Data Structures
+            </h3>
+            <p class="text-slate-600">Lists, dictionaries, tuples, and sets</p>
+            <div class="mt-4 text-sm text-blue-600 font-semibold">
               20 Questions • 15 min
             </div>
           </div>
 
-          <div class="topic-card" data-topic="oop">
+          <div
+            class="topic-card card-premium animate-on-scroll"
+            data-topic="oop"
+          >
             <div class="topic-icon">🏗️</div>
-            <h3 class="text-xl font-semibold mb-2">Object-Oriented Programming</h3>
-            <p class="text-gray-600">Classes, objects, inheritance, and polymorphism</p>
-            <div class="mt-4 text-sm text-teal-600 font-semibold">
+            <h3 class="text-xl font-bold mb-2 text-slate-900">
+              Object-Oriented Programming
+            </h3>
+            <p class="text-slate-600">
+              Classes, objects, inheritance, and polymorphism
+            </p>
+            <div class="mt-4 text-sm text-blue-600 font-semibold">
               15 Questions • 12 min
             </div>
           </div>
 
-          <div class="topic-card" data-topic="file-handling">
+          <div
+            class="topic-card card-premium animate-on-scroll"
+            data-topic="file-handling"
+          >
             <div class="topic-icon">📁</div>
-            <h3 class="text-xl font-semibold mb-2">File Handling & I/O</h3>
-            <p class="text-gray-600">Reading, writing, and managing files</p>
-            <div class="mt-4 text-sm text-teal-600 font-semibold">
+            <h3 class="text-xl font-bold mb-2 text-slate-900">
+              File Handling & I/O
+            </h3>
+            <p class="text-slate-600">Reading, writing, and managing files</p>
+            <div class="mt-4 text-sm text-blue-600 font-semibold">
               15 Questions • 12 min
             </div>
           </div>
 
-          <div class="topic-card" data-topic="exceptions">
+          <div
+            class="topic-card card-premium animate-on-scroll"
+            data-topic="exceptions"
+          >
             <div class="topic-icon">⚠️</div>
-            <h3 class="text-xl font-semibold mb-2">Error Handling & Exceptions</h3>
-            <p class="text-gray-600">Try-except blocks and exception handling</p>
-            <div class="mt-4 text-sm text-teal-600 font-semibold">
+            <h3 class="text-xl font-bold mb-2 text-slate-900">
+              Error Handling & Exceptions
+            </h3>
+            <p class="text-slate-600">
+              Try-except blocks and exception handling
+            </p>
+            <div class="mt-4 text-sm text-blue-600 font-semibold">
               15 Questions • 12 min
             </div>
           </div>
 
-          <div class="topic-card" data-topic="modules">
+          <div
+            class="topic-card card-premium animate-on-scroll"
+            data-topic="modules"
+          >
             <div class="topic-icon">📦</div>
-            <h3 class="text-xl font-semibold mb-2">Modules & Packages</h3>
-            <p class="text-gray-600">Importing, creating, and organizing modules</p>
-            <div class="mt-4 text-sm text-teal-600 font-semibold">
+            <h3 class="text-xl font-bold mb-2 text-slate-900">
+              Modules & Packages
+            </h3>
+            <p class="text-slate-600">
+              Importing, creating, and organizing modules
+            </p>
+            <div class="mt-4 text-sm text-blue-600 font-semibold">
               15 Questions • 12 min
             </div>
           </div>
 
-          <div class="topic-card" data-topic="mixed">
+          <div
+            class="topic-card card-premium animate-on-scroll"
+            data-topic="mixed"
+          >
             <div class="topic-icon">🎯</div>
-            <h3 class="text-xl font-semibold mb-2">Mixed Challenge</h3>
-            <p class="text-gray-600">Random questions from all topics</p>
-            <div class="mt-4 text-sm text-teal-600 font-semibold">
+            <h3 class="text-xl font-bold mb-2 text-slate-900">
+              Mixed Challenge
+            </h3>
+            <p class="text-slate-600">Random questions from all topics</p>
+            <div class="mt-4 text-sm text-blue-600 font-semibold">
               25 Questions • 20 min
             </div>
           </div>
@@ -547,25 +870,37 @@
     </section>
 
     <!-- Quiz Interface -->
-    <section class="py-12 hidden" id="quiz-interface">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="py-12 bg-slate-50 hidden" id="quiz-interface">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Quiz Stats -->
         <div class="quiz-stats">
-          <div class="stat-card">
+          <div class="stat-card card-premium">
             <span class="stat-number" id="current-question">1</span>
-            <span class="text-sm text-gray-600">Question</span>
+            <span class="text-sm text-slate-600 font-medium">Question</span>
           </div>
-          <div class="stat-card">
-            <span class="stat-number" id="quiz-score">0</span>
-            <span class="text-sm text-gray-600">Correct</span>
+          <div class="stat-card card-premium">
+            <span
+              class="stat-number"
+              id="quiz-score"
+              style="color: var(--accent-600)"
+              >0</span
+            >
+            <span class="text-sm text-slate-600 font-medium">Correct</span>
           </div>
-          <div class="stat-card">
-            <span class="stat-number" id="quiz-timer">10:00</span>
-            <span class="text-sm text-gray-600">Time</span>
+          <div class="stat-card card-premium timer" id="timer-card">
+            <span class="stat-number" id="quiz-timer" style="color: #92400e"
+              >10:00</span
+            >
+            <span class="text-sm text-slate-600 font-medium">Time</span>
           </div>
-          <div class="stat-card">
-            <span class="stat-number" id="quiz-progress">0%</span>
-            <span class="text-sm text-gray-600">Progress</span>
+          <div class="stat-card card-premium">
+            <span
+              class="stat-number"
+              id="quiz-progress"
+              style="color: var(--secondary-600)"
+              >0%</span
+            >
+            <span class="text-sm text-slate-600 font-medium">Progress</span>
           </div>
         </div>
 
@@ -575,12 +910,12 @@
         </div>
 
         <!-- Quiz Container -->
-        <div class="quiz-container">
+        <div class="quiz-container card-premium">
           <div class="quiz-header">
             <h2 class="text-2xl font-bold mb-2" id="quiz-title">
               Python Basics Quiz
             </h2>
-            <p class="text-teal-100" id="quiz-description">
+            <p class="text-blue-100" id="quiz-description">
               Test your fundamental Python knowledge
             </p>
           </div>
@@ -590,11 +925,16 @@
             <div id="question-content">
               <div class="question-card">
                 <div class="flex justify-between items-start mb-4">
-                  <h3 class="text-xl font-semibold" id="question-text">
+                  <h3
+                    class="text-xl font-semibold text-slate-900"
+                    id="question-text"
+                  >
                     Which of the following is the correct way to create a
                     variable in Python?
                   </h3>
-                  <span class="text-sm text-gray-500" id="question-number"
+                  <span
+                    class="text-sm text-slate-500 font-medium"
+                    id="question-number"
                     >Question 1 of 15</span
                   >
                 </div>
@@ -622,7 +962,7 @@
             <div class="flex justify-between items-center mt-6">
               <button
                 id="prev-button"
-                class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                class="px-6 py-3 bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300 transition-colors font-medium"
                 disabled
               >
                 Previous
@@ -631,13 +971,13 @@
               <div class="flex space-x-4">
                 <button
                   id="skip-button"
-                  class="px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors"
+                  class="px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors font-medium"
                 >
                   Skip Question
                 </button>
                 <button
                   id="next-button"
-                  class="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
+                  class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
                   disabled
                 >
                   Next Question
@@ -650,62 +990,69 @@
     </section>
 
     <!-- Quiz Results -->
-    <section class="py-12 hidden" id="quiz-results">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="quiz-container">
+    <section class="py-12 bg-slate-50 hidden" id="quiz-results">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="quiz-container card-premium">
           <div class="quiz-complete">
             <div class="score-circle" id="score-circle">
               <div class="score-text" id="final-score">85%</div>
             </div>
 
-            <h2 class="text-3xl font-bold mb-4">Quiz Complete!</h2>
-            <p class="text-xl text-gray-600 mb-6" id="score-message">
+            <h2 class="text-3xl font-bold mb-4 text-slate-900">
+              Quiz Complete!
+            </h2>
+            <p class="text-xl text-slate-600 mb-6" id="score-message">
               Excellent work! You have a strong understanding of Python basics.
             </p>
 
             <div class="grid md:grid-cols-3 gap-6 mb-8">
-              <div class="text-center">
+              <div class="text-center card-premium p-6">
                 <div
-                  class="text-3xl font-bold text-teal-600"
+                  class="text-3xl font-bold mb-2"
+                  style="color: var(--accent-600)"
                   id="correct-answers"
                 >
                   12
                 </div>
-                <div class="text-gray-600">Correct Answers</div>
+                <div class="text-slate-600 font-medium">Correct Answers</div>
               </div>
-              <div class="text-center">
+              <div class="text-center card-premium p-6">
                 <div
-                  class="text-3xl font-bold text-orange-600"
+                  class="text-3xl font-bold mb-2 text-red-600"
                   id="incorrect-answers"
                 >
                   3
                 </div>
-                <div class="text-gray-600">Incorrect Answers</div>
+                <div class="text-slate-600 font-medium">Incorrect Answers</div>
               </div>
-              <div class="text-center">
-                <div class="text-3xl font-bold text-blue-600" id="total-time">
+              <div class="text-center card-premium p-6">
+                <div
+                  class="text-3xl font-bold mb-2"
+                  style="color: var(--secondary-600)"
+                  id="total-time"
+                >
                   8:45
                 </div>
-                <div class="text-gray-600">Time Taken</div>
+                <div class="text-slate-600 font-medium">Time Taken</div>
               </div>
             </div>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 id="retake-quiz"
-                class="px-8 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
+                class="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1"
               >
                 Retake Quiz
               </button>
               <button
                 id="review-answers"
-                class="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                class="px-8 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1"
               >
                 Review Answers
               </button>
               <button
                 id="try-another-topic"
-                class="px-8 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                class="px-8 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-all font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1"
               >
                 Try Another Topic
               </button>
@@ -716,56 +1063,88 @@
     </section>
 
     <!-- Performance Analytics -->
-    <section class="py-12 bg-gray-50" id="performance-section">
+    <section class="py-16 bg-slate-50" id="performance-section">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-8">
-          <h2 class="text-3xl font-bold mb-4">Your Quiz Performance</h2>
-          <p class="text-xl text-gray-600">
+        <div class="text-center mb-8 animate-on-scroll">
+          <h2 class="section-title text-slate-900 mb-4">
+            Your Quiz Performance
+          </h2>
+          <p class="section-subtitle max-w-3xl mx-auto">
             Track your progress and identify areas for improvement
           </p>
         </div>
 
         <div class="grid md:grid-cols-2 gap-8">
           <!-- Score Chart -->
-          <div class="bg-white p-6 rounded-lg shadow-lg">
-            <h3 class="text-xl font-semibold mb-4">Recent Quiz Scores</h3>
+          <div class="bg-white p-6 rounded-xl shadow-lg card-premium">
+            <h3 class="text-xl font-bold mb-4 text-slate-900">
+              Recent Quiz Scores
+            </h3>
             <div id="score-chart" style="height: 300px"></div>
           </div>
 
           <!-- Topic Performance -->
-          <div class="bg-white p-6 rounded-lg shadow-lg">
-            <h3 class="text-xl font-semibold mb-4">Performance by Topic</h3>
+          <div class="bg-white p-6 rounded-xl shadow-lg card-premium">
+            <h3 class="text-xl font-bold mb-4 text-slate-900">
+              Performance by Topic
+            </h3>
             <div id="topic-chart" style="height: 300px"></div>
           </div>
         </div>
 
         <!-- Achievement Badges -->
         <div class="mt-12">
-          <h3 class="text-2xl font-bold text-center mb-8">Your Achievements</h3>
+          <h3 class="text-2xl font-bold text-center mb-8 text-slate-900">
+            Your Achievements
+          </h3>
           <div class="flex flex-wrap justify-center gap-4">
-            <div class="bg-white p-4 rounded-lg shadow-lg text-center">
-              <div class="text-4xl mb-2">🏆</div>
-              <div class="font-semibold">First Quiz</div>
-              <div class="text-sm text-gray-600">Completed your first quiz</div>
+            <div
+              class="bg-white p-6 rounded-xl shadow-lg card-premium text-center group"
+            >
+              <div
+                class="text-4xl mb-2 group-hover:scale-110 transition-transform"
+              >
+                🏆
+              </div>
+              <div class="font-semibold text-slate-900">First Quiz</div>
+              <div class="text-sm text-slate-600">
+                Completed your first quiz
+              </div>
             </div>
-            <div class="bg-white p-4 rounded-lg shadow-lg text-center">
-              <div class="text-4xl mb-2">🎯</div>
-              <div class="font-semibold">Perfect Score</div>
-              <div class="text-sm text-gray-600">Scored 100% on a quiz</div>
+            <div
+              class="bg-white p-6 rounded-xl shadow-lg card-premium text-center group"
+            >
+              <div
+                class="text-4xl mb-2 group-hover:scale-110 transition-transform"
+              >
+                🎯
+              </div>
+              <div class="font-semibold text-slate-900">Perfect Score</div>
+              <div class="text-sm text-slate-600">Scored 100% on a quiz</div>
             </div>
-            <div class="bg-white p-4 rounded-lg shadow-lg text-center">
-              <div class="text-4xl mb-2">⚡</div>
-              <div class="font-semibold">Speed Demon</div>
-              <div class="text-sm text-gray-600">
+            <div
+              class="bg-white p-6 rounded-xl shadow-lg card-premium text-center group"
+            >
+              <div
+                class="text-4xl mb-2 group-hover:scale-110 transition-transform"
+              >
+                ⚡
+              </div>
+              <div class="font-semibold text-slate-900">Speed Demon</div>
+              <div class="text-sm text-slate-600">
                 Completed quiz in record time
               </div>
             </div>
             <div
-              class="bg-white p-4 rounded-lg shadow-lg text-center opacity-50"
+              class="bg-white p-6 rounded-xl shadow-lg card-premium text-center opacity-50 group"
             >
-              <div class="text-4xl mb-2">🔥</div>
-              <div class="font-semibold">Streak Master</div>
-              <div class="text-sm text-gray-600">5 quizzes in a row</div>
+              <div
+                class="text-4xl mb-2 group-hover:scale-110 transition-transform"
+              >
+                🔥
+              </div>
+              <div class="font-semibold text-slate-900">Streak Master</div>
+              <div class="text-sm text-slate-600">5 quizzes in a row</div>
             </div>
           </div>
         </div>
@@ -773,37 +1152,64 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
+    <footer
+      class="bg-gradient-to-br from-slate-900 to-slate-800 text-slate-200 py-16"
+    >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid md:grid-cols-4 gap-8">
+        <div class="grid md:grid-cols-4 gap-12">
           <div>
-            <div class="text-2xl font-bold mb-4">🐍 PythonLearn</div>
-            <p class="text-gray-400 mb-4">
+            <div class="text-3xl font-bold text-gradient mb-6">
+              🐍 PythonLearn
+            </div>
+            <p class="text-slate-400 mb-6 leading-relaxed">
               Learn Python the smart way with our interactive platform designed
               for modern learners.
             </p>
+            <div class="flex space-x-6">
+              <a
+                href="#"
+                class="text-slate-400 hover:text-primary-400 transition-colors"
+                >Twitter</a
+              >
+              <a
+                href="#"
+                class="text-slate-400 hover:text-primary-400 transition-colors"
+                >LinkedIn</a
+              >
+              <a
+                href="#"
+                class="text-slate-400 hover:text-primary-400 transition-colors"
+                >GitHub</a
+              >
+            </div>
           </div>
 
           <div>
-            <h4 class="font-bold mb-4">Learning</h4>
-            <ul class="space-y-2 text-gray-400">
+            <h4 class="font-bold text-lg text-white mb-6">Learning</h4>
+            <ul class="space-y-3 text-slate-400">
               <li>
-                <a href="/course" class="hover:text-white"
+                <a
+                  href="/course"
+                  class="hover:text-primary-400 transition-colors"
                   >Course Curriculum</a
                 >
               </li>
               <li>
-                <a href="/playground" class="hover:text-white"
+                <a
+                  href="/playground"
+                  class="hover:text-primary-400 transition-colors"
                   >Code Playground</a
                 >
               </li>
               <li>
-                <a href="/quiz" class="hover:text-white"
+                <a href="/quiz" class="hover:text-primary-400 transition-colors"
                   >Interactive Quizzes</a
                 >
               </li>
               <li>
-                <a href="/projects" class="hover:text-white"
+                <a
+                  href="/projects"
+                  class="hover:text-primary-400 transition-colors"
                   >Project Gallery</a
                 >
               </li>
@@ -811,30 +1217,62 @@
           </div>
 
           <div>
-            <h4 class="font-bold mb-4">Resources</h4>
-            <ul class="space-y-2 text-gray-400">
+            <h4 class="font-bold text-lg text-white mb-6">Resources</h4>
+            <ul class="space-y-3 text-slate-400">
               <li>
-                <a href="/about" class="hover:text-white">About Us</a>
+                <a
+                  href="/about"
+                  class="hover:text-primary-400 transition-colors"
+                  >About Us</a
+                >
               </li>
-              <li><a href="#" class="hover:text-white">Blog</a></li>
-              <li><a href="#" class="hover:text-white">Documentation</a></li>
-              <li><a href="#" class="hover:text-white">Community</a></li>
+              <li>
+                <a href="#" class="hover:text-primary-400 transition-colors"
+                  >Blog</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-primary-400 transition-colors"
+                  >Documentation</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-primary-400 transition-colors"
+                  >Community</a
+                >
+              </li>
             </ul>
           </div>
 
           <div>
-            <h4 class="font-bold mb-4">Support</h4>
-            <ul class="space-y-2 text-gray-400">
-              <li><a href="#" class="hover:text-white">Help Center</a></li>
-              <li><a href="#" class="hover:text-white">Contact Us</a></li>
-              <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
-              <li><a href="#" class="hover:text-white">Terms of Service</a></li>
+            <h4 class="font-bold text-lg text-white mb-6">Support</h4>
+            <ul class="space-y-3 text-slate-400">
+              <li>
+                <a href="#" class="hover:text-primary-400 transition-colors"
+                  >Help Center</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-primary-400 transition-colors"
+                  >Contact Us</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-primary-400 transition-colors"
+                  >Privacy Policy</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-primary-400 transition-colors"
+                  >Terms of Service</a
+                >
+              </li>
             </ul>
           </div>
         </div>
 
         <div
-          class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400"
+          class="border-t border-slate-800 mt-12 pt-8 text-center text-slate-400"
         >
           <p>
             &copy; 2024 PythonLearn. All rights reserved. Made with ❤️ for
@@ -848,8 +1286,6 @@
     <script src="{{url_for('static', filename='main.js')}}"></script>
 
     <!-- Quiz-specific JavaScript -->
-
-    <!-- =========  FIXED QUIZ ENGINE  ========= -->
     <script>
       /* ===========================================================
    PYTHON QUIZ – BUG-FREE, FULLY STAND-ALONE
@@ -1050,7 +1486,7 @@
                   explanation: "x += 5 is equivalent to x = x + 5.",
                 },
                 {
-                  question: "What is the result of: 'Hello' + 'World'?",
+                  question: "What is the output of: 'Hello' + 'World'?",
                   options: [
                     "HelloWorld",
                     "Hello World",
@@ -1068,7 +1504,7 @@
                     "** (exponentiation) has the highest precedence in Python.",
                 },
                 {
-                  question: "What is the result of: not True and False?",
+                  question: "What is the output of: not True and False?",
                   options: ["True", "False", "Error", "None"],
                   correct: 1,
                   explanation:
@@ -1364,8 +1800,7 @@
                   question: "Which method adds an element to a list?",
                   options: ["add()", "append()", "insert()", "extend()"],
                   correct: 1,
-                  explanation:
-                    "append() adds a single element to the end of a list.",
+                  explanation: "append() adds a single element to a list.",
                 },
                 {
                   question: "What is the output of: tuple([1, 2, 3])?",
@@ -1439,13 +1874,16 @@
                   question: "What keyword is used to define a class in Python?",
                   options: ["class", "def", "struct", "object"],
                   correct: 0,
-                  explanation: "The 'class' keyword is used to define a class in Python.",
+                  explanation:
+                    "The 'class' keyword is used to define a class in Python.",
                 },
                 {
-                  question: "What is the first parameter of every instance method?",
+                  question:
+                    "What is the first parameter of every instance method?",
                   options: ["self", "this", "instance", "cls"],
                   correct: 0,
-                  explanation: "By convention, 'self' is the first parameter of instance methods.",
+                  explanation:
+                    "By convention, 'self' is the first parameter of instance methods.",
                 },
                 {
                   question: "What does __init__ method do?",
@@ -1456,7 +1894,8 @@
                     "Converts object to string",
                   ],
                   correct: 1,
-                  explanation: "__init__ is the constructor method that initializes new objects.",
+                  explanation:
+                    "__init__ is the constructor method that initializes new objects.",
                 },
                 {
                   question: "What is inheritance in OOP?",
@@ -1467,10 +1906,12 @@
                     "Polymorphism",
                   ],
                   correct: 1,
-                  explanation: "Inheritance allows a class to derive attributes and methods from another class.",
+                  explanation:
+                    "Inheritance allows a class to derive attributes and methods from another class.",
                 },
                 {
-                  question: "What is the output of: class A: pass; a = A(); print(type(a))?",
+                  question:
+                    "What is the output of: class A: pass; a = A(); print(type(a))?",
                   options: [
                     "<class '__main__.A'>",
                     "<class 'object'>",
@@ -1478,7 +1919,8 @@
                     "Error",
                   ],
                   correct: 0,
-                  explanation: "type() returns the class of the object, which is A.",
+                  explanation:
+                    "type() returns the class of the object, which is A.",
                 },
                 {
                   question: "What does super() do?",
@@ -1489,7 +1931,8 @@
                     "Inherits all methods",
                   ],
                   correct: 0,
-                  explanation: "super() is used to call methods from the parent class.",
+                  explanation:
+                    "super() is used to call methods from the parent class.",
                 },
                 {
                   question: "What is encapsulation?",
@@ -1500,7 +1943,8 @@
                     "Method overloading",
                   ],
                   correct: 0,
-                  explanation: "Encapsulation is the bundling of data and methods that operate on that data.",
+                  explanation:
+                    "Encapsulation is the bundling of data and methods that operate on that data.",
                 },
                 {
                   question: "What is polymorphism?",
@@ -1511,7 +1955,8 @@
                     "Method chaining",
                   ],
                   correct: 0,
-                  explanation: "Polymorphism allows objects of different types to be accessed through the same interface.",
+                  explanation:
+                    "Polymorphism allows objects of different types to be accessed through the same interface.",
                 },
                 {
                   question: "What is a class variable?",
@@ -1522,7 +1967,8 @@
                     "Global variable",
                   ],
                   correct: 1,
-                  explanation: "Class variables are shared by all instances of a class.",
+                  explanation:
+                    "Class variables are shared by all instances of a class.",
                 },
                 {
                   question: "What does @staticmethod decorator do?",
@@ -1533,7 +1979,8 @@
                     "Makes method abstract",
                   ],
                   correct: 1,
-                  explanation: "@staticmethod creates methods that don't need self or cls parameters.",
+                  explanation:
+                    "@staticmethod creates methods that don't need self or cls parameters.",
                 },
                 {
                   question: "What is method overriding?",
@@ -1544,7 +1991,8 @@
                     "Calling parent method",
                   ],
                   correct: 1,
-                  explanation: "Method overriding is redefining a parent class method in the child class.",
+                  explanation:
+                    "Method overriding is redefining a parent class method in the child class.",
                 },
                 {
                   question: "What does __str__ method do?",
@@ -1555,7 +2003,8 @@
                     "Deletes object",
                   ],
                   correct: 0,
-                  explanation: "__str__ returns a human-readable string representation of the object.",
+                  explanation:
+                    "__str__ returns a human-readable string representation of the object.",
                 },
                 {
                   question: "What is multiple inheritance?",
@@ -1566,7 +2015,8 @@
                     "Method overloading",
                   ],
                   correct: 1,
-                  explanation: "Multiple inheritance allows a class to inherit from more than one parent class.",
+                  explanation:
+                    "Multiple inheritance allows a class to inherit from more than one parent class.",
                 },
                 {
                   question: "What is the MRO (Method Resolution Order)?",
@@ -1577,7 +2027,8 @@
                     "Order of inheritance",
                   ],
                   correct: 1,
-                  explanation: "MRO determines the order in which Python searches for methods in inheritance hierarchy.",
+                  explanation:
+                    "MRO determines the order in which Python searches for methods in inheritance hierarchy.",
                 },
                 {
                   question: "What does @property decorator do?",
@@ -1588,7 +2039,8 @@
                     "Creates class variable",
                   ],
                   correct: 1,
-                  explanation: "@property decorator converts a method into a property that can be accessed like an attribute.",
+                  explanation:
+                    "@property decorator converts a method into a property that can be accessed like an attribute.",
                 },
               ],
             },
@@ -1601,19 +2053,22 @@
                   question: "What function opens a file in Python?",
                   options: ["open()", "read()", "file()", "load()"],
                   correct: 0,
-                  explanation: "open() function is used to open files in Python.",
+                  explanation:
+                    "open() function is used to open files in Python.",
                 },
                 {
                   question: "What mode opens a file for reading?",
                   options: ["'w'", "'r'", "'a'", "'x'"],
                   correct: 1,
-                  explanation: "'r' mode opens a file for reading (default mode).",
+                  explanation:
+                    "'r' mode opens a file for reading (default mode).",
                 },
                 {
                   question: "What mode opens a file for writing (overwrites)?",
                   options: ["'r'", "'a'", "'w'", "'x'"],
                   correct: 2,
-                  explanation: "'w' mode opens a file for writing and overwrites existing content.",
+                  explanation:
+                    "'w' mode opens a file for writing and overwrites existing content.",
                 },
                 {
                   question: "What does 'a' mode do?",
@@ -1624,13 +2079,15 @@
                     "Creates new file",
                   ],
                   correct: 1,
-                  explanation: "'a' mode opens a file for appending data to the end.",
+                  explanation:
+                    "'a' mode opens a file for appending data to the end.",
                 },
                 {
                   question: "What method reads entire file content?",
                   options: ["read()", "readline()", "readlines()", "get()"],
                   correct: 0,
-                  explanation: "read() method reads the entire file content as a string.",
+                  explanation:
+                    "read() method reads the entire file content as a string.",
                 },
                 {
                   question: "What method reads one line at a time?",
@@ -1653,7 +2110,8 @@
                     "Read it immediately",
                   ],
                   correct: 1,
-                  explanation: "Files should always be closed after use to free resources.",
+                  explanation:
+                    "Files should always be closed after use to free resources.",
                 },
                 {
                   question: "What is the best way to ensure a file is closed?",
@@ -1664,7 +2122,8 @@
                     "Both B and C",
                   ],
                   correct: 3,
-                  explanation: "Both 'with' statement and try-finally ensure files are closed properly.",
+                  explanation:
+                    "Both 'with' statement and try-finally ensure files are closed properly.",
                 },
                 {
                   question: "What does 'rb' mode mean?",
@@ -1679,9 +2138,15 @@
                 },
                 {
                   question: "What method reads all lines into a list?",
-                  options: ["read()", "readline()", "readlines()", "getlines()"],
+                  options: [
+                    "read()",
+                    "readline()",
+                    "readlines()",
+                    "getlines()",
+                  ],
                   correct: 2,
-                  explanation: "readlines() returns a list of all lines in the file.",
+                  explanation:
+                    "readlines() returns a list of all lines in the file.",
                 },
                 {
                   question: "What does file.seek(0) do?",
@@ -1692,13 +2157,15 @@
                     "Closes file",
                   ],
                   correct: 1,
-                  explanation: "seek(0) moves the file pointer to the beginning of the file.",
+                  explanation:
+                    "seek(0) moves the file pointer to the beginning of the file.",
                 },
                 {
                   question: "What is the default encoding for open()?",
                   options: ["utf-8", "ascii", "latin-1", "cp1252"],
                   correct: 0,
-                  explanation: "The default encoding is platform-dependent, but utf-8 is common in Python 3.",
+                  explanation:
+                    "The default encoding is platform-dependent, but utf-8 is common in Python 3.",
                 },
                 {
                   question: "What does 'x' mode do?",
@@ -1709,13 +2176,15 @@
                     "Appends to file",
                   ],
                   correct: 2,
-                  explanation: "'x' mode creates a new file exclusively, fails if file exists.",
+                  explanation:
+                    "'x' mode creates a new file exclusively, fails if file exists.",
                 },
                 {
                   question: "What method tells current file position?",
                   options: ["position()", "tell()", "locate()", "where()"],
                   correct: 1,
-                  explanation: "tell() returns the current position of the file pointer.",
+                  explanation:
+                    "tell() returns the current position of the file pointer.",
                 },
               ],
             },
@@ -1728,7 +2197,8 @@
                   question: "What keyword starts an exception handler?",
                   options: ["try", "catch", "except", "handle"],
                   correct: 0,
-                  explanation: "try keyword starts a block that may raise exceptions.",
+                  explanation:
+                    "try keyword starts a block that may raise exceptions.",
                 },
                 {
                   question: "What keyword catches exceptions?",
@@ -1745,7 +2215,8 @@
                     "try(code) except(handler)",
                   ],
                   correct: 0,
-                  explanation: "Python uses try: and except: with proper indentation.",
+                  explanation:
+                    "Python uses try: and except: with proper indentation.",
                 },
                 {
                   question: "What exception is raised for division by zero?",
@@ -1756,10 +2227,12 @@
                     "MathError",
                   ],
                   correct: 1,
-                  explanation: "ZeroDivisionError is raised when dividing by zero.",
+                  explanation:
+                    "ZeroDivisionError is raised when dividing by zero.",
                 },
                 {
-                  question: "What exception is raised for invalid type conversion?",
+                  question:
+                    "What exception is raised for invalid type conversion?",
                   options: [
                     "TypeError",
                     "ValueError",
@@ -1767,7 +2240,8 @@
                     "InvalidError",
                   ],
                   correct: 1,
-                  explanation: "ValueError is raised when a function receives an argument of correct type but inappropriate value.",
+                  explanation:
+                    "ValueError is raised when a function receives an argument of correct type but inappropriate value.",
                 },
                 {
                   question: "What does finally block do?",
@@ -1778,7 +2252,8 @@
                     "Never runs",
                   ],
                   correct: 2,
-                  explanation: "finally block always executes, regardless of whether an exception occurred.",
+                  explanation:
+                    "finally block always executes, regardless of whether an exception occurred.",
                 },
                 {
                   question: "What does else block do in try-except?",
@@ -1789,13 +2264,15 @@
                     "Never runs",
                   ],
                   correct: 1,
-                  explanation: "else block runs only if no exception was raised in the try block.",
+                  explanation:
+                    "else block runs only if no exception was raised in the try block.",
                 },
                 {
                   question: "How do you raise an exception manually?",
                   options: ["raise", "throw", "error", "exception"],
                   correct: 0,
-                  explanation: "raise keyword is used to manually raise exceptions.",
+                  explanation:
+                    "raise keyword is used to manually raise exceptions.",
                 },
                 {
                   question: "What does except Exception as e do?",
@@ -1806,13 +2283,15 @@
                     "Both B and C",
                   ],
                   correct: 3,
-                  explanation: "except Exception as e catches Exception and subclasses, storing it in variable e.",
+                  explanation:
+                    "except Exception as e catches Exception and subclasses, storing it in variable e.",
                 },
                 {
                   question: "What is the base class for all exceptions?",
                   options: ["Exception", "BaseException", "Error", "Throwable"],
                   correct: 1,
-                  explanation: "BaseException is the base class for all built-in exceptions.",
+                  explanation:
+                    "BaseException is the base class for all built-in exceptions.",
                 },
                 {
                   question: "What exception is raised for undefined variable?",
@@ -1823,10 +2302,12 @@
                     "ReferenceError",
                   ],
                   correct: 0,
-                  explanation: "NameError is raised when a variable name is not found.",
+                  explanation:
+                    "NameError is raised when a variable name is not found.",
                 },
                 {
-                  question: "What exception is raised for wrong number of arguments?",
+                  question:
+                    "What exception is raised for wrong number of arguments?",
                   options: [
                     "ArgumentError",
                     "TypeError",
@@ -1834,7 +2315,8 @@
                     "SyntaxError",
                   ],
                   correct: 1,
-                  explanation: "TypeError is raised when a function is called with wrong number of arguments.",
+                  explanation:
+                    "TypeError is raised when a function is called with wrong number of arguments.",
                 },
                 {
                   question: "What does assert do?",
@@ -1845,7 +2327,8 @@
                     "Logs error",
                   ],
                   correct: 0,
-                  explanation: "assert raises AssertionError if the condition evaluates to False.",
+                  explanation:
+                    "assert raises AssertionError if the condition evaluates to False.",
                 },
                 {
                   question: "What is exception chaining?",
@@ -1856,7 +2339,8 @@
                     "Exception inheritance",
                   ],
                   correct: 1,
-                  explanation: "Exception chaining allows raising a new exception from an existing one using 'from'.",
+                  explanation:
+                    "Exception chaining allows raising a new exception from an existing one using 'from'.",
                 },
                 {
                   question: "What does except (ValueError, TypeError) do?",
@@ -1867,7 +2351,8 @@
                     "Catches all exceptions",
                   ],
                   correct: 2,
-                  explanation: "Multiple exceptions can be caught in a tuple: except (ValueError, TypeError).",
+                  explanation:
+                    "Multiple exceptions can be caught in a tuple: except (ValueError, TypeError).",
                 },
               ],
             },
@@ -1880,7 +2365,8 @@
                   question: "What keyword imports a module?",
                   options: ["import", "include", "require", "load"],
                   correct: 0,
-                  explanation: "import keyword is used to import modules in Python.",
+                  explanation:
+                    "import keyword is used to import modules in Python.",
                 },
                 {
                   question: "What does 'from math import sqrt' do?",
@@ -1891,7 +2377,8 @@
                     "Creates sqrt module",
                   ],
                   correct: 1,
-                  explanation: "from module import name imports only the specified name from the module.",
+                  explanation:
+                    "from module import name imports only the specified name from the module.",
                 },
                 {
                   question: "What is __init__.py used for?",
@@ -1902,7 +2389,8 @@
                     "Defines main function",
                   ],
                   correct: 1,
-                  explanation: "__init__.py file marks a directory as a Python package.",
+                  explanation:
+                    "__init__.py file marks a directory as a Python package.",
                 },
                 {
                   question: "What does 'import math as m' do?",
@@ -1913,7 +2401,8 @@
                     "Deletes math module",
                   ],
                   correct: 0,
-                  explanation: "as keyword creates an alias for the imported module.",
+                  explanation:
+                    "as keyword creates an alias for the imported module.",
                 },
                 {
                   question: "What is a module in Python?",
@@ -1924,7 +2413,8 @@
                     "A variable",
                   ],
                   correct: 0,
-                  explanation: "A module is a file containing Python definitions and statements.",
+                  explanation:
+                    "A module is a file containing Python definitions and statements.",
                 },
                 {
                   question: "What does __name__ == '__main__' check?",
@@ -1935,7 +2425,8 @@
                     "If function is called",
                   ],
                   correct: 1,
-                  explanation: "__name__ == '__main__' is True when the script is run directly, not imported.",
+                  explanation:
+                    "__name__ == '__main__' is True when the script is run directly, not imported.",
                 },
                 {
                   question: "What is a package in Python?",
@@ -1946,7 +2437,8 @@
                     "A function",
                   ],
                   correct: 1,
-                  explanation: "A package is a directory containing multiple modules and an __init__.py file.",
+                  explanation:
+                    "A package is a directory containing multiple modules and an __init__.py file.",
                 },
                 {
                   question: "What does 'from module import *' do?",
@@ -1957,7 +2449,8 @@
                     "Creates module",
                   ],
                   correct: 0,
-                  explanation: "* imports all public names from the module (not recommended).",
+                  explanation:
+                    "* imports all public names from the module (not recommended).",
                 },
                 {
                   question: "What is sys.path?",
@@ -1968,7 +2461,8 @@
                     "Module name",
                   ],
                   correct: 0,
-                  explanation: "sys.path is a list of directory names where Python looks for modules.",
+                  explanation:
+                    "sys.path is a list of directory names where Python looks for modules.",
                 },
                 {
                   question: "What does reload() do?",
@@ -1979,7 +2473,8 @@
                     "Imports a module",
                   ],
                   correct: 0,
-                  explanation: "reload() (importlib.reload in Python 3) reloads a previously imported module.",
+                  explanation:
+                    "reload() (importlib.reload in Python 3) reloads a previously imported module.",
                 },
                 {
                   question: "What is the standard library?",
@@ -1990,7 +2485,8 @@
                     "External libraries",
                   ],
                   correct: 1,
-                  explanation: "Standard library consists of modules that come with Python installation.",
+                  explanation:
+                    "Standard library consists of modules that come with Python installation.",
                 },
                 {
                   question: "What does pip install do?",
@@ -2001,7 +2497,8 @@
                     "Creates packages",
                   ],
                   correct: 1,
-                  explanation: "pip install downloads and installs packages from Python Package Index (PyPI).",
+                  explanation:
+                    "pip install downloads and installs packages from Python Package Index (PyPI).",
                 },
                 {
                   question: "What is PyPI?",
@@ -2012,7 +2509,8 @@
                     "Python Program Index",
                   ],
                   correct: 0,
-                  explanation: "PyPI (Python Package Index) is a repository of software for Python.",
+                  explanation:
+                    "PyPI (Python Package Index) is a repository of software for Python.",
                 },
                 {
                   question: "What does __all__ define?",
@@ -2023,7 +2521,8 @@
                     "All classes",
                   ],
                   correct: 1,
-                  explanation: "__all__ defines the public API of a module when using 'from module import *'.",
+                  explanation:
+                    "__all__ defines the public API of a module when using 'from module import *'.",
                 },
                 {
                   question: "What is a namespace in Python?",
@@ -2034,7 +2533,8 @@
                     "A package name",
                   ],
                   correct: 1,
-                  explanation: "A namespace is a mapping from names (identifiers) to objects.",
+                  explanation:
+                    "A namespace is a mapping from names (identifiers) to objects.",
                 },
               ],
             },
@@ -2119,7 +2619,7 @@
                   ],
                   correct: 0,
                   explanation:
-                    "sorted() with reverse=True sorts in descending order: y, t, s, r, q, p, o, n, h",
+                    "sorted() with reverse=True sorts in descending order: y, t, s, r, q, p, o, h",
                 },
                 {
                   question: "What does * do in function parameters?",
@@ -2236,8 +2736,13 @@
           const display = `${min}:${sec.toString().padStart(2, "0")}`;
           document.getElementById("quiz-timer").textContent = display;
 
-          const wrap = document.getElementById("quiz-timer").parentElement;
+          const wrap = document.getElementById("timer-card");
           wrap.classList.toggle("warning", this.timeRemaining <= 60);
+          if (this.timeRemaining <= 60) {
+            document.getElementById("quiz-timer").style.color = "#dc2626";
+          } else {
+            document.getElementById("quiz-timer").style.color = "#92400e";
+          }
         }
 
         loadQuestion() {
@@ -2355,7 +2860,7 @@
           const deg = (percentage / 100) * 360;
           document.getElementById(
             "score-circle"
-          ).style.background = `conic-gradient(#0d9488 ${deg}deg, #e5e7eb ${deg}deg)`;
+          ).style.background = `conic-gradient(#3b82f6 ${deg}deg, #e2e8f0 ${deg}deg)`;
 
           document.getElementById("final-score").textContent = `${percentage}%`;
           document.getElementById("correct-answers").textContent = this.score;
@@ -2437,8 +2942,8 @@
                 data: last.map((r) => r.score),
                 type: "line",
                 smooth: true,
-                itemStyle: { color: "#0d9488" },
-                areaStyle: { color: "rgba(13,148,136,.1)" },
+                itemStyle: { color: "#3b82f6" },
+                areaStyle: { color: "rgba(59,130,246,.1)" },
               },
             ],
           });
@@ -2468,6 +2973,5 @@
         window.pythonQuiz = new PythonQuiz();
       });
     </script>
-    <!-- =========  END FIXED QUIZ ENGINE  ========= -->
   </body>
 </html>
