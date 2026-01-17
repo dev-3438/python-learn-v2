@@ -20,6 +20,9 @@ def create_user(email, password):
         conn.close()
 
 
+
+
+
 def authenticate_user(email, password):
     conn = get_db_connection()
     cursor = conn.cursor()
