@@ -1,9 +1,12 @@
-from gemini_chat import chat_bp   # <--- NEW
-from flask import render_template, request, redirect, session, jsonify
+from gemini_chat import chat_bp
+from flask import render_template, request, redirect, session, jsonify, send_from_directory
 from app import app
 from services import create_user, authenticate_user
+from database import get_db_connection
+import os
 
 
+# ==================== Authentication Routes ====================
 @app.route("/login")
 def login_page():
     return render_template("login.html")
@@ -29,37 +32,11 @@ def api_login():
     return jsonify({"message": "Invalid credentials"}), 401
 
 
-@app.route("/dashboard")
-def dashboard():
-    if "user" not in session:
-        return redirect("/login")
-
-    return render_template("dashboard.html", user=session["user"])
-
-
-@app.route("/logout")
-def logout():
-    session.clear()
-    return redirect("/login")
-from database import get_db_connection
-
-@app.route("/users")
-def all_users():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT id, email FROM users")
-    users = cursor.fetchall()
-
-    conn.close()
-    return {"users": [dict(user) for user in users]}
-@app.route("/")
-def index():
-    html = render_template("index.html")
-    return html
 @app.route("/signup", methods=["GET"])
 def signup_page():
     return render_template("signup.html")
+
+
 @app.route("/api/signup", methods=["POST"])
 def api_signup():
     data = request.get_json()
@@ -77,7 +54,28 @@ def api_signup():
         return jsonify({"message": "User already exists"}), 409
 
     return jsonify({"message": "Account created successfully"}), 201
-# Static pages
+
+
+@app.route("/dashboard")
+def dashboard():
+    if "user" not in session:
+        return redirect("/login")
+
+    return render_template("dashboard.html", user=session["user"])
+
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/login")
+
+
+# ==================== Main Pages ====================
+@app.route("/")
+def index():
+    user = session.get("user", None)
+    return render_template("index.html", user=user)
+
 
 @app.route("/about")
 def about():
@@ -102,10 +100,36 @@ def projects():
 @app.route("/quiz")
 def quiz():
     return render_template("quiz.html")
+
+
+# ==================== Lecture Routes ====================
 @app.route("/lec<int:num>")
 def lecture(num):
     if num < 0 or num > 9:
         return "Lecture not found", 404
-
     return render_template(f"lec{num}.html")
-app.register_blueprint(chat_bp)   # <--- NEW
+
+
+# ==================== API Routes ====================
+@app.route("/users")
+def all_users():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT id, email FROM users")
+    users = cursor.fetchall()
+
+    conn.close()
+    return {"users": [dict(user) for user in users]}
+
+
+# ==================== Static Resources ====================
+@app.route("/resources/<path:filename>")
+def resources(filename):
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    resources_dir = os.path.join(base_dir, 'resources')
+    return send_from_directory(resources_dir, filename)
+
+
+# ==================== Register Blueprints ====================
+app.register_blueprint(chat_bp)

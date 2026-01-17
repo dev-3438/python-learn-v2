@@ -22,6 +22,10 @@
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+    <!-- CodeMirror Addons for Auto-closing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/closebrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/matchbrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/closetag.min.js"></script>
 
     <!-- Custom Styles -->
     <style>
@@ -83,9 +87,22 @@
       }
 
       .CodeMirror {
-        height: 400px;
+        height: 400px !important;
         font-family: "JetBrains Mono", monospace;
         font-size: 14px;
+      }
+
+      #code-editor {
+        width: 100%;
+        min-height: 400px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px;
+        padding: 1rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        background: #272822;
+        color: #f8f8f2;
+        resize: vertical;
       }
 
       .output-panel {
@@ -379,32 +396,32 @@
             class="px-2 pt-2 pb-3 space-y-1 bg-black bg-opacity-50 rounded-lg mt-2"
           >
             <a
-              href="index.html"
+              href="/"
               class="block px-3 py-2 text-white hover:text-teal-300"
               >Home</a
             >
             <a
-              href="course.html"
+              href="/course"
               class="block px-3 py-2 text-white hover:text-teal-300"
               >Course</a
             >
             <a
-              href="playground.html"
+              href="/playground"
               class="block px-3 py-2 text-white hover:text-teal-300"
               >Playground</a
             >
             <a
-              href="quiz.html"
+              href="/quiz"
               class="block px-3 py-2 text-white hover:text-teal-300"
               >Quiz</a
             >
             <a
-              href="projects.html"
+              href="/projects"
               class="block px-3 py-2 text-white hover:text-teal-300"
               >Projects</a
             >
             <a
-              href="about.html"
+              href="/about"
               class="block px-3 py-2 text-white hover:text-teal-300"
               >About</a
             >
@@ -538,9 +555,6 @@
         </form>
       </div>
     </div>
-
-    <!-- Tailwind CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
       /* --- keep your original JS, just add animations & scroll --- */
@@ -818,22 +832,22 @@ print('Happy coding! 🐍')"
             <h4 class="font-bold mb-4">Learning</h4>
             <ul class="space-y-2 text-gray-400">
               <li>
-                <a href="course.html" class="hover:text-white"
+                <a href="/course" class="hover:text-white"
                   >Course Curriculum</a
                 >
               </li>
               <li>
-                <a href="playground.html" class="hover:text-white"
+                <a href="/playground" class="hover:text-white"
                   >Code Playground</a
                 >
               </li>
               <li>
-                <a href="quiz.html" class="hover:text-white"
+                <a href="/quiz" class="hover:text-white"
                   >Interactive Quizzes</a
                 >
               </li>
               <li>
-                <a href="projects.html" class="hover:text-white"
+                <a href="/projects" class="hover:text-white"
                   >Project Gallery</a
                 >
               </li>
@@ -844,7 +858,7 @@ print('Happy coding! 🐍')"
             <h4 class="font-bold mb-4">Resources</h4>
             <ul class="space-y-2 text-gray-400">
               <li>
-                <a href="about.html" class="hover:text-white">About Us</a>
+                <a href="/about" class="hover:text-white">About Us</a>
               </li>
               <li><a href="#" class="hover:text-white">Blog</a></li>
               <li><a href="#" class="hover:text-white">Documentation</a></li>
@@ -883,16 +897,6 @@ print('Happy coding! 🐍')"
     <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
 
     <script>
-            const res = await fetch(
-        "https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ inputs: msg }),
-        }
-      );
-      const json = await res.json();
-      const reply = Array.isArray(json) ? json[0].generated_text : json.generated_text;
             /* ==========================================================
          PYTHON PLAYGROUND  –  fixed & self-contained
          ========================================================== */
@@ -968,33 +972,149 @@ print('Happy coding! 🐍')"
                 this.loadSavedCode(); // restore last session
               }
 
+              setupTextareaAutoPairing(textarea) {
+                // Auto-pairing for textarea fallback
+                textarea.addEventListener('keydown', (e) => {
+                  const start = textarea.selectionStart;
+                  const end = textarea.selectionEnd;
+                  const value = textarea.value;
+                  
+                  // Handle opening brackets/quotes
+                  const pairs = {
+                    '(': ')',
+                    '[': ']',
+                    '{': '}',
+                    '"': '"',
+                    "'": "'"
+                  };
+                  
+                  if (pairs[e.key]) {
+                    e.preventDefault();
+                    const pair = pairs[e.key];
+                    const newValue = value.substring(0, start) + e.key + pair + value.substring(end);
+                    textarea.value = newValue;
+                    textarea.setSelectionRange(start + 1, start + 1);
+                  }
+                  
+                  // Handle closing brackets/quotes - skip if next char is the closing pair
+                  if (e.key === ')' || e.key === ']' || e.key === '}') {
+                    if (value[end] === e.key) {
+                      e.preventDefault();
+                      textarea.setSelectionRange(end + 1, end + 1);
+                    }
+                  }
+                  
+                  // Handle quotes - skip if next char is the same quote
+                  if (e.key === '"' || e.key === "'") {
+                    if (value[end] === e.key) {
+                      e.preventDefault();
+                      textarea.setSelectionRange(end + 1, end + 1);
+                    }
+                  }
+                });
+              }
+
               setupEditor() {
                 const ta = document.getElementById("code-editor");
-                this.editor = CodeMirror.fromTextArea(ta, {
-                  mode: "python",
-                  theme: "monokai",
-                  lineNumbers: true,
-                  autoCloseBrackets: true,
-                  matchBrackets: true,
-                  indentUnit: 4,
-                  tabSize: 4,
-                  lineWrapping: true,
-                  foldGutter: true,
-                  gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-                });
+                if (!ta) {
+                  console.error("Code editor textarea not found");
+                  return;
+                }
+                if (typeof CodeMirror === 'undefined') {
+                  console.error("CodeMirror library not loaded");
+                  // Setup textarea auto-pairing as fallback
+                  this.setupTextareaAutoPairing(ta);
+                  this.editor = {
+                    getValue: () => ta.value,
+                    setValue: (val) => { ta.value = val; },
+                    on: () => {},
+                    getCursor: () => ({ line: 0, ch: 0 })
+                  };
+                  return;
+                }
+                try {
+                  this.editor = CodeMirror.fromTextArea(ta, {
+                    mode: "python",
+                    theme: "monokai",
+                    lineNumbers: true,
+                    autoCloseBrackets: true,
+                    autoCloseQuotes: true,
+                    matchBrackets: true,
+                    indentUnit: 4,
+                    tabSize: 4,
+                    lineWrapping: true,
+                    foldGutter: true,
+                    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+                    extraKeys: {
+                      "'": function(cm) {
+                        cm.replaceSelection("''", "end");
+                        cm.setCursor(cm.getCursor().line, cm.getCursor().ch - 1);
+                      },
+                      '"': function(cm) {
+                        cm.replaceSelection('""', "end");
+                        cm.setCursor(cm.getCursor().line, cm.getCursor().ch - 1);
+                      },
+                      "(": function(cm) {
+                        cm.replaceSelection("()", "end");
+                        cm.setCursor(cm.getCursor().line, cm.getCursor().ch - 1);
+                      },
+                      "[": function(cm) {
+                        cm.replaceSelection("[]", "end");
+                        cm.setCursor(cm.getCursor().line, cm.getCursor().ch - 1);
+                      },
+                      "{": function(cm) {
+                        cm.replaceSelection("{}", "end");
+                        cm.setCursor(cm.getCursor().line, cm.getCursor().ch - 1);
+                      }
+                    }
+                  });
+                } catch (error) {
+                  console.error("Error initializing CodeMirror:", error);
+                  // Fallback: use textarea with auto-pairing
+                  this.setupTextareaAutoPairing(ta);
+                  this.editor = {
+                    getValue: () => ta.value,
+                    setValue: (val) => { ta.value = val; },
+                    on: () => {},
+                    getCursor: () => ({ line: 0, ch: 0 })
+                  };
+                }
 
                 // cursor position
-                this.editor.on("cursorActivity", () => {
-                  const c = this.editor.getCursor();
-                  document.getElementById("cursor-position").textContent = `Line ${
-                    c.line + 1
-                  }, Col ${c.ch + 1}`;
-                });
+                if (this.editor && this.editor.on) {
+                  this.editor.on("cursorActivity", () => {
+                    const c = this.editor.getCursor();
+                    const cursorEl = document.getElementById("cursor-position");
+                    if (cursorEl) {
+                      cursorEl.textContent = `Line ${c.line + 1}, Col ${c.ch + 1}`;
+                    }
+                  });
 
-                // auto-save
-                this.editor.on("change", () => {
-                  this.files[this.currentFile] = this.editor.getValue();
-                });
+                  // auto-save
+                  this.editor.on("change", () => {
+                    this.files[this.currentFile] = this.editor.getValue();
+                  });
+                } else {
+                  // Fallback for textarea
+                  ta.addEventListener("input", () => {
+                    this.files[this.currentFile] = ta.value;
+                    const lines = ta.value.split('\n');
+                    const cursorPos = ta.selectionStart;
+                    let line = 1, col = 1;
+                    for (let i = 0; i < cursorPos; i++) {
+                      if (ta.value[i] === '\n') {
+                        line++;
+                        col = 1;
+                      } else {
+                        col++;
+                      }
+                    }
+                    const cursorEl = document.getElementById("cursor-position");
+                    if (cursorEl) {
+                      cursorEl.textContent = `Line ${line}, Col ${col}`;
+                    }
+                  });
+                }
               }
 
               setupEventListeners() {
@@ -1014,7 +1134,12 @@ print('Happy coding! 🐍')"
                   item.addEventListener("click", (e) => {
                     const ex = this.examples[item.dataset.example];
                     if (ex) {
-                      this.editor.setValue(ex.code);
+                      if (this.editor && this.editor.setValue) {
+                        this.editor.setValue(ex.code);
+                      } else {
+                        const ta = document.getElementById("code-editor");
+                        if (ta) ta.value = ex.code;
+                      }
                       this.addOutput("info", `Loaded example: ${ex.title}`);
                     }
                   });
@@ -1056,7 +1181,12 @@ print('Happy coding! 🐍')"
                 const content =
                   this.files[filename] ||
                   `# File: ${filename}\nprint("Hello from ${filename}!")`;
-                this.editor.setValue(content);
+                if (this.editor && this.editor.setValue) {
+                  this.editor.setValue(content);
+                } else {
+                  const ta = document.getElementById("code-editor");
+                  if (ta) ta.value = content;
+                }
                 this.updateTab(filename);
                 this.updateStatus(`Loaded ${filename}`);
               }
@@ -1084,7 +1214,13 @@ print('Happy coding! 🐍')"
               /*  REAL PYTHON 3.x via Skulpt                        */
               /* -------------------------------------------------- */
               runCode() {
-                const code = this.editor.getValue().trim();
+                let code;
+                if (this.editor && this.editor.getValue) {
+                  code = this.editor.getValue().trim();
+                } else {
+                  const ta = document.getElementById("code-editor");
+                  code = ta ? ta.value.trim() : "";
+                }
                 if (!code) {
                   this.addOutput("error", "No code to execute!");
                   return;
@@ -1143,7 +1279,12 @@ print('Happy coding! 🐍')"
               }
               clearCode() {
                 if (confirm("Clear editor?")) {
-                  this.editor.setValue("");
+                  if (this.editor && this.editor.setValue) {
+                    this.editor.setValue("");
+                  } else {
+                    const ta = document.getElementById("code-editor");
+                    if (ta) ta.value = "";
+                  }
                   this.updateStatus("Editor cleared");
                 }
               }
@@ -1153,7 +1294,13 @@ print('Happy coding! 🐍')"
                 this.addOutput("success", "Code saved to browser storage");
               }
               shareCode() {
-                const code = this.editor.getValue();
+                let code;
+                if (this.editor && this.editor.getValue) {
+                  code = this.editor.getValue();
+                } else {
+                  const ta = document.getElementById("code-editor");
+                  code = ta ? ta.value : "";
+                }
                 navigator.clipboard.writeText(code).then(() => {
                   this.updateStatus("Code copied");
                   this.addOutput("success", "Code copied to clipboard");
@@ -1174,9 +1321,30 @@ print('Happy coding! 🐍')"
             /* ==========================================================
          INITIALISE ON PAGE LOAD
          ========================================================== */
-            document.addEventListener("DOMContentLoaded", () => {
-              window.playground = new PythonPlayground();
-            });
+            // Wait for all libraries to load
+            function initPlayground() {
+              if (typeof CodeMirror === 'undefined') {
+                console.error('CodeMirror not loaded');
+                setTimeout(initPlayground, 100);
+                return;
+              }
+              if (typeof Sk === 'undefined') {
+                console.error('Skulpt not loaded');
+                setTimeout(initPlayground, 100);
+                return;
+              }
+              try {
+                window.playground = new PythonPlayground();
+              } catch (error) {
+                console.error('Error initializing playground:', error);
+              }
+            }
+
+            if (document.readyState === 'loading') {
+              document.addEventListener('DOMContentLoaded', initPlayground);
+            } else {
+              initPlayground();
+            }
     </script>
   </body>
 </html>

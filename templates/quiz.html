@@ -373,32 +373,32 @@
             class="px-2 pt-2 pb-3 space-y-1 bg-black bg-opacity-50 rounded-lg mt-2"
           >
             <a
-              href="index.html"
+              href="/"
               class="block px-3 py-2 text-white hover:text-teal-300"
               >Home</a
             >
             <a
-              href="course.html"
+              href="/course"
               class="block px-3 py-2 text-white hover:text-teal-300"
               >Course</a
             >
             <a
-              href="playground.html"
+              href="/playground"
               class="block px-3 py-2 text-white hover:text-teal-300"
               >Playground</a
             >
             <a
-              href="quiz.html"
+              href="/quiz"
               class="block px-3 py-2 text-white hover:text-teal-300"
               >Quiz</a
             >
             <a
-              href="projects.html"
+              href="/projects"
               class="block px-3 py-2 text-white hover:text-teal-300"
               >Projects</a
             >
             <a
-              href="about.html"
+              href="/about"
               class="block px-3 py-2 text-white hover:text-teal-300"
               >About</a
             >
@@ -495,6 +495,42 @@
             <p class="text-gray-600">Lists, dictionaries, tuples, and sets</p>
             <div class="mt-4 text-sm text-teal-600 font-semibold">
               20 Questions • 15 min
+            </div>
+          </div>
+
+          <div class="topic-card" data-topic="oop">
+            <div class="topic-icon">🏗️</div>
+            <h3 class="text-xl font-semibold mb-2">Object-Oriented Programming</h3>
+            <p class="text-gray-600">Classes, objects, inheritance, and polymorphism</p>
+            <div class="mt-4 text-sm text-teal-600 font-semibold">
+              15 Questions • 12 min
+            </div>
+          </div>
+
+          <div class="topic-card" data-topic="file-handling">
+            <div class="topic-icon">📁</div>
+            <h3 class="text-xl font-semibold mb-2">File Handling & I/O</h3>
+            <p class="text-gray-600">Reading, writing, and managing files</p>
+            <div class="mt-4 text-sm text-teal-600 font-semibold">
+              15 Questions • 12 min
+            </div>
+          </div>
+
+          <div class="topic-card" data-topic="exceptions">
+            <div class="topic-icon">⚠️</div>
+            <h3 class="text-xl font-semibold mb-2">Error Handling & Exceptions</h3>
+            <p class="text-gray-600">Try-except blocks and exception handling</p>
+            <div class="mt-4 text-sm text-teal-600 font-semibold">
+              15 Questions • 12 min
+            </div>
+          </div>
+
+          <div class="topic-card" data-topic="modules">
+            <div class="topic-icon">📦</div>
+            <h3 class="text-xl font-semibold mb-2">Modules & Packages</h3>
+            <p class="text-gray-600">Importing, creating, and organizing modules</p>
+            <div class="mt-4 text-sm text-teal-600 font-semibold">
+              15 Questions • 12 min
             </div>
           </div>
 
@@ -752,22 +788,22 @@
             <h4 class="font-bold mb-4">Learning</h4>
             <ul class="space-y-2 text-gray-400">
               <li>
-                <a href="course.html" class="hover:text-white"
+                <a href="/course" class="hover:text-white"
                   >Course Curriculum</a
                 >
               </li>
               <li>
-                <a href="playground.html" class="hover:text-white"
+                <a href="/playground" class="hover:text-white"
                   >Code Playground</a
                 >
               </li>
               <li>
-                <a href="quiz.html" class="hover:text-white"
+                <a href="/quiz" class="hover:text-white"
                   >Interactive Quizzes</a
                 >
               </li>
               <li>
-                <a href="projects.html" class="hover:text-white"
+                <a href="/projects" class="hover:text-white"
                   >Project Gallery</a
                 >
               </li>
@@ -778,7 +814,7 @@
             <h4 class="font-bold mb-4">Resources</h4>
             <ul class="space-y-2 text-gray-400">
               <li>
-                <a href="about.html" class="hover:text-white">About Us</a>
+                <a href="/about" class="hover:text-white">About Us</a>
               </li>
               <li><a href="#" class="hover:text-white">Blog</a></li>
               <li><a href="#" class="hover:text-white">Documentation</a></li>
@@ -1391,6 +1427,614 @@
                   correct: 0,
                   explanation:
                     "set removes duplicates, list converts back to list.",
+                },
+              ],
+            },
+            oop: {
+              title: "Object-Oriented Programming Quiz",
+              description: "Classes, objects, inheritance, and polymorphism",
+              timeLimit: 720, // 12 min
+              questions: [
+                {
+                  question: "What keyword is used to define a class in Python?",
+                  options: ["class", "def", "struct", "object"],
+                  correct: 0,
+                  explanation: "The 'class' keyword is used to define a class in Python.",
+                },
+                {
+                  question: "What is the first parameter of every instance method?",
+                  options: ["self", "this", "instance", "cls"],
+                  correct: 0,
+                  explanation: "By convention, 'self' is the first parameter of instance methods.",
+                },
+                {
+                  question: "What does __init__ method do?",
+                  options: [
+                    "Destroys the object",
+                    "Initializes the object",
+                    "Prints the object",
+                    "Converts object to string",
+                  ],
+                  correct: 1,
+                  explanation: "__init__ is the constructor method that initializes new objects.",
+                },
+                {
+                  question: "What is inheritance in OOP?",
+                  options: [
+                    "Creating multiple objects",
+                    "Deriving a class from another class",
+                    "Hiding data",
+                    "Polymorphism",
+                  ],
+                  correct: 1,
+                  explanation: "Inheritance allows a class to derive attributes and methods from another class.",
+                },
+                {
+                  question: "What is the output of: class A: pass; a = A(); print(type(a))?",
+                  options: [
+                    "<class '__main__.A'>",
+                    "<class 'object'>",
+                    "<class 'type'>",
+                    "Error",
+                  ],
+                  correct: 0,
+                  explanation: "type() returns the class of the object, which is A.",
+                },
+                {
+                  question: "What does super() do?",
+                  options: [
+                    "Calls parent class methods",
+                    "Creates a super object",
+                    "Deletes parent class",
+                    "Inherits all methods",
+                  ],
+                  correct: 0,
+                  explanation: "super() is used to call methods from the parent class.",
+                },
+                {
+                  question: "What is encapsulation?",
+                  options: [
+                    "Hiding implementation details",
+                    "Creating multiple classes",
+                    "Inheriting from parent",
+                    "Method overloading",
+                  ],
+                  correct: 0,
+                  explanation: "Encapsulation is the bundling of data and methods that operate on that data.",
+                },
+                {
+                  question: "What is polymorphism?",
+                  options: [
+                    "Multiple forms of the same function",
+                    "Inheriting from multiple classes",
+                    "Creating objects",
+                    "Method chaining",
+                  ],
+                  correct: 0,
+                  explanation: "Polymorphism allows objects of different types to be accessed through the same interface.",
+                },
+                {
+                  question: "What is a class variable?",
+                  options: [
+                    "Variable inside a method",
+                    "Variable shared by all instances",
+                    "Local variable",
+                    "Global variable",
+                  ],
+                  correct: 1,
+                  explanation: "Class variables are shared by all instances of a class.",
+                },
+                {
+                  question: "What does @staticmethod decorator do?",
+                  options: [
+                    "Makes method require self",
+                    "Makes method not require self or cls",
+                    "Makes method private",
+                    "Makes method abstract",
+                  ],
+                  correct: 1,
+                  explanation: "@staticmethod creates methods that don't need self or cls parameters.",
+                },
+                {
+                  question: "What is method overriding?",
+                  options: [
+                    "Creating a new method",
+                    "Redefining a method in child class",
+                    "Deleting a method",
+                    "Calling parent method",
+                  ],
+                  correct: 1,
+                  explanation: "Method overriding is redefining a parent class method in the child class.",
+                },
+                {
+                  question: "What does __str__ method do?",
+                  options: [
+                    "Converts object to string representation",
+                    "Creates string object",
+                    "Prints object",
+                    "Deletes object",
+                  ],
+                  correct: 0,
+                  explanation: "__str__ returns a human-readable string representation of the object.",
+                },
+                {
+                  question: "What is multiple inheritance?",
+                  options: [
+                    "Inheriting from one class",
+                    "Inheriting from multiple classes",
+                    "Creating multiple objects",
+                    "Method overloading",
+                  ],
+                  correct: 1,
+                  explanation: "Multiple inheritance allows a class to inherit from more than one parent class.",
+                },
+                {
+                  question: "What is the MRO (Method Resolution Order)?",
+                  options: [
+                    "Order of method execution",
+                    "Order in which Python searches for methods",
+                    "Order of class definition",
+                    "Order of inheritance",
+                  ],
+                  correct: 1,
+                  explanation: "MRO determines the order in which Python searches for methods in inheritance hierarchy.",
+                },
+                {
+                  question: "What does @property decorator do?",
+                  options: [
+                    "Makes attribute read-only",
+                    "Converts method to property",
+                    "Makes method private",
+                    "Creates class variable",
+                  ],
+                  correct: 1,
+                  explanation: "@property decorator converts a method into a property that can be accessed like an attribute.",
+                },
+              ],
+            },
+            "file-handling": {
+              title: "File Handling & I/O Quiz",
+              description: "Reading, writing, and managing files",
+              timeLimit: 720, // 12 min
+              questions: [
+                {
+                  question: "What function opens a file in Python?",
+                  options: ["open()", "read()", "file()", "load()"],
+                  correct: 0,
+                  explanation: "open() function is used to open files in Python.",
+                },
+                {
+                  question: "What mode opens a file for reading?",
+                  options: ["'w'", "'r'", "'a'", "'x'"],
+                  correct: 1,
+                  explanation: "'r' mode opens a file for reading (default mode).",
+                },
+                {
+                  question: "What mode opens a file for writing (overwrites)?",
+                  options: ["'r'", "'a'", "'w'", "'x'"],
+                  correct: 2,
+                  explanation: "'w' mode opens a file for writing and overwrites existing content.",
+                },
+                {
+                  question: "What does 'a' mode do?",
+                  options: [
+                    "Reads file",
+                    "Appends to file",
+                    "Deletes file",
+                    "Creates new file",
+                  ],
+                  correct: 1,
+                  explanation: "'a' mode opens a file for appending data to the end.",
+                },
+                {
+                  question: "What method reads entire file content?",
+                  options: ["read()", "readline()", "readlines()", "get()"],
+                  correct: 0,
+                  explanation: "read() method reads the entire file content as a string.",
+                },
+                {
+                  question: "What method reads one line at a time?",
+                  options: ["read()", "readline()", "readlines()", "getline()"],
+                  correct: 1,
+                  explanation: "readline() reads a single line from the file.",
+                },
+                {
+                  question: "What method writes to a file?",
+                  options: ["write()", "append()", "insert()", "add()"],
+                  correct: 0,
+                  explanation: "write() method writes a string to the file.",
+                },
+                {
+                  question: "What should you do after opening a file?",
+                  options: [
+                    "Nothing",
+                    "Always close it with close()",
+                    "Delete it",
+                    "Read it immediately",
+                  ],
+                  correct: 1,
+                  explanation: "Files should always be closed after use to free resources.",
+                },
+                {
+                  question: "What is the best way to ensure a file is closed?",
+                  options: [
+                    "Manual close()",
+                    "with statement",
+                    "try-finally",
+                    "Both B and C",
+                  ],
+                  correct: 3,
+                  explanation: "Both 'with' statement and try-finally ensure files are closed properly.",
+                },
+                {
+                  question: "What does 'rb' mode mean?",
+                  options: [
+                    "Read binary",
+                    "Read bytes",
+                    "Read buffer",
+                    "Read boolean",
+                  ],
+                  correct: 0,
+                  explanation: "'rb' opens file in binary read mode.",
+                },
+                {
+                  question: "What method reads all lines into a list?",
+                  options: ["read()", "readline()", "readlines()", "getlines()"],
+                  correct: 2,
+                  explanation: "readlines() returns a list of all lines in the file.",
+                },
+                {
+                  question: "What does file.seek(0) do?",
+                  options: [
+                    "Moves to end of file",
+                    "Moves to beginning of file",
+                    "Deletes file",
+                    "Closes file",
+                  ],
+                  correct: 1,
+                  explanation: "seek(0) moves the file pointer to the beginning of the file.",
+                },
+                {
+                  question: "What is the default encoding for open()?",
+                  options: ["utf-8", "ascii", "latin-1", "cp1252"],
+                  correct: 0,
+                  explanation: "The default encoding is platform-dependent, but utf-8 is common in Python 3.",
+                },
+                {
+                  question: "What does 'x' mode do?",
+                  options: [
+                    "Reads file",
+                    "Writes file",
+                    "Creates new file exclusively",
+                    "Appends to file",
+                  ],
+                  correct: 2,
+                  explanation: "'x' mode creates a new file exclusively, fails if file exists.",
+                },
+                {
+                  question: "What method tells current file position?",
+                  options: ["position()", "tell()", "locate()", "where()"],
+                  correct: 1,
+                  explanation: "tell() returns the current position of the file pointer.",
+                },
+              ],
+            },
+            exceptions: {
+              title: "Error Handling & Exceptions Quiz",
+              description: "Try-except blocks and exception handling",
+              timeLimit: 720, // 12 min
+              questions: [
+                {
+                  question: "What keyword starts an exception handler?",
+                  options: ["try", "catch", "except", "handle"],
+                  correct: 0,
+                  explanation: "try keyword starts a block that may raise exceptions.",
+                },
+                {
+                  question: "What keyword catches exceptions?",
+                  options: ["try", "catch", "except", "handle"],
+                  correct: 2,
+                  explanation: "except keyword catches and handles exceptions.",
+                },
+                {
+                  question: "What is the correct syntax for try-except?",
+                  options: [
+                    "try: code; except: handler",
+                    "try { code } catch { handler }",
+                    "try code except handler",
+                    "try(code) except(handler)",
+                  ],
+                  correct: 0,
+                  explanation: "Python uses try: and except: with proper indentation.",
+                },
+                {
+                  question: "What exception is raised for division by zero?",
+                  options: [
+                    "ValueError",
+                    "ZeroDivisionError",
+                    "ArithmeticError",
+                    "MathError",
+                  ],
+                  correct: 1,
+                  explanation: "ZeroDivisionError is raised when dividing by zero.",
+                },
+                {
+                  question: "What exception is raised for invalid type conversion?",
+                  options: [
+                    "TypeError",
+                    "ValueError",
+                    "ConversionError",
+                    "InvalidError",
+                  ],
+                  correct: 1,
+                  explanation: "ValueError is raised when a function receives an argument of correct type but inappropriate value.",
+                },
+                {
+                  question: "What does finally block do?",
+                  options: [
+                    "Runs only if exception occurs",
+                    "Runs only if no exception",
+                    "Always runs",
+                    "Never runs",
+                  ],
+                  correct: 2,
+                  explanation: "finally block always executes, regardless of whether an exception occurred.",
+                },
+                {
+                  question: "What does else block do in try-except?",
+                  options: [
+                    "Runs if exception occurs",
+                    "Runs if no exception occurs",
+                    "Always runs",
+                    "Never runs",
+                  ],
+                  correct: 1,
+                  explanation: "else block runs only if no exception was raised in the try block.",
+                },
+                {
+                  question: "How do you raise an exception manually?",
+                  options: ["raise", "throw", "error", "exception"],
+                  correct: 0,
+                  explanation: "raise keyword is used to manually raise exceptions.",
+                },
+                {
+                  question: "What does except Exception as e do?",
+                  options: [
+                    "Catches all exceptions",
+                    "Catches only Exception type",
+                    "Stores exception in variable e",
+                    "Both B and C",
+                  ],
+                  correct: 3,
+                  explanation: "except Exception as e catches Exception and subclasses, storing it in variable e.",
+                },
+                {
+                  question: "What is the base class for all exceptions?",
+                  options: ["Exception", "BaseException", "Error", "Throwable"],
+                  correct: 1,
+                  explanation: "BaseException is the base class for all built-in exceptions.",
+                },
+                {
+                  question: "What exception is raised for undefined variable?",
+                  options: [
+                    "NameError",
+                    "UndefinedError",
+                    "VariableError",
+                    "ReferenceError",
+                  ],
+                  correct: 0,
+                  explanation: "NameError is raised when a variable name is not found.",
+                },
+                {
+                  question: "What exception is raised for wrong number of arguments?",
+                  options: [
+                    "ArgumentError",
+                    "TypeError",
+                    "ValueError",
+                    "SyntaxError",
+                  ],
+                  correct: 1,
+                  explanation: "TypeError is raised when a function is called with wrong number of arguments.",
+                },
+                {
+                  question: "What does assert do?",
+                  options: [
+                    "Raises AssertionError if condition is False",
+                    "Prints error message",
+                    "Stops program",
+                    "Logs error",
+                  ],
+                  correct: 0,
+                  explanation: "assert raises AssertionError if the condition evaluates to False.",
+                },
+                {
+                  question: "What is exception chaining?",
+                  options: [
+                    "Multiple except blocks",
+                    "Raising exception from another exception",
+                    "Nested try blocks",
+                    "Exception inheritance",
+                  ],
+                  correct: 1,
+                  explanation: "Exception chaining allows raising a new exception from an existing one using 'from'.",
+                },
+                {
+                  question: "What does except (ValueError, TypeError) do?",
+                  options: [
+                    "Catches only ValueError",
+                    "Catches only TypeError",
+                    "Catches both ValueError and TypeError",
+                    "Catches all exceptions",
+                  ],
+                  correct: 2,
+                  explanation: "Multiple exceptions can be caught in a tuple: except (ValueError, TypeError).",
+                },
+              ],
+            },
+            modules: {
+              title: "Modules & Packages Quiz",
+              description: "Importing, creating, and organizing modules",
+              timeLimit: 720, // 12 min
+              questions: [
+                {
+                  question: "What keyword imports a module?",
+                  options: ["import", "include", "require", "load"],
+                  correct: 0,
+                  explanation: "import keyword is used to import modules in Python.",
+                },
+                {
+                  question: "What does 'from math import sqrt' do?",
+                  options: [
+                    "Imports entire math module",
+                    "Imports only sqrt function",
+                    "Imports sqrt class",
+                    "Creates sqrt module",
+                  ],
+                  correct: 1,
+                  explanation: "from module import name imports only the specified name from the module.",
+                },
+                {
+                  question: "What is __init__.py used for?",
+                  options: [
+                    "Initializes Python",
+                    "Marks directory as package",
+                    "Runs on startup",
+                    "Defines main function",
+                  ],
+                  correct: 1,
+                  explanation: "__init__.py file marks a directory as a Python package.",
+                },
+                {
+                  question: "What does 'import math as m' do?",
+                  options: [
+                    "Imports math with alias m",
+                    "Imports module m",
+                    "Creates math module",
+                    "Deletes math module",
+                  ],
+                  correct: 0,
+                  explanation: "as keyword creates an alias for the imported module.",
+                },
+                {
+                  question: "What is a module in Python?",
+                  options: [
+                    "A file containing Python code",
+                    "A class",
+                    "A function",
+                    "A variable",
+                  ],
+                  correct: 0,
+                  explanation: "A module is a file containing Python definitions and statements.",
+                },
+                {
+                  question: "What does __name__ == '__main__' check?",
+                  options: [
+                    "If file is imported",
+                    "If file is run directly",
+                    "If module exists",
+                    "If function is called",
+                  ],
+                  correct: 1,
+                  explanation: "__name__ == '__main__' is True when the script is run directly, not imported.",
+                },
+                {
+                  question: "What is a package in Python?",
+                  options: [
+                    "A single file",
+                    "A directory containing modules",
+                    "A class",
+                    "A function",
+                  ],
+                  correct: 1,
+                  explanation: "A package is a directory containing multiple modules and an __init__.py file.",
+                },
+                {
+                  question: "What does 'from module import *' do?",
+                  options: [
+                    "Imports all names from module",
+                    "Imports module itself",
+                    "Deletes module",
+                    "Creates module",
+                  ],
+                  correct: 0,
+                  explanation: "* imports all public names from the module (not recommended).",
+                },
+                {
+                  question: "What is sys.path?",
+                  options: [
+                    "List of directories Python searches for modules",
+                    "System path variable",
+                    "File path",
+                    "Module name",
+                  ],
+                  correct: 0,
+                  explanation: "sys.path is a list of directory names where Python looks for modules.",
+                },
+                {
+                  question: "What does reload() do?",
+                  options: [
+                    "Reloads a module",
+                    "Deletes a module",
+                    "Creates a module",
+                    "Imports a module",
+                  ],
+                  correct: 0,
+                  explanation: "reload() (importlib.reload in Python 3) reloads a previously imported module.",
+                },
+                {
+                  question: "What is the standard library?",
+                  options: [
+                    "User-created modules",
+                    "Built-in modules that come with Python",
+                    "Third-party packages",
+                    "External libraries",
+                  ],
+                  correct: 1,
+                  explanation: "Standard library consists of modules that come with Python installation.",
+                },
+                {
+                  question: "What does pip install do?",
+                  options: [
+                    "Installs Python",
+                    "Installs packages from PyPI",
+                    "Imports modules",
+                    "Creates packages",
+                  ],
+                  correct: 1,
+                  explanation: "pip install downloads and installs packages from Python Package Index (PyPI).",
+                },
+                {
+                  question: "What is PyPI?",
+                  options: [
+                    "Python Package Index",
+                    "Python Program Interface",
+                    "Python Package Installer",
+                    "Python Program Index",
+                  ],
+                  correct: 0,
+                  explanation: "PyPI (Python Package Index) is a repository of software for Python.",
+                },
+                {
+                  question: "What does __all__ define?",
+                  options: [
+                    "All functions in module",
+                    "Public API of module",
+                    "All variables",
+                    "All classes",
+                  ],
+                  correct: 1,
+                  explanation: "__all__ defines the public API of a module when using 'from module import *'.",
+                },
+                {
+                  question: "What is a namespace in Python?",
+                  options: [
+                    "A file system",
+                    "A mapping from names to objects",
+                    "A module name",
+                    "A package name",
+                  ],
+                  correct: 1,
+                  explanation: "A namespace is a mapping from names (identifiers) to objects.",
                 },
               ],
             },
