@@ -1,3 +1,4 @@
+from gemini_chat import chat_bp   # <--- NEW
 from flask import render_template, request, redirect, session, jsonify
 from app import app
 from services import create_user, authenticate_user
@@ -107,3 +108,4 @@ def lecture(num):
         return "Lecture not found", 404
 
     return render_template(f"lec{num}.html")
+app.register_blueprint(chat_bp)   # <--- NEW

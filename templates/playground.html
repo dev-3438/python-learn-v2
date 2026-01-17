@@ -883,290 +883,300 @@ print('Happy coding! 🐍')"
     <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
 
     <script>
-      /* ==========================================================
-   PYTHON PLAYGROUND  –  fixed & self-contained
-   ========================================================== */
-      class PythonPlayground {
-        constructor() {
-          this.editor = null;
-          this.currentFile = "main.py";
-
-          // default file set
-          this.files = {
-            "main.py": `# Welcome to Python Playground!
-print('Hello, Python World!')
-print('This is your interactive playground')
-
-# Try some math
-x = 10
-y = 5
-result = x + y
-print(f'{x} + {y} = {result}')
-
-# Try a loop
-for i in range(5):
-    print(f'Count: {i}')
-
-print('Happy coding! 🐍')`,
-            "examples.py": `import math, random
-squares = [x**2 for x in range(10)]
-print("Squares:", squares)`,
-            "utils.py": `def greet(name):
-    return f"Hello, {name}!"
-print(greet("Python Learner"))`,
-            "data.txt": `Name,Age,Score
-Alice,20,85
-Bob,22,78`,
-          };
-
-          // quick example snippets
-          this.examples = {
-            "hello-world": {
-              title: "Hello World",
-              code: `print("Hello, world!")`,
-            },
-            variables: {
-              title: "Variables",
-              code: `a = 5\nb = 7\nprint(a + b)`,
-            },
-            loops: {
-              title: "For Loop",
-              code: `for i in range(3):\n    print(i)`,
-            },
-            functions: {
-              title: "Function",
-              code: `def add(x,y):\n    return x+y\nprint(add(3,4))`,
-            },
-            lists: {
-              title: "Lists",
-              code: `nums = [1,2,3]\nnums.append(4)\nprint(nums)`,
-            },
-            calculator: {
-              title: "Calculator",
-              code: `expr = input("Enter math: ")\nprint(eval(expr))`,
-            },
-          };
-
-          this.init();
+            const res = await fetch(
+        "https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ inputs: msg }),
         }
+      );
+      const json = await res.json();
+      const reply = Array.isArray(json) ? json[0].generated_text : json.generated_text;
+            /* ==========================================================
+         PYTHON PLAYGROUND  –  fixed & self-contained
+         ========================================================== */
+            class PythonPlayground {
+              constructor() {
+                this.editor = null;
+                this.currentFile = "main.py";
 
-        /* -------------------------------------------------- */
-        init() {
-          this.setupEditor();
-          this.setupEventListeners();
-          this.loadFile("main.py");
-          this.loadSavedCode(); // restore last session
-        }
+                // default file set
+                this.files = {
+                  "main.py": `# Welcome to Python Playground!
+      print('Hello, Python World!')
+      print('This is your interactive playground')
 
-        setupEditor() {
-          const ta = document.getElementById("code-editor");
-          this.editor = CodeMirror.fromTextArea(ta, {
-            mode: "python",
-            theme: "monokai",
-            lineNumbers: true,
-            autoCloseBrackets: true,
-            matchBrackets: true,
-            indentUnit: 4,
-            tabSize: 4,
-            lineWrapping: true,
-            foldGutter: true,
-            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-          });
+      # Try some math
+      x = 10
+      y = 5
+      result = x + y
+      print(f'{x} + {y} = {result}')
 
-          // cursor position
-          this.editor.on("cursorActivity", () => {
-            const c = this.editor.getCursor();
-            document.getElementById("cursor-position").textContent = `Line ${
-              c.line + 1
-            }, Col ${c.ch + 1}`;
-          });
+      # Try a loop
+      for i in range(5):
+          print(f'Count: {i}')
 
-          // auto-save
-          this.editor.on("change", () => {
-            this.files[this.currentFile] = this.editor.getValue();
-          });
-        }
+      print('Happy coding! 🐍')`,
+                  "examples.py": `import math, random
+      squares = [x**2 for x in range(10)]
+      print("Squares:", squares)`,
+                  "utils.py": `def greet(name):
+          return f"Hello, {name}!"
+      print(greet("Python Learner"))`,
+                  "data.txt": `Name,Age,Score
+      Alice,20,85
+      Bob,22,78`,
+                };
 
-        setupEventListeners() {
-          // file explorer
-          document.querySelectorAll(".file-item").forEach((item) => {
-            item.addEventListener("click", (e) => {
-              this.loadFile(item.dataset.file);
-              document
-                .querySelectorAll(".file-item")
-                .forEach((f) => f.classList.remove("active"));
-              item.classList.add("active");
-            });
-          });
+                // quick example snippets
+                this.examples = {
+                  "hello-world": {
+                    title: "Hello World",
+                    code: `print("Hello, world!")`,
+                  },
+                  variables: {
+                    title: "Variables",
+                    code: `a = 5\nb = 7\nprint(a + b)`,
+                  },
+                  loops: {
+                    title: "For Loop",
+                    code: `for i in range(3):\n    print(i)`,
+                  },
+                  functions: {
+                    title: "Function",
+                    code: `def add(x,y):\n    return x+y\nprint(add(3,4))`,
+                  },
+                  lists: {
+                    title: "Lists",
+                    code: `nums = [1,2,3]\nnums.append(4)\nprint(nums)`,
+                  },
+                  calculator: {
+                    title: "Calculator",
+                    code: `expr = input("Enter math: ")\nprint(eval(expr))`,
+                  },
+                };
 
-          // example loader
-          document.querySelectorAll(".example-item").forEach((item) => {
-            item.addEventListener("click", (e) => {
-              const ex = this.examples[item.dataset.example];
-              if (ex) {
-                this.editor.setValue(ex.code);
-                this.addOutput("info", `Loaded example: ${ex.title}`);
+                this.init();
               }
+
+              /* -------------------------------------------------- */
+              init() {
+                this.setupEditor();
+                this.setupEventListeners();
+                this.loadFile("main.py");
+                this.loadSavedCode(); // restore last session
+              }
+
+              setupEditor() {
+                const ta = document.getElementById("code-editor");
+                this.editor = CodeMirror.fromTextArea(ta, {
+                  mode: "python",
+                  theme: "monokai",
+                  lineNumbers: true,
+                  autoCloseBrackets: true,
+                  matchBrackets: true,
+                  indentUnit: 4,
+                  tabSize: 4,
+                  lineWrapping: true,
+                  foldGutter: true,
+                  gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+                });
+
+                // cursor position
+                this.editor.on("cursorActivity", () => {
+                  const c = this.editor.getCursor();
+                  document.getElementById("cursor-position").textContent = `Line ${
+                    c.line + 1
+                  }, Col ${c.ch + 1}`;
+                });
+
+                // auto-save
+                this.editor.on("change", () => {
+                  this.files[this.currentFile] = this.editor.getValue();
+                });
+              }
+
+              setupEventListeners() {
+                // file explorer
+                document.querySelectorAll(".file-item").forEach((item) => {
+                  item.addEventListener("click", (e) => {
+                    this.loadFile(item.dataset.file);
+                    document
+                      .querySelectorAll(".file-item")
+                      .forEach((f) => f.classList.remove("active"));
+                    item.classList.add("active");
+                  });
+                });
+
+                // example loader
+                document.querySelectorAll(".example-item").forEach((item) => {
+                  item.addEventListener("click", (e) => {
+                    const ex = this.examples[item.dataset.example];
+                    if (ex) {
+                      this.editor.setValue(ex.code);
+                      this.addOutput("info", `Loaded example: ${ex.title}`);
+                    }
+                  });
+                });
+
+                // toolbar
+                document
+                  .getElementById("run-code")
+                  .addEventListener("click", () => this.runCode());
+                document
+                  .getElementById("clear-output")
+                  .addEventListener("click", () => this.clearOutput());
+                document
+                  .getElementById("save-code")
+                  .addEventListener("click", () => this.saveCode());
+                document
+                  .getElementById("share-code")
+                  .addEventListener("click", () => this.shareCode());
+                document
+                  .getElementById("clear-code")
+                  .addEventListener("click", () => this.clearCode());
+
+                // keyboard shortcuts
+                document.addEventListener("keydown", (e) => {
+                  if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+                    e.preventDefault();
+                    this.runCode();
+                  }
+                  if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+                    e.preventDefault();
+                    this.saveCode();
+                  }
+                });
+              }
+
+              /* -------------------------------------------------- */
+              loadFile(filename) {
+                this.currentFile = filename;
+                const content =
+                  this.files[filename] ||
+                  `# File: ${filename}\nprint("Hello from ${filename}!")`;
+                this.editor.setValue(content);
+                this.updateTab(filename);
+                this.updateStatus(`Loaded ${filename}`);
+              }
+              updateTab(filename) {
+                const tabs = document.querySelectorAll(".tab");
+                tabs.forEach((t) => t.classList.remove("active"));
+                let tab = Array.from(tabs).find((t) => t.dataset.tab === filename);
+                if (!tab) {
+                  tab = document.createElement("div");
+                  tab.className = "tab active";
+                  tab.dataset.tab = filename;
+                  tab.innerHTML = `<span>${filename}</span><span class="tab-close">×</span>`;
+                  document.querySelector(".tab-container").appendChild(tab);
+                }
+                tab.classList.add("active");
+              }
+              updateStatus(msg, loading = false) {
+                const status = document.getElementById("execution-status");
+                status.innerHTML = loading
+                  ? `<div class="loading-spinner"></div> ${msg}`
+                  : msg;
+              }
+
+              /* -------------------------------------------------- */
+              /*  REAL PYTHON 3.x via Skulpt                        */
+              /* -------------------------------------------------- */
+              runCode() {
+                const code = this.editor.getValue().trim();
+                if (!code) {
+                  this.addOutput("error", "No code to execute!");
+                  return;
+                }
+
+                this.clearOutput();
+                this.updateStatus("Running…", true);
+                const start = performance.now();
+
+                Sk.pre = "output-panel";
+                Sk.configure({
+                  output: (text) => this.addOutput("normal", text),
+                  read: (fname) => {
+                    if (
+                      Sk.builtinFiles === undefined ||
+                      Sk.builtinFiles.files[fname] === undefined
+                    )
+                      throw new Error("File not found: " + fname);
+                    return Sk.builtinFiles.files[fname];
+                  },
+                  __future__: Sk.python3,
+                  execLimit: 15000, // 15 s
+                  yieldLimit: 300,
+                });
+
+                const promise = Sk.misceval.asyncToPromise(() =>
+                  Sk.importMainWithBody("<stdin>", false, code, true)
+                );
+
+                promise.then(
+                  () => {
+                    // SUCCESS
+                    const t = ((performance.now() - start) / 1000).toFixed(3);
+                    this.updateStatus(`Done in ${t} s`);
+                  },
+                  (err) => {
+                    // ERROR
+                    this.addOutput("error", err.toString());
+                    this.updateStatus("Error");
+                  }
+                );
+              }
+
+              /* -------------------------------------------------- */
+              addOutput(type, message) {
+                const panel = document.getElementById("output-panel");
+                const line = document.createElement("div");
+                line.className = `output-line ${type}`;
+                line.textContent = message;
+                panel.appendChild(line);
+                panel.scrollTop = panel.scrollHeight;
+              }
+              clearOutput() {
+                document.getElementById("output-panel").innerHTML =
+                  '<div class="output-line info">Ready to execute your code…</div>';
+              }
+              clearCode() {
+                if (confirm("Clear editor?")) {
+                  this.editor.setValue("");
+                  this.updateStatus("Editor cleared");
+                }
+              }
+              saveCode() {
+                localStorage.setItem("playground-code", JSON.stringify(this.files));
+                this.updateStatus("Code saved");
+                this.addOutput("success", "Code saved to browser storage");
+              }
+              shareCode() {
+                const code = this.editor.getValue();
+                navigator.clipboard.writeText(code).then(() => {
+                  this.updateStatus("Code copied");
+                  this.addOutput("success", "Code copied to clipboard");
+                });
+              }
+              loadSavedCode() {
+                const saved = localStorage.getItem("playground-code");
+                if (saved) {
+                  try {
+                    this.files = JSON.parse(saved);
+                  } catch (e) {
+                    /* ignore */
+                  }
+                }
+              }
+            }
+
+            /* ==========================================================
+         INITIALISE ON PAGE LOAD
+         ========================================================== */
+            document.addEventListener("DOMContentLoaded", () => {
+              window.playground = new PythonPlayground();
             });
-          });
-
-          // toolbar
-          document
-            .getElementById("run-code")
-            .addEventListener("click", () => this.runCode());
-          document
-            .getElementById("clear-output")
-            .addEventListener("click", () => this.clearOutput());
-          document
-            .getElementById("save-code")
-            .addEventListener("click", () => this.saveCode());
-          document
-            .getElementById("share-code")
-            .addEventListener("click", () => this.shareCode());
-          document
-            .getElementById("clear-code")
-            .addEventListener("click", () => this.clearCode());
-
-          // keyboard shortcuts
-          document.addEventListener("keydown", (e) => {
-            if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
-              e.preventDefault();
-              this.runCode();
-            }
-            if ((e.ctrlKey || e.metaKey) && e.key === "s") {
-              e.preventDefault();
-              this.saveCode();
-            }
-          });
-        }
-
-        /* -------------------------------------------------- */
-        loadFile(filename) {
-          this.currentFile = filename;
-          const content =
-            this.files[filename] ||
-            `# File: ${filename}\nprint("Hello from ${filename}!")`;
-          this.editor.setValue(content);
-          this.updateTab(filename);
-          this.updateStatus(`Loaded ${filename}`);
-        }
-        updateTab(filename) {
-          const tabs = document.querySelectorAll(".tab");
-          tabs.forEach((t) => t.classList.remove("active"));
-          let tab = Array.from(tabs).find((t) => t.dataset.tab === filename);
-          if (!tab) {
-            tab = document.createElement("div");
-            tab.className = "tab active";
-            tab.dataset.tab = filename;
-            tab.innerHTML = `<span>${filename}</span><span class="tab-close">×</span>`;
-            document.querySelector(".tab-container").appendChild(tab);
-          }
-          tab.classList.add("active");
-        }
-        updateStatus(msg, loading = false) {
-          const status = document.getElementById("execution-status");
-          status.innerHTML = loading
-            ? `<div class="loading-spinner"></div> ${msg}`
-            : msg;
-        }
-
-        /* -------------------------------------------------- */
-        /*  REAL PYTHON 3.x via Skulpt                        */
-        /* -------------------------------------------------- */
-        runCode() {
-          const code = this.editor.getValue().trim();
-          if (!code) {
-            this.addOutput("error", "No code to execute!");
-            return;
-          }
-
-          this.clearOutput();
-          this.updateStatus("Running…", true);
-          const start = performance.now();
-
-          Sk.pre = "output-panel";
-          Sk.configure({
-            output: (text) => this.addOutput("normal", text),
-            read: (fname) => {
-              if (
-                Sk.builtinFiles === undefined ||
-                Sk.builtinFiles.files[fname] === undefined
-              )
-                throw new Error("File not found: " + fname);
-              return Sk.builtinFiles.files[fname];
-            },
-            __future__: Sk.python3,
-            execLimit: 15000, // 15 s
-            yieldLimit: 300,
-          });
-
-          const promise = Sk.misceval.asyncToPromise(() =>
-            Sk.importMainWithBody("<stdin>", false, code, true)
-          );
-
-          promise.then(
-            () => {
-              // SUCCESS
-              const t = ((performance.now() - start) / 1000).toFixed(3);
-              this.updateStatus(`Done in ${t} s`);
-            },
-            (err) => {
-              // ERROR
-              this.addOutput("error", err.toString());
-              this.updateStatus("Error");
-            }
-          );
-        }
-
-        /* -------------------------------------------------- */
-        addOutput(type, message) {
-          const panel = document.getElementById("output-panel");
-          const line = document.createElement("div");
-          line.className = `output-line ${type}`;
-          line.textContent = message;
-          panel.appendChild(line);
-          panel.scrollTop = panel.scrollHeight;
-        }
-        clearOutput() {
-          document.getElementById("output-panel").innerHTML =
-            '<div class="output-line info">Ready to execute your code…</div>';
-        }
-        clearCode() {
-          if (confirm("Clear editor?")) {
-            this.editor.setValue("");
-            this.updateStatus("Editor cleared");
-          }
-        }
-        saveCode() {
-          localStorage.setItem("playground-code", JSON.stringify(this.files));
-          this.updateStatus("Code saved");
-          this.addOutput("success", "Code saved to browser storage");
-        }
-        shareCode() {
-          const code = this.editor.getValue();
-          navigator.clipboard.writeText(code).then(() => {
-            this.updateStatus("Code copied");
-            this.addOutput("success", "Code copied to clipboard");
-          });
-        }
-        loadSavedCode() {
-          const saved = localStorage.getItem("playground-code");
-          if (saved) {
-            try {
-              this.files = JSON.parse(saved);
-            } catch (e) {
-              /* ignore */
-            }
-          }
-        }
-      }
-
-      /* ==========================================================
-   INITIALISE ON PAGE LOAD
-   ========================================================== */
-      document.addEventListener("DOMContentLoaded", () => {
-        window.playground = new PythonPlayground();
-      });
     </script>
   </body>
 </html>
