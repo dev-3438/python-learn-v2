@@ -1,561 +1,1086 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lecture 7 – Regular Expressions ✨</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-        :root { --bg: #ffffff; --text: #1f2937; --accent: #0d9488; --surface: #f9fafb; --border: #e5e7eb; }
-        [data-theme="dark"] { --bg: #0f172a; --text: #f1f5f9; --surface: #1e293b; --border: #334155; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); transition: background .3s, color .3s; }
-        .code-box { background: #1e293b; color: #e2e8f0; border-radius: .75rem; padding: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: .95rem; position: relative; overflow: hidden; }
-        .output-box { background: #0f172a; color: #10b981; border-radius: .75rem; padding: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: .95rem; min-height: 3rem; white-space: pre-wrap; }
-        .copy-btn { position: absolute; top: .75rem; right: .75rem; padding: .25rem .5rem; font-size: .75rem; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); color: #fff; border-radius: .5rem; cursor: pointer; transition: background .2s; }
-        .copy-btn:hover { background: rgba(255,255,255,.2); }
-        .reveal { opacity: 0; transform: translateY(30px); }
-        .mini-nav { position: sticky; top: 64px; z-index: 30; background: var(--surface); border-bottom: 1px solid var(--border); }
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+      :root {
+        --bg: #ffffff;
+        --text: #1f2937;
+        --accent: #0d9488;
+        --surface: #f9fafb;
+        --border: #e5e7eb;
+      }
+      [data-theme="dark"] {
+        --bg: #0f172a;
+        --text: #f1f5f9;
+        --surface: #1e293b;
+        --border: #334155;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        transition: background 0.3s, color 0.3s;
+      }
+      .code-box {
+        background: #1e293b;
+        color: #e2e8f0;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.95rem;
+        position: relative;
+        overflow: hidden;
+      }
+      .output-box {
+        background: #0f172a;
+        color: #10b981;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.95rem;
+        min-height: 3rem;
+        white-space: pre-wrap;
+      }
+      .copy-btn {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      .mini-nav {
+        position: sticky;
+        top: 64px;
+        z-index: 30;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+      }
     </style>
-</head>
-<body>
-<nav class="sticky top-0 z-40 bg-teal-700 text-white shadow-lg">
-    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
-        <div class="text-2xl font-bold flex items-center gap-2"><span class="hidden sm:inline">🐍</span> PythonLearn</div>
-        <a href="course.html" class="text-sm sm:text-base hover:underline">← Back to Course</a>
+  </head>
+  <body>
+    <nav class="sticky top-0 z-40 bg-teal-700 text-white shadow-lg">
+      <div
+        class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between"
+      >
+        <div class="text-2xl font-bold flex items-center gap-2">
+          <span class="hidden sm:inline">🐍</span> PythonLearn
+        </div>
+        <a href="course.html" class="text-sm sm:text-base hover:underline"
+          >← Back to Course</a
+        >
+      </div>
+    </nav>
+
+    <div class="mini-nav">
+      <div
+        class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap gap-2 justify-center"
+      >
+        <a
+          href="/lec0"
+          class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+          >Lecture 0</a
+        >
+        <a
+          href="/lec1"
+          class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+          >Lecture 1</a
+        >
+        <a
+          href="/lec2"
+          class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+          >Lecture 2</a
+        >
+        <a
+          href="/lec3"
+          class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+          >Lecture 3</a
+        >
+        <a
+          href="/lec4"
+          class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+          >Lecture 4</a
+        >
+        <a
+          href="/lec5"
+          class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+          >Lecture 5</a
+        >
+        <a
+          href="/lec6"
+          class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+          >Lecture 6</a
+        >
+        <a
+          href="/lec7"
+          class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+          >Lecture 7</a
+        >
+        <a
+          href="/lec8"
+          class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+          >Lecture 8</a
+        >
+        <a
+          href="/lec9"
+          class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+          >Lecture 9</a
+        >
+      </div>
     </div>
-</nav>
 
-<div class="mini-nav">
-    <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap gap-2 justify-center">
-        <a href="lec0.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 0</a>
-        <a href="lec1.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 1</a>
-        <a href="lec2.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 2</a>
-        <a href="lec3.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 3</a>
-        <a href="lec4.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 4</a>
-        <a href="lec5.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 5</a>
-        <a href="lec6.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 6</a>
-        <a href="lec7.html" class="px-4 py-2 rounded-full bg-teal-700 text-white shadow">Lecture 7</a>
-        <a href="lec8.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 8</a>
-        <a href="lec9.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 9</a>
-    </div>
-</div>
+    <main class="max-w-4xl mx-auto px-4 py-10">
+      <header class="reveal mb-12 text-center">
+        <h1
+          class="text-4xl sm:text-5xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-blue-500"
+        >
+          Lecture 7 – Regular Expressions
+        </h1>
+        <p class="text-lg text-gray-600 dark:text-gray-300">
+          Validate, clean, and extract user input with the power of regex.
+        </p>
+      </header>
 
-<main class="max-w-4xl mx-auto px-4 py-10">
-    <header class="reveal mb-12 text-center">
-        <h1 class="text-4xl sm:text-5xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-blue-500">Lecture 7 – Regular Expressions</h1>
-        <p class="text-lg text-gray-600 dark:text-gray-300">Validate, clean, and extract user input with the power of regex.</p>
-    </header>
-
-    <!-- 1. Regular Expressions (verbatim) -->
-    <section class="reveal mb-12">
-        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span>🔍</span> Regular Expressions</h2>
-        <p class="mb-4">Regular expressions or "regexes" will enable us to examine patterns within our code. For example, we might want to validate that an email address is formatted correctly. Regular expressions will enable us to examine expressions in this fashion.</p>
-        <p class="mb-4">To begin, type code validate.py in the terminal window. Then, code as follows in the text editor:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>email = input("What's your email? ").strip()
-
-if "@" in email:
-    print("Valid")
-else:
-    print("Invalid")</div>
-        <p class="mt-4">Notice that strip will remove whitespace at the beginning or end of the input. Running this program, you will see that as long as an @ symbol is inputted, the program will regard the input as valid.</p>
-        <p class="mt-4">You can imagine, however, that one could input @@ alone and the input could be regarded as valid. We could regard an email address as having at least one @ and a . somewhere within it. Modify your code as follows:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>email = input("What's your email? ").strip()
-
-if "@" in email and "." in email:
-    print("Valid")
-else:
-    print("Invalid")</div>
-        <p class="mt-4">Notice that while this works as expected, our user could be adversarial, typing simply @. would result in the program returning valid.</p>
+      <!-- 1. Regular Expressions (verbatim) -->
+      <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+          <span>🔍</span> Regular Expressions
+        </h2>
+        <p class="mb-4">
+          Regular expressions or "regexes" will enable us to examine patterns
+          within our code. For example, we might want to validate that an email
+          address is formatted correctly. Regular expressions will enable us to
+          examine expressions in this fashion.
+        </p>
+        <p class="mb-4">
+          To begin, type code validate.py in the terminal window. Then, code as
+          follows in the text editor:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>email =
+          input("What's your email? ").strip() if "@" in email: print("Valid")
+          else: print("Invalid")
+        </div>
+        <p class="mt-4">
+          Notice that strip will remove whitespace at the beginning or end of
+          the input. Running this program, you will see that as long as an @
+          symbol is inputted, the program will regard the input as valid.
+        </p>
+        <p class="mt-4">
+          You can imagine, however, that one could input @@ alone and the input
+          could be regarded as valid. We could regard an email address as having
+          at least one @ and a . somewhere within it. Modify your code as
+          follows:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>email =
+          input("What's your email? ").strip() if "@" in email and "." in email:
+          print("Valid") else: print("Invalid")
+        </div>
+        <p class="mt-4">
+          Notice that while this works as expected, our user could be
+          adversarial, typing simply @. would result in the program returning
+          valid.
+        </p>
         <p class="mt-4">We can improve the logic of our program as follows:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>email = input("What's your email? ").strip()
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>email =
+          input("What's your email? ").strip() username, domain =
+          email.split("@") if username and "." in domain: print("Valid") else:
+          print("Invalid")
+        </div>
+        <p class="mt-4">
+          Notice how the strip method is used to determine if username exists
+          and if . is inside the domain variable. Running this program, a
+          standard email address typed in by you could be considered valid.
+          Typing in malan@harvard alone, you’ll find that the program regards
+          this input as invalid.
+        </p>
+        <p class="mt-4">
+          We can be even more precise, modifying our code as follows:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>email =
+          input("What's your email? ").strip() username, domain =
+          email.split("@") if username and domain.endswith(".edu"):
+          print("Valid") else: print("Invalid")
+        </div>
+        <p class="mt-4">
+          Notice how the endswith method will check to see if domain contains
+          .edu. Still, however, a nefarious user could still break our code. For
+          example, a user could type in malan@.edu and it would be considered
+          valid.
+        </p>
+        <p class="mt-4">
+          Indeed, we could keep iterating upon this code ourselves. However, it
+          turns out that Python has an existing library called re that has a
+          number of built-in functions that can validate user inputs against
+          patterns.
+        </p>
+        <p class="mt-4">
+          One of the most versatile functions within the library re is search.
+          The search function follows the signature re.search(pattern, string,
+          flags=0). Following this signature, we can modify our code as follows:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>import
+          re email = input("What's your email? ").strip() if re.search("@",
+          email): print("Valid") else: print("Invalid")
+        </div>
+        <p class="mt-4">
+          Notice this does not increase the functionality of our program at all.
+          In fact, it is somewhat a step back.
+        </p>
+      </section>
 
-username, domain = email.split("@")
-
-if username and "." in domain:
-    print("Valid")
-else:
-    print("Invalid")</div>
-        <p class="mt-4">Notice how the strip method is used to determine if username exists and if . is inside the domain variable. Running this program, a standard email address typed in by you could be considered valid. Typing in malan@harvard alone, you’ll find that the program regards this input as invalid.</p>
-        <p class="mt-4">We can be even more precise, modifying our code as follows:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>email = input("What's your email? ").strip()
-
-username, domain = email.split("@")
-
-if username and domain.endswith(".edu"):
-    print("Valid")
-else:
-    print("Invalid")</div>
-        <p class="mt-4">Notice how the endswith method will check to see if domain contains .edu. Still, however, a nefarious user could still break our code. For example, a user could type in malan@.edu and it would be considered valid.</p>
-        <p class="mt-4">Indeed, we could keep iterating upon this code ourselves. However, it turns out that Python has an existing library called re that has a number of built-in functions that can validate user inputs against patterns.</p>
-        <p class="mt-4">One of the most versatile functions within the library re is search. The search function follows the signature re.search(pattern, string, flags=0). Following this signature, we can modify our code as follows:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import re
-
-email = input("What's your email? ").strip()
-
-if re.search("@", email):
-    print("Valid")
-else:
-    print("Invalid")</div>
-        <p class="mt-4">Notice this does not increase the functionality of our program at all. In fact, it is somewhat a step back.</p>
-    </section>
-
-    <!-- 2. Regex vocabulary (verbatim) -->
-    <section class="reveal mb-12">
-        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span>🧾</span> Regex Vocabulary</h2>
+      <!-- 2. Regex vocabulary (verbatim) -->
+      <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+          <span>🧾</span> Regex Vocabulary
+        </h2>
         <ul class="list-disc ml-6 space-y-1">
-            <li><code>.</code> any character except a new line</li>
-            <li><code>*</code> 0 or more repetitions</li>
-            <li><code>+</code> 1 or more repetitions</li>
-            <li><code>?</code> 0 or 1 repetition</li>
-            <li><code>{m}</code> m repetitions</li>
-            <li><code>{m,n}</code> m-n repetitions</li>
+          <li><code>.</code> any character except a new line</li>
+          <li><code>*</code> 0 or more repetitions</li>
+          <li><code>+</code> 1 or more repetitions</li>
+          <li><code>?</code> 0 or 1 repetition</li>
+          <li><code>{m}</code> m repetitions</li>
+          <li><code>{m,n}</code> m-n repetitions</li>
         </ul>
-        <p class="mt-4">Implementing this inside of our code, modify yours as follows:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import re
+        <p class="mt-4">
+          Implementing this inside of our code, modify yours as follows:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>import
+          re email = input("What's your email? ").strip() if re.search(r".+@.+",
+          email): print("Valid") else: print("Invalid")
+        </div>
+        <p class="mt-4">
+          Notice that we don’t care what the username or domain is. What we care
+          about is the pattern. <code>.+</code> is used to determine if anything
+          is to the left of the email address and if anything is to the right of
+          the email address. Running your code, typing in malan@, you’ll notice
+          that the input is regarded as invalid as we would hope.
+        </p>
+        <p class="mt-4">
+          Had we used a regular expression <code>.*@.*</code> in our code above,
+          you can visualize this as follows: State Machine.
+        </p>
+        <p class="mt-4">
+          Considering the regular expression we used in our code,
+          <code>.+@.+</code>, you can visualize it as follows: State Machine.
+        </p>
+        <p class="mt-4">
+          The re and re.search functions and ones like them look for patterns.
+        </p>
+      </section>
 
-email = input("What's your email? ").strip()
-
-if re.search(r".+@.+", email):
-    print("Valid")
-else:
-    print("Invalid")</div>
-        <p class="mt-4">Notice that we don’t care what the username or domain is. What we care about is the pattern. <code>.+</code> is used to determine if anything is to the left of the email address and if anything is to the right of the email address. Running your code, typing in malan@, you’ll notice that the input is regarded as invalid as we would hope.</p>
-        <p class="mt-4">Had we used a regular expression <code>.*@.*</code> in our code above, you can visualize this as follows: State Machine.</p>
-        <p class="mt-4">Considering the regular expression we used in our code, <code>.+@.+</code>, you can visualize it as follows: State Machine.</p>
-        <p class="mt-4">The re and re.search functions and ones like them look for patterns.</p>
-    </section>
-
-    <!-- 3. Escaping & raw strings (verbatim) -->
-    <section class="reveal mb-12">
-        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span>🔑</span> Escaping & Raw Strings</h2>
-        <p class="mb-4">Continuing our improvement of this code, we could improve our code as follows:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import re
-
-email = input("What's your email? ").strip()
-
-if re.search(r".+@.+.edu", email):
-    print("Valid")
-else:
-    print("Invalid")</div>
-        <p class="mt-4">Notice, however, that one could type in malan@harvard?edu and it could be considered valid. Why is this the case? You might recognize that in the language of validation, a <code>.</code> means any character!</p>
+      <!-- 3. Escaping & raw strings (verbatim) -->
+      <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+          <span>🔑</span> Escaping & Raw Strings
+        </h2>
+        <p class="mb-4">
+          Continuing our improvement of this code, we could improve our code as
+          follows:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>import
+          re email = input("What's your email? ").strip() if
+          re.search(r".+@.+.edu", email): print("Valid") else: print("Invalid")
+        </div>
+        <p class="mt-4">
+          Notice, however, that one could type in malan@harvard?edu and it could
+          be considered valid. Why is this the case? You might recognize that in
+          the language of validation, a <code>.</code> means any character!
+        </p>
         <p class="mt-4">We can modify our code as follows:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import re
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>import
+          re email = input("What's your email? ").strip() if
+          re.search(r".+@.+\.edu", email): print("Valid") else: print("Invalid")
+        </div>
+        <p class="mt-4">
+          Notice how we utilize the “escape character” or <code>\</code> as a
+          way of regarding the <code>.</code> as part of our string instead of
+          our validation expression. Testing your code, you will notice that
+          malan@harvard.edu is regarded as valid, where malan@harvard?edu is
+          invalid.
+        </p>
+        <p class="mt-4">
+          Now that we're using escape characters, it’s a good time to introduce
+          “raw strings”. Placing an <code>r</code> in front of a string tells
+          the Python interpreter to treat the string as a raw string, similar to
+          how placing an <code>f</code> in front of a string tells the Python
+          interpreter to treat the string as a format string:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>import
+          re email = input("What's your email? ").strip() if
+          re.search(r"^.+@.+\.edu$", email): print("Valid") else:
+          print("Invalid")
+        </div>
+        <p class="mt-4">
+          Now we’ve ensured the Python interpreter won’t treat
+          <code>\.</code> as a special character. Instead, simply as a
+          <code>\</code> followed by a <code>.</code>—which, in regular
+          expression terms, means matching a literal “.”.
+        </p>
+      </section>
 
-email = input("What's your email? ").strip()
-
-if re.search(r".+@.+\.edu", email):
-    print("Valid")
-else:
-    print("Invalid")</div>
-        <p class="mt-4">Notice how we utilize the “escape character” or <code>\</code> as a way of regarding the <code>.</code> as part of our string instead of our validation expression. Testing your code, you will notice that malan@harvard.edu is regarded as valid, where malan@harvard?edu is invalid.</p>
-        <p class="mt-4">Now that we're using escape characters, it’s a good time to introduce “raw strings”. Placing an <code>r</code> in front of a string tells the Python interpreter to treat the string as a raw string, similar to how placing an <code>f</code> in front of a string tells the Python interpreter to treat the string as a format string:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import re
-
-email = input("What's your email? ").strip()
-
-if re.search(r"^.+@.+\.edu$", email):
-    print("Valid")
-else:
-    print("Invalid")</div>
-        <p class="mt-4">Now we’ve ensured the Python interpreter won’t treat <code>\.</code> as a special character. Instead, simply as a <code>\</code> followed by a <code>.</code>—which, in regular expression terms, means matching a literal “.”.</p>
-    </section>
-
-    <!-- 4. More symbols (verbatim) -->
-    <section class="reveal mb-12">
-        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span>🧩</span> More Symbols</h2>
+      <!-- 4. More symbols (verbatim) -->
+      <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+          <span>🧩</span> More Symbols
+        </h2>
         <ul class="list-disc ml-6 space-y-1">
-            <li><code>^</code> matches the start of the string</li>
-            <li><code>$</code> matches the end of the string or just before the newline at the end of the string</li>
-            <li><code>[]</code> set of characters</li>
-            <li><code>[^]</code> complementing the set</li>
-            <li><code>A|B</code> either A or B</li>
-            <li><code>(...)</code> a group</li>
-            <li><code>(?:...)</code> non-capturing version</li>
+          <li><code>^</code> matches the start of the string</li>
+          <li>
+            <code>$</code> matches the end of the string or just before the
+            newline at the end of the string
+          </li>
+          <li><code>[]</code> set of characters</li>
+          <li><code>[^]</code> complementing the set</li>
+          <li><code>A|B</code> either A or B</li>
+          <li><code>(...)</code> a group</li>
+          <li><code>(?:...)</code> non-capturing version</li>
         </ul>
         <p class="mt-4">We can modify our expression using these as follows:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import re
-
-email = input("What's your email? ").strip()
-
-if re.search(r"^[^@]+@[^@]+\.edu$", email):
-    print("Valid")
-else:
-    print("Invalid")</div>
-        <p class="mt-4">Notice that <code>^</code> means to match at the start of the string. All the way at the end of our expression, <code>$</code> means to match at the end of the string. <code>[^@]+</code> means any character except an <code>@</code>. Then, we have a literal <code>@</code>. <code>[^@]+\.edu</code> means any character except an <code>@</code> followed by an expression ending in <code>.edu</code>. Typing in malan@@@harvard.edu is now regarded as invalid.</p>
-        <p class="mt-4">We propose we can do even better! Even though we are now looking for the username at the start of the string, the @ symbol, and the domain name at the end, we could type in as many @ symbols as we wish! malan@@@harvard.edu is considered valid!</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import re
-
-email = input("What's your email? ").strip()
-
-if re.search(r"^[a-zA-Z0-9_]+@[a-zA-Z0-9_]+\.edu$", email):
-    print("Valid")
-else:
-    print("Invalid")</div>
-        <p class="mt-4">Notice that <code>[a-zA-Z0-9_]</code> tells the validation that characters must be between a and z, between A and Z, between 0 and 9 and potentially include an <code>_</code> symbol. Testing the input, you’ll find that many potential user mistakes can be indicated.</p>
-        <p class="mt-4">Thankfully, common patterns have been built into regular expressions by hard-working programmers. In this case, you can modify your code as follows:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import re
-
-email = input("What's your email? ").strip()
-
-if re.search(r"^\w+@\w+\.edu$", email):
-    print("Valid")
-else:
-    print("Invalid")</div>
-        <p class="mt-4">Notice that <code>\w</code> is the same as <code>[a-zA-Z0-9_]</code>. Thanks, hard-working programmers!</p>
-        <p class="mt-4">Here are some additional patterns we can add to our vocabulary:</p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>import
+          re email = input("What's your email? ").strip() if
+          re.search(r"^[^@]+@[^@]+\.edu$", email): print("Valid") else:
+          print("Invalid")
+        </div>
+        <p class="mt-4">
+          Notice that <code>^</code> means to match at the start of the string.
+          All the way at the end of our expression, <code>$</code> means to
+          match at the end of the string. <code>[^@]+</code> means any character
+          except an <code>@</code>. Then, we have a literal <code>@</code>.
+          <code>[^@]+\.edu</code> means any character except an
+          <code>@</code> followed by an expression ending in <code>.edu</code>.
+          Typing in malan@@@harvard.edu is now regarded as invalid.
+        </p>
+        <p class="mt-4">
+          We propose we can do even better! Even though we are now looking for
+          the username at the start of the string, the @ symbol, and the domain
+          name at the end, we could type in as many @ symbols as we wish!
+          malan@@@harvard.edu is considered valid!
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>import
+          re email = input("What's your email? ").strip() if
+          re.search(r"^[a-zA-Z0-9_]+@[a-zA-Z0-9_]+\.edu$", email):
+          print("Valid") else: print("Invalid")
+        </div>
+        <p class="mt-4">
+          Notice that <code>[a-zA-Z0-9_]</code> tells the validation that
+          characters must be between a and z, between A and Z, between 0 and 9
+          and potentially include an <code>_</code> symbol. Testing the input,
+          you’ll find that many potential user mistakes can be indicated.
+        </p>
+        <p class="mt-4">
+          Thankfully, common patterns have been built into regular expressions
+          by hard-working programmers. In this case, you can modify your code as
+          follows:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>import
+          re email = input("What's your email? ").strip() if
+          re.search(r"^\w+@\w+\.edu$", email): print("Valid") else:
+          print("Invalid")
+        </div>
+        <p class="mt-4">
+          Notice that <code>\w</code> is the same as <code>[a-zA-Z0-9_]</code>.
+          Thanks, hard-working programmers!
+        </p>
+        <p class="mt-4">
+          Here are some additional patterns we can add to our vocabulary:
+        </p>
         <ul class="list-disc ml-6 space-y-1">
-            <li><code>\d</code> decimal digit</li>
-            <li><code>\D</code> not a decimal digit</li>
-            <li><code>\s</code> whitespace characters</li>
-            <li><code>\S</code> not a whitespace character</li>
-            <li><code>\w</code> word character, as well as numbers and the underscore</li>
-            <li><code>\W</code> not a word character</li>
+          <li><code>\d</code> decimal digit</li>
+          <li><code>\D</code> not a decimal digit</li>
+          <li><code>\s</code> whitespace characters</li>
+          <li><code>\S</code> not a whitespace character</li>
+          <li>
+            <code>\w</code> word character, as well as numbers and the
+            underscore
+          </li>
+          <li><code>\W</code> not a word character</li>
         </ul>
-        <p class="mt-4">Now, we know that there are not simply <code>.edu</code> email addresses. We could modify our code as follows:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import re
+        <p class="mt-4">
+          Now, we know that there are not simply <code>.edu</code> email
+          addresses. We could modify our code as follows:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>import
+          re email = input("What's your email? ").strip() if
+          re.search(r"^\w+@\w.+\.(com|edu|gov|net|org)$", email): print("Valid")
+          else: print("Invalid")
+        </div>
+        <p class="mt-4">
+          Notice that the <code>|</code> has the impact of an <code>or</code> in
+          our expression.
+        </p>
+      </section>
 
-email = input("What's your email? ").strip()
-
-if re.search(r"^\w+@\w.+\.(com|edu|gov|net|org)$", email):
-    print("Valid")
-else:
-    print("Invalid")</div>
-        <p class="mt-4">Notice that the <code>|</code> has the impact of an <code>or</code> in our expression.</p>
-    </section>
-
-    <!-- 5. Case Sensitivity (verbatim) -->
-    <section class="reveal mb-12">
-        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span>🖊️</span> Case Sensitivity</h2>
-        <p class="mb-4">To illustrate how you might address issues around case sensitivity, where there is a difference between EDU and edu and the like, let’s rewind our code to the following:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import re
-
-email = input("What's your email? ").strip()
-
-if re.search(r"^\w+@\w+\.edu$", email):
-    print("Valid")
-else:
-    print("Invalid")</div>
-        <p class="mt-4">Recall that within the re.search function, there is a parameter for flags. Some built-in flag variables are:</p>
+      <!-- 5. Case Sensitivity (verbatim) -->
+      <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+          <span>🖊️</span> Case Sensitivity
+        </h2>
+        <p class="mb-4">
+          To illustrate how you might address issues around case sensitivity,
+          where there is a difference between EDU and edu and the like, let’s
+          rewind our code to the following:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>import
+          re email = input("What's your email? ").strip() if
+          re.search(r"^\w+@\w+\.edu$", email): print("Valid") else:
+          print("Invalid")
+        </div>
+        <p class="mt-4">
+          Recall that within the re.search function, there is a parameter for
+          flags. Some built-in flag variables are:
+        </p>
         <ul class="list-disc ml-6 space-y-1">
-            <li><code>re.IGNORECASE</code></li>
-            <li><code>re.MULTILINE</code></li>
-            <li><code>re.DOTALL</code></li>
+          <li><code>re.IGNORECASE</code></li>
+          <li><code>re.MULTILINE</code></li>
+          <li><code>re.DOTALL</code></li>
         </ul>
         <p class="mt-4">Therefore, we can change our code as follows.</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import re
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>import
+          re email = input("What's your email? ").strip() if
+          re.search(r"^\w+@\w+\.edu$", email, re.IGNORECASE): print("Valid")
+          else: print("Invalid")
+        </div>
+        <p class="mt-4">
+          Notice how we added a third parameter <code>re.IGNORECASE</code>.
+          Running this program with MALAN@HARVARD.EDU, the input is now
+          considered valid.
+        </p>
+      </section>
 
-email = input("What's your email? ").strip()
-
-if re.search(r"^\w+@\w+\.edu$", email, re.IGNORECASE):
-    print("Valid")
-else:
-    print("Invalid")</div>
-        <p class="mt-4">Notice how we added a third parameter <code>re.IGNORECASE</code>. Running this program with MALAN@HARVARD.EDU, the input is now considered valid.</p>
-    </section>
-
-    <!-- 6. Sub-domains & groups (verbatim) -->
-    <section class="reveal mb-12">
-        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span>🔍</span> Sub-domains & Groups</h2>
-        <p class="mb-4">Consider the following email address malan@cs50.harvard.edu. Using our code above, this would be considered invalid. Why might that be? Since there is an additional <code>.</code>, the program considers this invalid.</p>
-        <p class="mb-4">It turns out that we can, looking at our vocabulary from before, we can group together ideas.</p>
+      <!-- 6. Sub-domains & groups (verbatim) -->
+      <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+          <span>🔍</span> Sub-domains & Groups
+        </h2>
+        <p class="mb-4">
+          Consider the following email address malan@cs50.harvard.edu. Using our
+          code above, this would be considered invalid. Why might that be? Since
+          there is an additional <code>.</code>, the program considers this
+          invalid.
+        </p>
+        <p class="mb-4">
+          It turns out that we can, looking at our vocabulary from before, we
+          can group together ideas.
+        </p>
         <ul class="list-disc ml-6 space-y-1">
-            <li><code>A|B</code> either A or B</li>
-            <li><code>(...)</code> a group</li>
-            <li><code>(?:...)</code> non-capturing version</li>
+          <li><code>A|B</code> either A or B</li>
+          <li><code>(...)</code> a group</li>
+          <li><code>(?:...)</code> non-capturing version</li>
         </ul>
         <p class="mt-4">We can modify our code as follows:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import re
-
-email = input("What's your email? ").strip()
-
-if re.search(r"^\w+@(\w+\.)?\w+\.edu$", email, re.IGNORECASE):
-    print("Valid")
-else:
-    print("Invalid")</div>
-        <p class="mt-4">Notice how the <code>(\w+\.)?</code> communicates to the interpreter that this new expression can be there once or not at all. Hence, both malan@cs50.harvard.edu and malan@harvard.edu are considered valid.</p>
-        <p class="mt-4">Interestingly enough, the edits we have done so far to our code do not fully encompass all the checking that could be done to ensure a valid email address. Indeed, here is the full expression that one would have to type to ensure that a valid email is inputted:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$</div>
-        <p class="mt-4">There are other functions within the re library you might find useful. <code>re.match</code> and <code>re.fullmatch</code> are ones you might find exceedingly useful.</p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>import
+          re email = input("What's your email? ").strip() if
+          re.search(r"^\w+@(\w+\.)?\w+\.edu$", email, re.IGNORECASE):
+          print("Valid") else: print("Invalid")
+        </div>
+        <p class="mt-4">
+          Notice how the <code>(\w+\.)?</code> communicates to the interpreter
+          that this new expression can be there once or not at all. Hence, both
+          malan@cs50.harvard.edu and malan@harvard.edu are considered valid.
+        </p>
+        <p class="mt-4">
+          Interestingly enough, the edits we have done so far to our code do not
+          fully encompass all the checking that could be done to ensure a valid
+          email address. Indeed, here is the full expression that one would have
+          to type to ensure that a valid email is inputted:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button
+          >^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$
+        </div>
+        <p class="mt-4">
+          There are other functions within the re library you might find useful.
+          <code>re.match</code> and <code>re.fullmatch</code> are ones you might
+          find exceedingly useful.
+        </p>
         <p class="mt-4">You can learn more in Python’s documentation of re.</p>
-    </section>
+      </section>
 
-    <!-- 7. Cleaning Up User Input (verbatim) -->
-    <section class="reveal mb-12">
-        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span>🧽</span> Cleaning Up User Input</h2>
-        <p class="mb-4">You should never expect your users to always follow your hopes for clean input. Indeed, users will often violate your intentions as a programmer.</p>
-        <p class="mb-4">There are ways to clean up your data. In the terminal window, type code format.py. Then, in the text-editor, code as follows:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>name = input("What's your name? ").strip()
-print(f"hello, {name}")</div>
-        <p class="mt-4">Notice that we have created, essentially, a “hello world” program. Running this program and typing in David, it works well! However, typing in Malan, David notice how the program does not function as intended. How could we modify our program to clean up this input?</p>
+      <!-- 7. Cleaning Up User Input (verbatim) -->
+      <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+          <span>🧽</span> Cleaning Up User Input
+        </h2>
+        <p class="mb-4">
+          You should never expect your users to always follow your hopes for
+          clean input. Indeed, users will often violate your intentions as a
+          programmer.
+        </p>
+        <p class="mb-4">
+          There are ways to clean up your data. In the terminal window, type
+          code format.py. Then, in the text-editor, code as follows:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>name =
+          input("What's your name? ").strip() print(f"hello, {name}")
+        </div>
+        <p class="mt-4">
+          Notice that we have created, essentially, a “hello world” program.
+          Running this program and typing in David, it works well! However,
+          typing in Malan, David notice how the program does not function as
+          intended. How could we modify our program to clean up this input?
+        </p>
         <p class="mt-4">Modify your code as follows.</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>name = input("What's your name? ").strip()
-if "," in name:
-    last, first = name.split(", ")
-    name = f"{first} {last}"
-print(f"hello, {name}")</div>
-        <p class="mt-4">Notice how last, first = name.split(", ") is run if there is a , in the name. Then, the name is standardized as first and last. Running our code, typing in Malan, David, you can see how this program does clean up at least one scenario where a user types in something unexpected.</p>
-        <p class="mt-4">You might notice that typing in Malan,David with no space causes the interpreter to throw an error. Since we now know some regular expression syntax, let’s apply that to our code:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import re
-
-name = input("What's your name? ").strip()
-matches = re.search(r"^(.+), (.+)$", name)
-if matches:
-    last, first = matches.groups()
-    name = first + " " + last
-print(f"hello, {name}")</div>
-        <p class="mt-4">Notice that re.search can return a set of matches that are extracted from the user’s input. If matches are returned by re.search. Running this program, typing in David Malan notice how the if condition is not run and the name is returned. If you run the program by typing Malan, David, the name is also returned properly.</p>
-        <p class="mt-4">It just so happens that we can request specific groups back using matches.group. We can modify our code as follows:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import re
-
-name = input("What's your name? ").strip()
-matches = re.search(r"^(.+), (.+)$", name)
-if matches:
-    name = matches.group(2) + " " + matches.group(1)
-print(f"hello, {name}")</div>
-        <p class="mt-4">Notice how group(2) and group(1) are concatenated together with a space. The first group is that which is left of the comma. The second group is that which is right of the comma.</p>
-        <p class="mt-4">Recognize still that typing in Malan,David with no space will still break our code. Therefore, we can make the following modification:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import re
-
-name = input("What's your name? ").strip()
-matches = re.search(r"^(.+), *(.+)$", name)
-if matches:
-    name = matches.group(2) + " " + matches.group(1)
-print(f"hello, {name}")</div>
-        <p class="mt-4">Notice the addition of the <code>*</code> in our validation statement. This code will now accept and properly process Malan,David. Further, it will properly handle <code> David,Malan</code> with many spaces in front of David.</p>
-        <p class="mt-4">It is very common to utilize re.search as we have in the previous examples, where matches is on a line of code after. However, we can combine these statements:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import re
-
-name = input("What's your name? ").strip()
-if matches := re.search(r"^(.+), *(.+)$", name):
-    name = matches.group(2) + " " + matches.group(1)
-print(f"hello, {name}")</div>
-        <p class="mt-4">Notice how we combine two lines of our code. The walrus <code>:=</code> operator assigns a value from right to left and allows us to ask a boolean question at the same time. Turn your head sideways and you’ll see why this is called a walrus operator.</p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>name =
+          input("What's your name? ").strip() if "," in name: last, first =
+          name.split(", ") name = f"{first} {last}" print(f"hello, {name}")
+        </div>
+        <p class="mt-4">
+          Notice how last, first = name.split(", ") is run if there is a , in
+          the name. Then, the name is standardized as first and last. Running
+          our code, typing in Malan, David, you can see how this program does
+          clean up at least one scenario where a user types in something
+          unexpected.
+        </p>
+        <p class="mt-4">
+          You might notice that typing in Malan,David with no space causes the
+          interpreter to throw an error. Since we now know some regular
+          expression syntax, let’s apply that to our code:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>import
+          re name = input("What's your name? ").strip() matches =
+          re.search(r"^(.+), (.+)$", name) if matches: last, first =
+          matches.groups() name = first + " " + last print(f"hello, {name}")
+        </div>
+        <p class="mt-4">
+          Notice that re.search can return a set of matches that are extracted
+          from the user’s input. If matches are returned by re.search. Running
+          this program, typing in David Malan notice how the if condition is not
+          run and the name is returned. If you run the program by typing Malan,
+          David, the name is also returned properly.
+        </p>
+        <p class="mt-4">
+          It just so happens that we can request specific groups back using
+          matches.group. We can modify our code as follows:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>import
+          re name = input("What's your name? ").strip() matches =
+          re.search(r"^(.+), (.+)$", name) if matches: name = matches.group(2) +
+          " " + matches.group(1) print(f"hello, {name}")
+        </div>
+        <p class="mt-4">
+          Notice how group(2) and group(1) are concatenated together with a
+          space. The first group is that which is left of the comma. The second
+          group is that which is right of the comma.
+        </p>
+        <p class="mt-4">
+          Recognize still that typing in Malan,David with no space will still
+          break our code. Therefore, we can make the following modification:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>import
+          re name = input("What's your name? ").strip() matches =
+          re.search(r"^(.+), *(.+)$", name) if matches: name = matches.group(2)
+          + " " + matches.group(1) print(f"hello, {name}")
+        </div>
+        <p class="mt-4">
+          Notice the addition of the <code>*</code> in our validation statement.
+          This code will now accept and properly process Malan,David. Further,
+          it will properly handle <code> David,Malan</code> with many spaces in
+          front of David.
+        </p>
+        <p class="mt-4">
+          It is very common to utilize re.search as we have in the previous
+          examples, where matches is on a line of code after. However, we can
+          combine these statements:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>import
+          re name = input("What's your name? ").strip() if matches :=
+          re.search(r"^(.+), *(.+)$", name): name = matches.group(2) + " " +
+          matches.group(1) print(f"hello, {name}")
+        </div>
+        <p class="mt-4">
+          Notice how we combine two lines of our code. The walrus
+          <code>:=</code> operator assigns a value from right to left and allows
+          us to ask a boolean question at the same time. Turn your head sideways
+          and you’ll see why this is called a walrus operator.
+        </p>
         <p class="mt-4">You can learn more in Python’s documentation of re.</p>
-    </section>
+      </section>
 
-    <!-- 8. Extracting User Input (verbatim) -->
-    <section class="reveal mb-12">
-        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span>📤</span> Extracting User Input</h2>
-        <p class="mb-4">So far, we have validated the user’s input and cleaned up the user’s input. Now, let’s extract some specific information from user input. In the terminal window, type code twitter.py and code as follows in the text editor window:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>url = input("URL: ").strip()
-print(url)</div>
-        <p class="mt-4">Notice that if we type in https://twitter.com/davidjmalan , it shows exactly what the user typed. However, how would we be able to extract just the username and ignore the rest of the URL?</p>
-        <p class="mt-4">You can imagine how we would simply be able to get rid of the beginning of the standard Twitter URL. We can attempt this as follows:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>url = input("URL: ").strip()
-
-username = url.replace("https://twitter.com/ ", "")
-print(f"Username: {username}")</div>
-        <p class="mt-4">Notice how the replace method allows us to find one item and replace it with another. In this case, we are finding part of the URL and replacing it with nothing. Typing in the full URL https://twitter.com/davidjmalan , the program effectively outputs the username. However, what are some shortcomings of this current program?</p>
-        <p class="mt-4">What if the user simply typed twitter.com instead of including the https:// and the like? You can imagine many scenarios where the user may input or neglect to input parts of the URL that would create strange output by this program. To improve this program, we can code as follows:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>url = input("URL: ").strip()
-
-username = url.removeprefix("https://twitter.com/ ")
-print(f"Username: {username}")</div>
-        <p class="mt-4">Notice how we utilize the removeprefix method. This method will remove the beginning of a string.</p>
-        <p class="mt-4">Regular expressions simply allow us to succinctly express the patterns and goals. Within the re library, there is a method called sub. This method allows us to substitute a pattern with something else. The signature of the sub method is as follows</p>
-        <div class="code-box">re.sub(pattern, repl, string, count=0, flags=0)</div>
-        <p class="mt-4">Notice how pattern refers to the regular expression we are looking for. Then, there is a repl string that we can replace the pattern with. Finally, there is the string that we want to do the substitution on.</p>
-        <p class="mt-4">Implementing this method in our code, we can modify our program as follows:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import re
-
-url = input("URL: ").strip()
-
-username = re.sub(r"https://twitter.com/ ", "", url)
-print(f"Username: {username}")</div>
-        <p class="mt-4">Notice how executing this program and inputting https://twitter.com/davidjmalan  produces the correct outcome. However, there are some problems still present in our code.</p>
-        <p class="mt-4">The protocol, subdomain, and the possibility that the user inputted any part of the URL after the username are all reasons that this code is still not ideal. We can further address these shortcomings as follows:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import re
-
-url = input("URL: ").strip()
-
-username = re.sub(r"^(https?://)?(www\.)?twitter\.com/", "", url)
-print(f"Username: {username}")</div>
-        <p class="mt-4">Notice how the ^ caret was added to the url. Notice also how the . could be interpreted improperly by the interpreter. Therefore, we escape it using a \ to make it \. For the purpose of tolerating both http and https, we add a ? to the end of https?, making the s optional. Further, to accommodate www we add (www\.)? to our code. Finally, just in case the user decides to leave out the protocol altogether, the http:// or https:// is made optional using (https?://).</p>
-        <p class="mt-4">Still, we are blindly expecting that what the user inputted a url that, indeed, has a username. Using our knowledge of re.search, we can further improve our code.</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import re
-
-url = input("URL: ").strip()
-
-matches = re.search(r"^https?://(www\.)?twitter\.com/(.+)$", url, re.IGNORECASE)
-if matches:
-    print(f"Username:", matches.group(2))</div>
-        <p class="mt-4">Notice how we are searching for the regular expression above in the string provided by the user. In particular, we are capturing that which appears at the end of the URL using <code>(.+)$</code> regular expression. Therefore, if the user fails to input a URL without a username, no input will be presented.</p>
-        <p class="mt-4">Even further tightening up our program, we can utilize our := operator as follows:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import re
-
-url = input("URL: ").strip()
-
-if matches := re.search(r"^https?://(?:www\.)?twitter\.com/(.+)$", url, re.IGNORECASE):
-    print(f"Username:", matches.group(1))</div>
-        <p class="mt-4">Notice that the <code>?:</code> tells the interpreter it does not have to capture what is in that spot in our regular expression.</p>
-        <p class="mt-4">Still, we can be more explicit to ensure that the username inputted is correct. Using Twitter’s documentation, we can add the following to our regular expression:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import re
-
-url = input("URL: ").strip()
-
-if matches := re.search(r"^https?://(?:www\.)?twitter\.com/([a-z0-9_]+)", url, re.IGNORECASE):
-    print(f"Username:", matches.group(1))</div>
-        <p class="mt-4">Notice that the <code>[a-z0-9_]+</code> tells the interpreter to only expect a-z, 0-9, and _ as part of the regular expression. The <code>+</code> indicates that we are expecting one or more characters.</p>
+      <!-- 8. Extracting User Input (verbatim) -->
+      <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+          <span>📤</span> Extracting User Input
+        </h2>
+        <p class="mb-4">
+          So far, we have validated the user’s input and cleaned up the user’s
+          input. Now, let’s extract some specific information from user input.
+          In the terminal window, type code twitter.py and code as follows in
+          the text editor window:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>url =
+          input("URL: ").strip() print(url)
+        </div>
+        <p class="mt-4">
+          Notice that if we type in https://twitter.com/davidjmalan , it shows
+          exactly what the user typed. However, how would we be able to extract
+          just the username and ignore the rest of the URL?
+        </p>
+        <p class="mt-4">
+          You can imagine how we would simply be able to get rid of the
+          beginning of the standard Twitter URL. We can attempt this as follows:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>url =
+          input("URL: ").strip() username = url.replace("https://twitter.com/ ",
+          "") print(f"Username: {username}")
+        </div>
+        <p class="mt-4">
+          Notice how the replace method allows us to find one item and replace
+          it with another. In this case, we are finding part of the URL and
+          replacing it with nothing. Typing in the full URL
+          https://twitter.com/davidjmalan , the program effectively outputs the
+          username. However, what are some shortcomings of this current program?
+        </p>
+        <p class="mt-4">
+          What if the user simply typed twitter.com instead of including the
+          https:// and the like? You can imagine many scenarios where the user
+          may input or neglect to input parts of the URL that would create
+          strange output by this program. To improve this program, we can code
+          as follows:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>url =
+          input("URL: ").strip() username =
+          url.removeprefix("https://twitter.com/ ") print(f"Username:
+          {username}")
+        </div>
+        <p class="mt-4">
+          Notice how we utilize the removeprefix method. This method will remove
+          the beginning of a string.
+        </p>
+        <p class="mt-4">
+          Regular expressions simply allow us to succinctly express the patterns
+          and goals. Within the re library, there is a method called sub. This
+          method allows us to substitute a pattern with something else. The
+          signature of the sub method is as follows
+        </p>
+        <div class="code-box">
+          re.sub(pattern, repl, string, count=0, flags=0)
+        </div>
+        <p class="mt-4">
+          Notice how pattern refers to the regular expression we are looking
+          for. Then, there is a repl string that we can replace the pattern
+          with. Finally, there is the string that we want to do the substitution
+          on.
+        </p>
+        <p class="mt-4">
+          Implementing this method in our code, we can modify our program as
+          follows:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>import
+          re url = input("URL: ").strip() username =
+          re.sub(r"https://twitter.com/ ", "", url) print(f"Username:
+          {username}")
+        </div>
+        <p class="mt-4">
+          Notice how executing this program and inputting
+          https://twitter.com/davidjmalan produces the correct outcome. However,
+          there are some problems still present in our code.
+        </p>
+        <p class="mt-4">
+          The protocol, subdomain, and the possibility that the user inputted
+          any part of the URL after the username are all reasons that this code
+          is still not ideal. We can further address these shortcomings as
+          follows:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>import
+          re url = input("URL: ").strip() username =
+          re.sub(r"^(https?://)?(www\.)?twitter\.com/", "", url)
+          print(f"Username: {username}")
+        </div>
+        <p class="mt-4">
+          Notice how the ^ caret was added to the url. Notice also how the .
+          could be interpreted improperly by the interpreter. Therefore, we
+          escape it using a \ to make it \. For the purpose of tolerating both
+          http and https, we add a ? to the end of https?, making the s
+          optional. Further, to accommodate www we add (www\.)? to our code.
+          Finally, just in case the user decides to leave out the protocol
+          altogether, the http:// or https:// is made optional using
+          (https?://).
+        </p>
+        <p class="mt-4">
+          Still, we are blindly expecting that what the user inputted a url
+          that, indeed, has a username. Using our knowledge of re.search, we can
+          further improve our code.
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>import
+          re url = input("URL: ").strip() matches =
+          re.search(r"^https?://(www\.)?twitter\.com/(.+)$", url, re.IGNORECASE)
+          if matches: print(f"Username:", matches.group(2))
+        </div>
+        <p class="mt-4">
+          Notice how we are searching for the regular expression above in the
+          string provided by the user. In particular, we are capturing that
+          which appears at the end of the URL using <code>(.+)$</code> regular
+          expression. Therefore, if the user fails to input a URL without a
+          username, no input will be presented.
+        </p>
+        <p class="mt-4">
+          Even further tightening up our program, we can utilize our := operator
+          as follows:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>import
+          re url = input("URL: ").strip() if matches :=
+          re.search(r"^https?://(?:www\.)?twitter\.com/(.+)$", url,
+          re.IGNORECASE): print(f"Username:", matches.group(1))
+        </div>
+        <p class="mt-4">
+          Notice that the <code>?:</code> tells the interpreter it does not have
+          to capture what is in that spot in our regular expression.
+        </p>
+        <p class="mt-4">
+          Still, we can be more explicit to ensure that the username inputted is
+          correct. Using Twitter’s documentation, we can add the following to
+          our regular expression:
+        </p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>import
+          re url = input("URL: ").strip() if matches :=
+          re.search(r"^https?://(?:www\.)?twitter\.com/([a-z0-9_]+)", url,
+          re.IGNORECASE): print(f"Username:", matches.group(1))
+        </div>
+        <p class="mt-4">
+          Notice that the <code>[a-z0-9_]+</code> tells the interpreter to only
+          expect a-z, 0-9, and _ as part of the regular expression. The
+          <code>+</code> indicates that we are expecting one or more characters.
+        </p>
         <p class="mt-4">You can learn more in Python’s documentation of re.</p>
-    </section>
+      </section>
 
-    <!-- 9. Live Playground -->
-    <section class="reveal mb-12">
-        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span>🕹️</span> Live Playground – Try Your Own Regex</h2>
-        <textarea id="playground" class="code-box w-full h-48">import re
+      <!-- 9. Live Playground -->
+      <section class="reveal mb-12">
+        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+          <span>🕹️</span> Live Playground – Try Your Own Regex
+        </h2>
+        <textarea id="playground" class="code-box w-full h-48">
+import re
 
 # Test any pattern you like!
 email = input("Email: ").strip()
 if re.search(r"^\w+@(\w+\.)?\w+\.(com|edu|org)$", email, re.IGNORECASE):
     print("✅ Valid")
 else:
-    print("❌ Invalid")</textarea>
+    print("❌ Invalid")</textarea
+        >
         <div class="flex items-center gap-3 mt-3">
-            <button onclick="runCode()" class="px-5 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition">▶ Run</button>
-            <button onclick="resetCode()" class="px-5 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Reset</button>
+          <button
+            onclick="runCode()"
+            class="px-5 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition"
+          >
+            ▶ Run
+          </button>
+          <button
+            onclick="resetCode()"
+            class="px-5 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+          >
+            Reset
+          </button>
         </div>
-        <div id="playground-out" class="output-box mt-3">Output will appear here…</div>
-    </section>
+        <div id="playground-out" class="output-box mt-3">
+          Output will appear here…
+        </div>
+      </section>
 
-    <!-- 10. Summing Up (verbatim) -->
-    <section class="reveal mb-12 p-6 bg-gradient-to-r from-teal-50 to-blue-50 dark:from-teal-900/20 dark:to-blue-900/20 rounded-xl">
+      <!-- 10. Summing Up (verbatim) -->
+      <section
+        class="reveal mb-12 p-6 bg-gradient-to-r from-teal-50 to-blue-50 dark:from-teal-900/20 dark:to-blue-900/20 rounded-xl"
+      >
         <h2 class="text-2xl font-bold mb-3">Summing Up</h2>
-        <p>Now, you’ve learned a whole new language of regular expressions that can be utilized to validate, clean up, and extract user input.</p>
+        <p>
+          Now, you’ve learned a whole new language of regular expressions that
+          can be utilized to validate, clean up, and extract user input.
+        </p>
         <ul class="list-disc ml-6 space-y-1 mt-2">
-            <li>Regular Expressions</li>
-            <li>Case Sensitivity</li>
-            <li>Cleaning Up User Input</li>
-            <li>Extracting User Input</li>
+          <li>Regular Expressions</li>
+          <li>Case Sensitivity</li>
+          <li>Cleaning Up User Input</li>
+          <li>Extracting User Input</li>
         </ul>
-    </section>
-</main>
-<!-- =========  PSET7 QUESTIONS & HINTS – DOPE STYLING  ========= -->
-<section class="reveal mt-12">
-
-    <!-- neon-gradient title -->
-    <h2 class="text-4xl font-extrabold mb-10 text-center bg-clip-text text-transparent bg-gradient-to-r from-sky-500 via-cyan-500 to-teal-500 drop-shadow-[0_0_10px_rgba(14,165,233,0.5)] dark:drop-shadow-[0_0_15px_rgba(45,212,191,0.6)]">
+      </section>
+    </main>
+    <!-- =========  PSET7 QUESTIONS & HINTS – DOPE STYLING  ========= -->
+    <section class="reveal mt-12">
+      <!-- neon-gradient title -->
+      <h2
+        class="text-4xl font-extrabold mb-10 text-center bg-clip-text text-transparent bg-gradient-to-r from-sky-500 via-cyan-500 to-teal-500 drop-shadow-[0_0_10px_rgba(14,165,233,0.5)] dark:drop-shadow-[0_0_15px_rgba(45,212,191,0.6)]"
+      >
         📌 PSET 7 – Regular Expressions
-    </h2>
+      </h2>
 
-    <!-- glowing card grid -->
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-
+      <!-- glowing card grid -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- 1. NUMB3RS -->
-        <div class="group relative bg-gradient-to-br from-sky-50 to-cyan-50 dark:from-gray-900 dark:to-sky-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/30 ring-1 ring-sky-200 dark:ring-sky-700 hover:ring-sky-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-sky-500/20">
-            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-sky-500 to-cyan-600 text-white font-bold shadow-lg drop-shadow-md">1</div>
-            <h3 class="text-xl font-bold mb-3 text-sky-700 dark:text-sky-300">NUMB3RS</h3>
-            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">IPv4 address validator: x.x.x.x, each 0-255, no extras.</p>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 dark:bg-sky-800/30 text-sky-700 dark:text-sky-300 text-xs font-medium">
-                regex + range check
-            </div>
-            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Pattern pakdo, phir har octet 0-255 hai ya nahi—dono check karo.</p>
+        <div
+          class="group relative bg-gradient-to-br from-sky-50 to-cyan-50 dark:from-gray-900 dark:to-sky-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/30 ring-1 ring-sky-200 dark:ring-sky-700 hover:ring-sky-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-sky-500/20"
+        >
+          <div
+            class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-sky-500 to-cyan-600 text-white font-bold shadow-lg drop-shadow-md"
+          >
+            1
+          </div>
+          <h3 class="text-xl font-bold mb-3 text-sky-700 dark:text-sky-300">
+            NUMB3RS
+          </h3>
+          <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">
+            IPv4 address validator: x.x.x.x, each 0-255, no extras.
+          </p>
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 dark:bg-sky-800/30 text-sky-700 dark:text-sky-300 text-xs font-medium"
+          >
+            regex + range check
+          </div>
+          <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">
+            Hinglish: Pattern pakdo, phir har octet 0-255 hai ya nahi—dono check
+            karo.
+          </p>
         </div>
 
         <!-- 2. Watch on YouTube -->
-        <div class="group relative bg-gradient-to-br from-rose-50 to-red-50 dark:from-gray-900 dark:to-rose-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-rose-200 dark:ring-rose-700 hover:ring-rose-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-rose-500/20">
-            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-rose-500 to-red-600 text-white font-bold shadow-lg drop-shadow-md">2</div>
-            <h3 class="text-xl font-bold mb-3 text-rose-700 dark:text-rose-300">Watch on YouTube</h3>
-            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">HTML se youtube.com/embed/... ya youtu.be/... se video ID nikalo.</p>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-800/30 text-rose-700 dark:text-rose-300 text-xs font-medium">
-                capturing groups
-            </div>
-            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Group pakdo, ID extract karo, warna None.</p>
+        <div
+          class="group relative bg-gradient-to-br from-rose-50 to-red-50 dark:from-gray-900 dark:to-rose-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-rose-200 dark:ring-rose-700 hover:ring-rose-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-rose-500/20"
+        >
+          <div
+            class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-rose-500 to-red-600 text-white font-bold shadow-lg drop-shadow-md"
+          >
+            2
+          </div>
+          <h3 class="text-xl font-bold mb-3 text-rose-700 dark:text-rose-300">
+            Watch on YouTube
+          </h3>
+          <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">
+            HTML se youtube.com/embed/... ya youtu.be/... se video ID nikalo.
+          </p>
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-800/30 text-rose-700 dark:text-rose-300 text-xs font-medium"
+          >
+            capturing groups
+          </div>
+          <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">
+            Hinglish: Group pakdo, ID extract karo, warna None.
+          </p>
         </div>
 
         <!-- 3. Working 9 to 5 -->
-        <div class="group relative bg-gradient-to-br from-amber-50 to-orange-50 dark:from-gray-900 dark:to-amber-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-amber-200 dark:ring-amber-700 hover:ring-amber-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-amber-500/20">
-            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-amber-500 to-orange-600 text-white font-bold shadow-lg drop-shadow-md">3</div>
-            <h3 class="text-xl font-bold mb-3 text-amber-700 dark:text-amber-300">Working 9 to 5</h3>
-            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">“9 AM to 5 PM” → “09:00 to 17:00”; AM/PM & optional minutes handle karo.</p>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-800/30 text-amber-700 dark:text-amber-300 text-xs font-medium">
-                regex parse + 24 h
-            </div>
-            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Groups se hours-minutes nikalo, AM/PM check karo, convert karo.</p>
+        <div
+          class="group relative bg-gradient-to-br from-amber-50 to-orange-50 dark:from-gray-900 dark:to-amber-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-amber-200 dark:ring-amber-700 hover:ring-amber-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-amber-500/20"
+        >
+          <div
+            class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-amber-500 to-orange-600 text-white font-bold shadow-lg drop-shadow-md"
+          >
+            3
+          </div>
+          <h3 class="text-xl font-bold mb-3 text-amber-700 dark:text-amber-300">
+            Working 9 to 5
+          </h3>
+          <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">
+            “9 AM to 5 PM” → “09:00 to 17:00”; AM/PM & optional minutes handle
+            karo.
+          </p>
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-800/30 text-amber-700 dark:text-amber-300 text-xs font-medium"
+          >
+            regex parse + 24 h
+          </div>
+          <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">
+            Hinglish: Groups se hours-minutes nikalo, AM/PM check karo, convert
+            karo.
+          </p>
         </div>
 
         <!-- 4. Regular, um -->
-        <div class="group relative bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-gray-900 dark:to-emerald-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-emerald-200 dark:ring-emerald-700 hover:ring-emerald-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-500/20">
-            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-bold shadow-lg drop-shadow-md">4</div>
-            <h3 class="text-xl font-bold mb-3 text-emerald-700 dark:text-emerald-300">Regular, um</h3>
-            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Standalone “um” (case-insensitive) count karo; “yummy” ignore.</p>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-800/30 text-emerald-700 dark:text-emerald-300 text-xs font-medium">
-                \bum\b + re.IGNORECASE
-            </div>
-            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Word boundary lagao, re.IGNORECASE daalo, count badhao.</p>
+        <div
+          class="group relative bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-gray-900 dark:to-emerald-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-emerald-200 dark:ring-emerald-700 hover:ring-emerald-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-500/20"
+        >
+          <div
+            class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-bold shadow-lg drop-shadow-md"
+          >
+            4
+          </div>
+          <h3
+            class="text-xl font-bold mb-3 text-emerald-700 dark:text-emerald-300"
+          >
+            Regular, um
+          </h3>
+          <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">
+            Standalone “um” (case-insensitive) count karo; “yummy” ignore.
+          </p>
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-800/30 text-emerald-700 dark:text-emerald-300 text-xs font-medium"
+          >
+            \bum\b + re.IGNORECASE
+          </div>
+          <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">
+            Hinglish: Word boundary lagao, re.IGNORECASE daalo, count badhao.
+          </p>
         </div>
 
         <!-- 5. Response Validation -->
-        <div class="group relative bg-gradient-to-br from-indigo-50 to-violet-50 dark:from-gray-900 dark:to-indigo-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-indigo-200 dark:ring-indigo-700 hover:ring-indigo-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-500/20 md:col-span-2 lg:col-span-1">
-            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white font-bold shadow-lg drop-shadow-md">5</div>
-            <h3 class="text-xl font-bold mb-3 text-indigo-700 dark:text-indigo-300">Response Validation</h3>
-            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Email validator: local@domain format sahi hai toh Valid, else Invalid.</p>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-800/30 text-indigo-700 dark:text-indigo-300 text-xs font-medium">
-                full RFC-style regex
-            </div>
-            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: Pattern strict rakho, local & domain dono check karo.</p>
+        <div
+          class="group relative bg-gradient-to-br from-indigo-50 to-violet-50 dark:from-gray-900 dark:to-indigo-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-indigo-200 dark:ring-indigo-700 hover:ring-indigo-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-500/20 md:col-span-2 lg:col-span-1"
+        >
+          <div
+            class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white font-bold shadow-lg drop-shadow-md"
+          >
+            5
+          </div>
+          <h3
+            class="text-xl font-bold mb-3 text-indigo-700 dark:text-indigo-300"
+          >
+            Response Validation
+          </h3>
+          <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">
+            Email validator: local@domain format sahi hai toh Valid, else
+            Invalid.
+          </p>
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-800/30 text-indigo-700 dark:text-indigo-300 text-xs font-medium"
+          >
+            full RFC-style regex
+          </div>
+          <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">
+            Hinglish: Pattern strict rakho, local & domain dono check karo.
+          </p>
         </div>
-    </div>
+      </div>
 
-    <!-- quick memory trigger -->
-    <div class="mt-10 p-5 bg-gradient-to-r from-sky-500/10 via-cyan-500/10 to-teal-500/10 dark:from-sky-500/20 dark:via-cyan-500/20 dark:to-teal-500/20 rounded-2xl border border-sky-300 dark:border-sky-700 text-center">
-        <p class="font-bold text-slate-800 dark:text-slate-200">🧠 Quick Memory Trigger</p>
-        <p class="text-sm mt-2 text-slate-600 dark:text-slate-300">
-            IPv4 → octet bounds | YouTube → capture ID | 9-to-5 → AM/PM→24 h | um → word boundary | Email → local@domain regex
+      <!-- quick memory trigger -->
+      <div
+        class="mt-10 p-5 bg-gradient-to-r from-sky-500/10 via-cyan-500/10 to-teal-500/10 dark:from-sky-500/20 dark:via-cyan-500/20 dark:to-teal-500/20 rounded-2xl border border-sky-300 dark:border-sky-700 text-center"
+      >
+        <p class="font-bold text-slate-800 dark:text-slate-200">
+          🧠 Quick Memory Trigger
         </p>
-    </div>
-</section>
-<footer class="bg-gray-900 text-white py-8 mt-12">
-    <div class="max-w-4xl mx-auto px-4 text-center text-gray-400">© 2024 PythonLearn – built with ❤️ for every future Pythonista.</div>
-</footer>
+        <p class="text-sm mt-2 text-slate-600 dark:text-slate-300">
+          IPv4 → octet bounds | YouTube → capture ID | 9-to-5 → AM/PM→24 h | um
+          → word boundary | Email → local@domain regex
+        </p>
+      </div>
+    </section>
+    <footer class="bg-gray-900 text-white py-8 mt-12">
+      <div class="max-w-4xl mx-auto px-4 text-center text-gray-400">
+        © 2024 PythonLearn – built with ❤️ for every future Pythonista.
+      </div>
+    </footer>
 
-<script>
-/* dark mode */
-if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    document.documentElement.setAttribute('data-theme','dark');
-}
-/* scroll reveal */
-const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            anime({ targets: entry.target, opacity: 1, translateY: 0, duration: 600, easing: 'easeOutQuad' });
-            observer.unobserve(entry.target);
-        }
-    });
-}, { threshold: .15 });
-reveals.forEach(el => observer.observe(el));
+    <script>
+      /* dark mode */
+      if (
+        localStorage.theme === "dark" ||
+        (!("theme" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+      /* scroll reveal */
+      const reveals = document.querySelectorAll(".reveal");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              anime({
+                targets: entry.target,
+                opacity: 1,
+                translateY: 0,
+                duration: 600,
+                easing: "easeOutQuad",
+              });
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15 }
+      );
+      reveals.forEach((el) => observer.observe(el));
 
-/* copy code */
-function copyCode(btn) {
-    const box = btn.parentElement;
-    const code = box.textContent.trim();
-    navigator.clipboard.writeText(code);
-    btn.textContent = 'Copied!';
-    setTimeout(() => btn.textContent = 'Copy', 1200);
-}
+      /* copy code */
+      function copyCode(btn) {
+        const box = btn.parentElement;
+        const code = box.textContent.trim();
+        navigator.clipboard.writeText(code);
+        btn.textContent = "Copied!";
+        setTimeout(() => (btn.textContent = "Copy"), 1200);
+      }
 
-/* Skulpt runner */
-function outf(text) { document.getElementById('playground-out').textContent += text; }
-function builtinRead(x) {
-    if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
-        throw new Error("File not found: " + x);
-    return Sk.builtinFiles["files"][x];
-}
-function runCode() {
-    const prog = document.getElementById('playground').value;
-    document.getElementById('playground-out').textContent = '';
-    Sk.pre = "playground-out";
-    Sk.configure({ output: outf, read: builtinRead, __future__: Sk.python3 });
-    const myPromise = Sk.misceval.asyncToPromise(() => Sk.importMainWithBody("<stdin>", false, prog, true));
-    myPromise.then(() => {}, err => document.getElementById('playground-out').textContent = err.toString());
-}
-function resetCode() {
-    document.getElementById('playground').value = `import re
+      /* Skulpt runner */
+      function outf(text) {
+        document.getElementById("playground-out").textContent += text;
+      }
+      function builtinRead(x) {
+        if (
+          Sk.builtinFiles === undefined ||
+          Sk.builtinFiles["files"][x] === undefined
+        )
+          throw new Error("File not found: " + x);
+        return Sk.builtinFiles["files"][x];
+      }
+      function runCode() {
+        const prog = document.getElementById("playground").value;
+        document.getElementById("playground-out").textContent = "";
+        Sk.pre = "playground-out";
+        Sk.configure({
+          output: outf,
+          read: builtinRead,
+          __future__: Sk.python3,
+        });
+        const myPromise = Sk.misceval.asyncToPromise(() =>
+          Sk.importMainWithBody("<stdin>", false, prog, true)
+        );
+        myPromise.then(
+          () => {},
+          (err) =>
+            (document.getElementById("playground-out").textContent =
+              err.toString())
+        );
+      }
+      function resetCode() {
+        document.getElementById("playground").value = `import re
 
 # Test any pattern you like!
 email = input("Email: ").strip()
@@ -563,11 +1088,15 @@ if re.search(r"^\w+@(\w+\.)?\w+\.(com|edu|org)$", email, re.IGNORECASE):
     print("✅ Valid")
 else:
     print("❌ Invalid")`;
-    document.getElementById('playground-out').textContent = 'Output will appear here…';
-}
+        document.getElementById("playground-out").textContent =
+          "Output will appear here…";
+      }
 
-/* highlight current lecture */
-document.querySelectorAll('.mini-nav a').forEach(a => { if (a.href.endsWith('lec7.html')) a.classList.add('bg-teal-700','text-white'); });
-</script>
-</body>
+      /* highlight current lecture */
+      document.querySelectorAll(".mini-nav a").forEach((a) => {
+        if (a.href.endsWith("lec7.html"))
+          a.classList.add("bg-teal-700", "text-white");
+      });
+    </script>
+  </body>
 </html>

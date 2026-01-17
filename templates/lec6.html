@@ -1,136 +1,432 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lecture 1 – Conditionals & Control Flow ✨</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-        :root { --bg: #ffffff; --text: #1f2937; --accent: #0d9488; --surface: #f9fafb; --border: #e5e7eb; }
-        [data-theme="dark"] { --bg: #0f172a; --text: #f1f5f9; --surface: #1e293b; --border: #334155; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); transition: background .3s, color .3s; }
-        .code-box { background: #1e293b; color: #e2e8f0; border-radius: .75rem; padding: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: .95rem; position: relative; overflow: hidden; }
-        .output-box { background: #0f172a; color: #10b981; border-radius: .75rem; padding: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: .95rem; min-height: 3rem; white-space: pre-wrap; }
-        .copy-btn { position: absolute; top: .75rem; right: .75rem; padding: .25rem .5rem; font-size: .75rem; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); color: #fff; border-radius: .5rem; cursor: pointer; transition: background .2s; }
-        .copy-btn:hover { background: rgba(255,255,255,.2); }
-        .reveal { opacity: 0; transform: translateY(30px); }
-        /* sticky mini nav */
-        .mini-nav { position: sticky; top: 64px; z: 30; background: var(--surface); border-bottom: 1px solid var(--border); }
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+      :root {
+        --bg: #ffffff;
+        --text: #1f2937;
+        --accent: #0d9488;
+        --surface: #f9fafb;
+        --border: #e5e7eb;
+      }
+      [data-theme="dark"] {
+        --bg: #0f172a;
+        --text: #f1f5f9;
+        --surface: #1e293b;
+        --border: #334155;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        transition: background 0.3s, color 0.3s;
+      }
+      .code-box {
+        background: #1e293b;
+        color: #e2e8f0;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.95rem;
+        position: relative;
+        overflow: hidden;
+      }
+      .output-box {
+        background: #0f172a;
+        color: #10b981;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.95rem;
+        min-height: 3rem;
+        white-space: pre-wrap;
+      }
+      .copy-btn {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      /* sticky mini nav */
+      .mini-nav {
+        position: sticky;
+        top: 64px;
+        z: 30;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+      }
     </style>
-</head>
-<body>
-<body>
-<!-- =========  TOP BAR  ========= -->
-<nav class="sticky top-0 z-40 bg-teal-700 text-white shadow-lg">
-    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
-        <div class="text-2xl font-bold flex items-center gap-2">
+  </head>
+  <body>
+    <body>
+      <!-- =========  TOP BAR  ========= -->
+      <nav class="sticky top-0 z-40 bg-teal-700 text-white shadow-lg">
+        <div
+          class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between"
+        >
+          <div class="text-2xl font-bold flex items-center gap-2">
             <span class="hidden sm:inline">🐍</span> PythonLearn
+          </div>
+          <a href="course.html" class="text-sm sm:text-base hover:underline"
+            >← Back to Course</a
+          >
         </div>
-        <a href="course.html" class="text-sm sm:text-base hover:underline">← Back to Course</a>
-    </div>
-</nav>
+      </nav>
 
-<!-- =========  MINI NAV  ========= -->
-<div class="lecture2-nav sticky top-16 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-gray-200 dark:border-gray-700">
-    <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap gap-2 justify-center">
-        <a href="lec0.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 0</a>
-        <a href="lec1.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 1</a>
-        <a href="lec2.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 2</a>
-        <a href="lec3.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 3</a>
-        <a href="lec4.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 4</a>
-        <a href="lec5.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 5</a>
-        <a href="lec6.html" class="px-4 py-2 rounded-full bg-teal-700 text-white shadow">Lecture 6</a>
-        <a href="lec7.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 7</a>
-        <a href="lec8.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 8</a>
-        <a href="lec9.html" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Lecture 9</a>
-    </div>
-</div>
+      <!-- =========  MINI NAV  ========= -->
+      <div class="mini-nav">
+        <div
+          class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap gap-2 justify-center"
+        >
+          <a
+            href="/lec0"
+            class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+            >Lecture 0</a
+          >
+          <a
+            href="/lec1"
+            class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+            >Lecture 1</a
+          >
+          <a
+            href="/lec2"
+            class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+            >Lecture 2</a
+          >
+          <a
+            href="/lec3"
+            class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+            >Lecture 3</a
+          >
+          <a
+            href="/lec4"
+            class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+            >Lecture 4</a
+          >
+          <a
+            href="/lec5"
+            class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+            >Lecture 5</a
+          >
+          <a
+            href="/lec6"
+            class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+            >Lecture 6</a
+          >
+          <a
+            href="/lec7"
+            class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+            >Lecture 7</a
+          >
+          <a
+            href="/lec8"
+            class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+            >Lecture 8</a
+          >
+          <a
+            href="/lec9"
+            class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+            >Lecture 9</a
+          >
+        </div>
+      </div>
 
-<!-- =========  MAIN CONTENT  ========= -->
-<main class="max-w-4xl mx-auto px-4 py-10">
-    <!-- hero -->
-    <header class="reveal mb-12 text-center">
-        <h1 class="text-4xl sm:text-5xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-blue-500">Lecture 6 – File I/O</h1>
-        <p class="text-lg text-gray-600 dark:text-gray-300">Save, load, sort, and animate: plain text, CSV, and even binary GIFs.</p>
-    </header>
+      <!-- =========  MAIN CONTENT  ========= -->
+      <main class="max-w-4xl mx-auto px-4 py-10">
+        <!-- hero -->
+        <header class="reveal mb-12 text-center">
+          <h1
+            class="text-4xl sm:text-5xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-blue-500"
+          >
+            Lecture 6 – File I/O
+          </h1>
+          <p class="text-lg text-gray-600 dark:text-gray-300">
+            Save, load, sort, and animate: plain text, CSV, and even binary
+            GIFs.
+          </p>
+        </header>
 
-    <!-- 1. File I/O -->
-    <section class="reveal mb-12">
-        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-teal-600">📁</span> File I/O</h2>
-        <p class="mb-4">
-            Up until now, everything we’ve programmed has stored information in memory. That is, once the program is ended, all information gathered from the user or generated by the program is lost. <br>
-            File I/O is the ability of a program to take a file as input or create a file as output. <br>
-            To begin, in the terminal window type code names.py and code as follows:
-        </p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>name = input("What's your name? ")<br>print(f"hello, {name}")</div>
-        <p class="mt-3">However, what if we wanted to allow multiple names to be inputted? How might we achieve this? Recall that a list is a data structure that allows us to store multiple values into a single variable. Code as follows:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>names = []<br><br>for _ in range(3):<br>    names.append(input("What's your name? "))<br><br>for name in sorted(names):<br>    print(f"hello, {name}")</div>
-        <p class="mt-3">Notice that once this program is executed, all information is lost. File I/O allows your program to store this information such that it can be used later. <br> You can learn more in Python’s <a href="https://docs.python.org/3/library/functions.html#sorted" target="_blank" class="underline">documentation of sorted</a>.</p>
-    </section>
+        <!-- 1. File I/O -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-teal-600">📁</span> File I/O
+          </h2>
+          <p class="mb-4">
+            Up until now, everything we’ve programmed has stored information in
+            memory. That is, once the program is ended, all information gathered
+            from the user or generated by the program is lost. <br />
+            File I/O is the ability of a program to take a file as input or
+            create a file as output. <br />
+            To begin, in the terminal window type code names.py and code as
+            follows:
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>name
+            = input("What's your name? ")<br />print(f"hello, {name}")
+          </div>
+          <p class="mt-3">
+            However, what if we wanted to allow multiple names to be inputted?
+            How might we achieve this? Recall that a list is a data structure
+            that allows us to store multiple values into a single variable. Code
+            as follows:
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>names
+            = []<br /><br />for _ in range(3):<br />
+            names.append(input("What's your name? "))<br /><br />for name in
+            sorted(names):<br />
+            print(f"hello, {name}")
+          </div>
+          <p class="mt-3">
+            Notice that once this program is executed, all information is lost.
+            File I/O allows your program to store this information such that it
+            can be used later. <br />
+            You can learn more in Python’s
+            <a
+              href="https://docs.python.org/3/library/functions.html#sorted"
+              target="_blank"
+              class="underline"
+              >documentation of sorted</a
+            >.
+          </p>
+        </section>
 
-    <!-- 2. open -->
-    <section class="reveal mb-12">
-        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-indigo-500">📂</span> open</h2>
-        <p class="mb-4">open is a functionality built into Python that allows you to open a file and utilize it in your program. The open function allows you to open a file such that you can read from it or write to it.</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>name = input("What's your name? ")<br><br>file = open("names.txt", "a")<br>file.write(f"{name}\n")<br>file.close()</div>
-        <p class="mt-3">Notice that the open function opens a file called names.txt with writing enabled, as signified by the w. The code above assigns that opened file to a variable called file. The line file.write(name) writes the name to the text file. The line after that closes the file. <br> Notice that the only change to our code is that the w has been changed to a for “append”. Rerunning this program multiple times, you will notice that names will be added to the file. <br> You can learn more in Python’s <a href="https://docs.python.org/3/library/functions.html#open" target="_blank" class="underline">documentation of open</a>.</p>
-    </section>
+        <!-- 2. open -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-indigo-500">📂</span> open
+          </h2>
+          <p class="mb-4">
+            open is a functionality built into Python that allows you to open a
+            file and utilize it in your program. The open function allows you to
+            open a file such that you can read from it or write to it.
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>name
+            = input("What's your name? ")<br /><br />file = open("names.txt",
+            "a")<br />file.write(f"{name}\n")<br />file.close()
+          </div>
+          <p class="mt-3">
+            Notice that the open function opens a file called names.txt with
+            writing enabled, as signified by the w. The code above assigns that
+            opened file to a variable called file. The line file.write(name)
+            writes the name to the text file. The line after that closes the
+            file. <br />
+            Notice that the only change to our code is that the w has been
+            changed to a for “append”. Rerunning this program multiple times,
+            you will notice that names will be added to the file. <br />
+            You can learn more in Python’s
+            <a
+              href="https://docs.python.org/3/library/functions.html#open"
+              target="_blank"
+              class="underline"
+              >documentation of open</a
+            >.
+          </p>
+        </section>
 
-    <!-- 3. with -->
-    <section class="reveal mb-12">
-        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-purple-500">🔗</span> with</h2>
-        <p class="mb-4">The keyword with allows you to automate the closing of a file.</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>name = input("What's your name? ")<br><br>with open("names.txt", "a") as file:<br>    file.write(f"{name}\n")</div>
-        <p class="mt-3">Up until this point, we have been exclusively writing to a file. What if we want to read from a file?</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>with open("names.txt") as file:<br>    for line in file:<br>        print("hello,", line.rstrip())</div>
-        <p class="mt-3">Notice that readlines has a special ability to read all the lines of a file and store them in a list called lines. Running your program, you will notice that the output is quite ugly. There seem to be multiple line breaks where there should be only one. <br> Notice that rstrip has the effect of removing the extraneous line break at the end of each line.</p>
-    </section>
+        <!-- 3. with -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-purple-500">🔗</span> with
+          </h2>
+          <p class="mb-4">
+            The keyword with allows you to automate the closing of a file.
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>name
+            = input("What's your name? ")<br /><br />with open("names.txt", "a")
+            as file:<br />
+            file.write(f"{name}\n")
+          </div>
+          <p class="mt-3">
+            Up until this point, we have been exclusively writing to a file.
+            What if we want to read from a file?
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>with
+            open("names.txt") as file:<br />
+            for line in file:<br />
+            print("hello,", line.rstrip())
+          </div>
+          <p class="mt-3">
+            Notice that readlines has a special ability to read all the lines of
+            a file and store them in a list called lines. Running your program,
+            you will notice that the output is quite ugly. There seem to be
+            multiple line breaks where there should be only one. <br />
+            Notice that rstrip has the effect of removing the extraneous line
+            break at the end of each line.
+          </p>
+        </section>
 
-    <!-- 4. CSV -->
-    <section class="reveal mb-12">
-        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-green-500">📊</span> CSV</h2>
-        <p class="mb-4">CSV stands for “comma separated values”. <br> In your terminal window, type code students.csv. Ensure your new CSV file looks like the following:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>Hermione,Gryffindor<br>Harry,Gryffindor<br>Ron,Gryffindor<br>Draco,Slytherin</div>
-        <p class="mt-3">Let’s create a new program by typing code students.py and code as follows:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import csv<br><br>students = []<br><br>with open("students.csv") as file:<br>    reader = csv.DictReader(file)<br>    for row in reader:<br>        students.append({"name": row["name"], "home": row["home"]})<br><br>for student in sorted(students, key=lambda student: student["name"]):<br>    print(f"{student['name']} is in {student['house']}")</div>
-        <p class="mt-3">Notice that we have replaced reader with DictReader, which returns one dictionary at a time. Also, notice that the interpreter will directly access the row dictionary, getting the name and home of each student. This is an example of coding defensively. As long as the person designing the CSV file has inputted the correct header information on the first line, we can access that information using our program. <br> Up until this point, we have been reading CSV files. What if we want to write to a CSV file?</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import csv<br><br>name = input("What's your name? ")<br>home = input("Where's your home? ")<br><br>with open("students.csv", "a") as file:<br>    writer = csv.DictWriter(file, fieldnames=["name", "home"])<br>    writer.writerow({"name": name, "home": home})</div>
-        <p class="mt-3">Notice how we are leveraging the built-in functionality of DictWriter, which takes two parameters: the file being written to and the fieldnames to write. Further, notice how the writerow function takes a dictionary as its parameter. Quite literally, we are telling the interpreter to write a row with two fields called name and home. <br> You can learn more in Python’s <a href="https://docs.python.org/3/library/csv.html" target="_blank" class="underline">documentation of CSV</a>.</p>
-    </section>
+        <!-- 4. CSV -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-green-500">📊</span> CSV
+          </h2>
+          <p class="mb-4">
+            CSV stands for “comma separated values”. <br />
+            In your terminal window, type code students.csv. Ensure your new CSV
+            file looks like the following:
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button
+            >Hermione,Gryffindor<br />Harry,Gryffindor<br />Ron,Gryffindor<br />Draco,Slytherin
+          </div>
+          <p class="mt-3">
+            Let’s create a new program by typing code students.py and code as
+            follows:
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button
+            >import csv<br /><br />students = []<br /><br />with
+            open("students.csv") as file:<br />
+            reader = csv.DictReader(file)<br />
+            for row in reader:<br />
+            students.append({"name": row["name"], "home": row["home"]})<br /><br />for
+            student in sorted(students, key=lambda student: student["name"]):<br />
+            print(f"{student['name']} is in {student['house']}")
+          </div>
+          <p class="mt-3">
+            Notice that we have replaced reader with DictReader, which returns
+            one dictionary at a time. Also, notice that the interpreter will
+            directly access the row dictionary, getting the name and home of
+            each student. This is an example of coding defensively. As long as
+            the person designing the CSV file has inputted the correct header
+            information on the first line, we can access that information using
+            our program. <br />
+            Up until this point, we have been reading CSV files. What if we want
+            to write to a CSV file?
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button
+            >import csv<br /><br />name = input("What's your name? ")<br />home
+            = input("Where's your home? ")<br /><br />with open("students.csv",
+            "a") as file:<br />
+            writer = csv.DictWriter(file, fieldnames=["name", "home"])<br />
+            writer.writerow({"name": name, "home": home})
+          </div>
+          <p class="mt-3">
+            Notice how we are leveraging the built-in functionality of
+            DictWriter, which takes two parameters: the file being written to
+            and the fieldnames to write. Further, notice how the writerow
+            function takes a dictionary as its parameter. Quite literally, we
+            are telling the interpreter to write a row with two fields called
+            name and home. <br />
+            You can learn more in Python’s
+            <a
+              href="https://docs.python.org/3/library/csv.html"
+              target="_blank"
+              class="underline"
+              >documentation of CSV</a
+            >.
+          </p>
+        </section>
 
-    <!-- 5. Binary Files and PIL -->
-    <section class="reveal mb-12">
-        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-pink-500">🖼️</span> Binary Files and PIL</h2>
-        <p class="mb-4">One more type of file that we will discuss today is a binary file. A binary file is simply a collection of ones and zeros. This type of file can store anything including, music and image data. <br> There is a popular Python library called PIL that works well with image files. <br> Animated GIFs are a popular type of image file that has many image files within it that are played in sequence over and over again, creating a simplistic animation or video effect. <br> In the terminal window type code costumes.py and code as follows:</p>
-        <div class="code-box"><button class="copy-btn" onclick="copyCode(this)">Copy</button>import sys<br><br>from PIL import Image<br><br>images = []<br><br>for arg in sys.argv[1:]:<br>    image = Image.open(arg)<br>    images.append(image)<br><br>images[0].save(<br>    "costumes.gif", save_all=True, append_images=[images[1]], duration=200, loop=0<br>)</div>
-        <p class="mt-3">Notice that we import the Image functionality from PIL. Notice that the first for loop simply loops through the images provided as command-line arguments and stores them into the list called images. The 1: starts slicing argv at its second element. The last lines of code saves the first image and also appends a second image to it as well, creating an animated gif. Typing python costumes.py costume1.gif costume2.gif into the terminal. Now, type code costumes.gif into the terminal window, and you can now see an animated GIF. <br> You can learn more in <a href="https://pillow.readthedocs.io/en/stable/" target="_blank" class="underline">Pillow’s documentation of PIL</a>.</p>
-    </section>
+        <!-- 5. Binary Files and PIL -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-pink-500">🖼️</span> Binary Files and PIL
+          </h2>
+          <p class="mb-4">
+            One more type of file that we will discuss today is a binary file. A
+            binary file is simply a collection of ones and zeros. This type of
+            file can store anything including, music and image data. <br />
+            There is a popular Python library called PIL that works well with
+            image files. <br />
+            Animated GIFs are a popular type of image file that has many image
+            files within it that are played in sequence over and over again,
+            creating a simplistic animation or video effect. <br />
+            In the terminal window type code costumes.py and code as follows:
+          </p>
+          <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button
+            >import sys<br /><br />from PIL import Image<br /><br />images =
+            []<br /><br />for arg in sys.argv[1:]:<br />
+            image = Image.open(arg)<br />
+            images.append(image)<br /><br />images[0].save(<br />
+            "costumes.gif", save_all=True, append_images=[images[1]],
+            duration=200, loop=0<br />)
+          </div>
+          <p class="mt-3">
+            Notice that we import the Image functionality from PIL. Notice that
+            the first for loop simply loops through the images provided as
+            command-line arguments and stores them into the list called images.
+            The 1: starts slicing argv at its second element. The last lines of
+            code saves the first image and also appends a second image to it as
+            well, creating an animated gif. Typing python costumes.py
+            costume1.gif costume2.gif into the terminal. Now, type code
+            costumes.gif into the terminal window, and you can now see an
+            animated GIF. <br />
+            You can learn more in
+            <a
+              href="https://pillow.readthedocs.io/en/stable/"
+              target="_blank"
+              class="underline"
+              >Pillow’s documentation of PIL</a
+            >.
+          </p>
+        </section>
 
-    <!-- 6. Summing Up -->
-    <section class="reveal mb-12 p-6 bg-gradient-to-r from-teal-50 to-blue-50 dark:from-teal-900/20 dark:to-blue-900/20 rounded-xl">
-        <h2 class="text-2xl font-bold mb-3">Summing Up</h2>
-        <p class="mb-4">Now, we have not only seen that we can write and read files textually—we can also read and write files using ones and zeros. We can’t wait to see what you achieve with these new abilities next.</p>
-        <ul class="list-disc ml-6 space-y-1">
+        <!-- 6. Summing Up -->
+        <section
+          class="reveal mb-12 p-6 bg-gradient-to-r from-teal-50 to-blue-50 dark:from-teal-900/20 dark:to-blue-900/20 rounded-xl"
+        >
+          <h2 class="text-2xl font-bold mb-3">Summing Up</h2>
+          <p class="mb-4">
+            Now, we have not only seen that we can write and read files
+            textually—we can also read and write files using ones and zeros. We
+            can’t wait to see what you achieve with these new abilities next.
+          </p>
+          <ul class="list-disc ml-6 space-y-1">
             <li>File I/O</li>
             <li>open</li>
             <li>with</li>
             <li>CSV</li>
             <li>PIL</li>
-        </ul>
-        <div class="mt-4">
-            <a href="lec7.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition">Next Lecture →</a>
-        </div>
-    </section>
+          </ul>
+          <div class="mt-4">
+            <a
+              href="lec7.html"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition"
+              >Next Lecture →</a
+            >
+          </div>
+        </section>
 
-    <!-- 7. Live Playground -->
-    <section class="reveal mb-12">
-        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2"><span class="text-teal-500">🚀</span> Live Playground</h2>
-        <p>Edit the code below and hit <strong>Run</strong>—no servers, no installs.</p>
-        <textarea id="playground" class="code-box w-full h-48 mt-3"># Try your own file I/O!
+        <!-- 7. Live Playground -->
+        <section class="reveal mb-12">
+          <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+            <span class="text-teal-500">🚀</span> Live Playground
+          </h2>
+          <p>
+            Edit the code below and hit <strong>Run</strong>—no servers, no
+            installs.
+          </p>
+          <textarea id="playground" class="code-box w-full h-48 mt-3">
+# Try your own file I/O!
 import csv
 
 with open("students.csv", "w") as f:
@@ -141,158 +437,289 @@ with open("students.csv", "w") as f:
 with open("students.csv") as f:
     reader = csv.DictReader(f)
     for row in reader:
-        print(f"{row['name']} is in {row['house']}")</textarea>
-        <div class="flex items-center gap-3 mt-3">
-            <button onclick="runCode()" class="px-5 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition">▶ Run</button>
-            <button onclick="resetCode()" class="px-5 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">Reset</button>
-        </div>
-        <div id="playground-out" class="output-box mt-3">Output will appear here…</div>
-    </section>
-</main>
-<!-- =========  PSET6 QUESTIONS & HINTS – DOPE STYLING  ========= -->
-<section class="reveal mt-12">
+        print(f"{row['name']} is in {row['house']}")</textarea
+          >
+          <div class="flex items-center gap-3 mt-3">
+            <button
+              onclick="runCode()"
+              class="px-5 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition"
+            >
+              ▶ Run
+            </button>
+            <button
+              onclick="resetCode()"
+              class="px-5 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+            >
+              Reset
+            </button>
+          </div>
+          <div id="playground-out" class="output-box mt-3">
+            Output will appear here…
+          </div>
+        </section>
+      </main>
+      <!-- =========  PSET6 QUESTIONS & HINTS – DOPE STYLING  ========= -->
+      <section class="reveal mt-12">
+        <!-- neon-gradient title -->
+        <h2
+          class="text-4xl font-extrabold mb-10 text-center bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)] dark:drop-shadow-[0_0_15px_rgba(245,158,11,0.6)]"
+        >
+          🚀 PSET 6 – Web + APIs
+        </h2>
 
-    <!-- neon-gradient title -->
-    <h2 class="text-4xl font-extrabold mb-10 text-center bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)] dark:drop-shadow-[0_0_15px_rgba(245,158,11,0.6)]">
-        🚀 PSET 6 – Web + APIs
-    </h2>
-
-    <!-- glowing card grid -->
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-        <!-- 1. Get Bitcoin Price -->
-        <div class="group relative bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-gray-900 dark:to-yellow-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/30 ring-1 ring-yellow-200 dark:ring-yellow-700 hover:ring-yellow-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-yellow-500/20">
-            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-yellow-400 to-amber-600 text-white font-bold shadow-lg drop-shadow-md">1</div>
-            <h3 class="text-xl font-bold mb-3 text-amber-700 dark:text-amber-300">Get Bitcoin Price</h3>
-            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">User se BTC amount lo, live USD price fetch karo, total cost dikhao.</p>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-100 dark:bg-yellow-800/30 text-amber-700 dark:text-amber-300 text-xs font-medium">
-                requests + JSON + 2-decimal
+        <!-- glowing card grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- 1. Get Bitcoin Price -->
+          <div
+            class="group relative bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-gray-900 dark:to-yellow-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/30 ring-1 ring-yellow-200 dark:ring-yellow-700 hover:ring-yellow-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-yellow-500/20"
+          >
+            <div
+              class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-yellow-400 to-amber-600 text-white font-bold shadow-lg drop-shadow-md"
+            >
+              1
             </div>
-            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: requests.get() → response.json() → multiply → f"{total:.2f}".</p>
-        </div>
-
-        <!-- 2. Cryptocurrency Portfolio -->
-        <div class="group relative bg-gradient-to-br from-orange-50 to-red-50 dark:from-gray-900 dark:to-orange-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-orange-200 dark:ring-orange-700 hover:ring-orange-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-orange-500/20">
-            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-orange-500 to-red-600 text-white font-bold shadow-lg drop-shadow-md">2</div>
-            <h3 class="text-xl font-bold mb-3 text-orange-700 dark:text-orange-300">Crypto Portfolio</h3>
-            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Multiple coins + quantities → live prices → total portfolio value.</p>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-800/30 text-orange-700 dark:text-orange-300 text-xs font-medium">
-                dict + loop + sum
+            <h3
+              class="text-xl font-bold mb-3 text-amber-700 dark:text-amber-300"
+            >
+              Get Bitcoin Price
+            </h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">
+              User se BTC amount lo, live USD price fetch karo, total cost
+              dikhao.
+            </p>
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-100 dark:bg-yellow-800/30 text-amber-700 dark:text-amber-300 text-xs font-medium"
+            >
+              requests + JSON + 2-decimal
             </div>
-            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: holdings = {"btc":0.5,"eth":2} → for coin,qty in holdings.items() → fetch → total += qty*price.</p>
-        </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">
+              Hinglish: requests.get() → response.json() → multiply →
+              f"{total:.2f}".
+            </p>
+          </div>
 
-        <!-- 3. URL Shortener -->
-        <div class="group relative bg-gradient-to-br from-cyan-50 to-sky-50 dark:from-gray-900 dark:to-cyan-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-cyan-200 dark:ring-cyan-700 hover:ring-cyan-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-500/20">
-            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-cyan-500 to-sky-600 text-white font-bold shadow-lg drop-shadow-md">3</div>
-            <h3 class="text-xl font-bold mb-3 text-cyan-700 dark:text-cyan-300">URL Shortener</h3>
-            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Long URL input karo, public API se short URL generate karo, print karo.</p>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-100 dark:bg-cyan-800/30 text-cyan-700 dark:text-cyan-300 text-xs font-medium">
-                POST JSON + parse response
+          <!-- 2. Cryptocurrency Portfolio -->
+          <div
+            class="group relative bg-gradient-to-br from-orange-50 to-red-50 dark:from-gray-900 dark:to-orange-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-orange-200 dark:ring-orange-700 hover:ring-orange-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-orange-500/20"
+          >
+            <div
+              class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-orange-500 to-red-600 text-white font-bold shadow-lg drop-shadow-md"
+            >
+              2
             </div>
-            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: requests.post(url, json={"long_url":...}) → response.json()["short_url"].</p>
-        </div>
-
-        <!-- 4. Weather Fetcher -->
-        <div class="group relative bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-blue-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-blue-200 dark:ring-blue-700 hover:ring-blue-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-500/20">
-            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white font-bold shadow-lg drop-shadow-md">4</div>
-            <h3 class="text-xl font-bold mb-3 text-blue-700 dark:text-blue-300">Weather Fetcher</h3>
-            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">City name lo, API se temp, description, humidity fetch karo, neat print karo.</p>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-800/30 text-blue-700 dark:text-blue-300 text-xs font-medium">
-                query params + JSON fields
+            <h3
+              class="text-xl font-bold mb-3 text-orange-700 dark:text-orange-300"
+            >
+              Crypto Portfolio
+            </h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">
+              Multiple coins + quantities → live prices → total portfolio value.
+            </p>
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-800/30 text-orange-700 dark:text-orange-300 text-xs font-medium"
+            >
+              dict + loop + sum
             </div>
-            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: f"api?q={city}" → data["main"]["temp"], data["weather"][0]["description"], etc.</p>
-        </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">
+              Hinglish: holdings = {"btc":0.5,"eth":2} → for coin,qty in
+              holdings.items() → fetch → total += qty*price.
+            </p>
+          </div>
 
-        <!-- 5. Quotes API -->
-        <div class="group relative bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-purple-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-purple-200 dark:ring-purple-700 hover:ring-purple-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-500/20 md:col-span-2 lg:col-span-1">
-            <div class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-purple-500 to-pink-600 text-white font-bold shadow-lg drop-shadow-md">5</div>
-            <h3 class="text-xl font-bold mb-3 text-purple-700 dark:text-purple-300">Quotes API</h3>
-            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">Random inspirational quote fetch karo, classy format mein print karo: “quote” — author</p>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-800/30 text-purple-700 dark:text-purple-300 text-xs font-medium">
-                GET + JSON + f-string
+          <!-- 3. URL Shortener -->
+          <div
+            class="group relative bg-gradient-to-br from-cyan-50 to-sky-50 dark:from-gray-900 dark:to-cyan-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-cyan-200 dark:ring-cyan-700 hover:ring-cyan-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-500/20"
+          >
+            <div
+              class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-cyan-500 to-sky-600 text-white font-bold shadow-lg drop-shadow-md"
+            >
+              3
             </div>
-            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">Hinglish: requests.get() → quote = data["quote"], author = data["author"] → print(f'“{quote}” — {author}').</p>
+            <h3 class="text-xl font-bold mb-3 text-cyan-700 dark:text-cyan-300">
+              URL Shortener
+            </h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">
+              Long URL input karo, public API se short URL generate karo, print
+              karo.
+            </p>
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-100 dark:bg-cyan-800/30 text-cyan-700 dark:text-cyan-300 text-xs font-medium"
+            >
+              POST JSON + parse response
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">
+              Hinglish: requests.post(url, json={"long_url":...}) →
+              response.json()["short_url"].
+            </p>
+          </div>
+
+          <!-- 4. Weather Fetcher -->
+          <div
+            class="group relative bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-blue-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-blue-200 dark:ring-blue-700 hover:ring-blue-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-500/20"
+          >
+            <div
+              class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white font-bold shadow-lg drop-shadow-md"
+            >
+              4
+            </div>
+            <h3 class="text-xl font-bold mb-3 text-blue-700 dark:text-blue-300">
+              Weather Fetcher
+            </h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">
+              City name lo, API se temp, description, humidity fetch karo, neat
+              print karo.
+            </p>
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-800/30 text-blue-700 dark:text-blue-300 text-xs font-medium"
+            >
+              query params + JSON fields
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">
+              Hinglish: f"api?q={city}" → data["main"]["temp"],
+              data["weather"][0]["description"], etc.
+            </p>
+          </div>
+
+          <!-- 5. Quotes API -->
+          <div
+            class="group relative bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-purple-900/30 rounded-2xl p-6 shadow-xl dark:shadow-black/40 ring-1 ring-purple-200 dark:ring-purple-700 hover:ring-purple-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-500/20 md:col-span-2 lg:col-span-1"
+          >
+            <div
+              class="absolute -top-3 -right-3 w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-purple-500 to-pink-600 text-white font-bold shadow-lg drop-shadow-md"
+            >
+              5
+            </div>
+            <h3
+              class="text-xl font-bold mb-3 text-purple-700 dark:text-purple-300"
+            >
+              Quotes API
+            </h3>
+            <p class="text-sm mb-3 text-slate-700 dark:text-slate-300">
+              Random inspirational quote fetch karo, classy format mein print
+              karo: “quote” — author
+            </p>
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-800/30 text-purple-700 dark:text-purple-300 text-xs font-medium"
+            >
+              GET + JSON + f-string
+            </div>
+            <p class="text-xs mt-3 text-slate-500 dark:text-slate-400">
+              Hinglish: requests.get() → quote = data["quote"], author =
+              data["author"] → print(f'“{quote}” — {author}').
+            </p>
+          </div>
         </div>
-    </div>
 
-    <!-- topper memory sheet -->
-    <div class="mt-10 p-5 bg-gradient-to-r from-yellow-500/10 via-orange-500/10 to-red-500/10 dark:from-yellow-500/20 dark:via-orange-500/20 dark:to-red-500/20 rounded-2xl border border-yellow-300 dark:border-yellow-700 text-center">
-        <p class="font-bold text-slate-800 dark:text-slate-200">🧠 Topper Memory Sheet</p>
-        <p class="text-sm mt-2 text-slate-600 dark:text-slate-300">
-            Bitcoin → input × live price | Portfolio → loop + sum multiple coins | URL Shortener → API POST / JSON parsing | Weather → JSON fields + formatting | Quotes → GET request + string formatting
-        </p>
-    </div>
-</section>
-<!-- =========  FOOTER  ========= -->
-<footer class="bg-gray-900 text-white py-8 mt-12">
-    <div class="max-w-4xl mx-auto px-4 text-center text-gray-400">
-        © 2024 PythonLearn – built with ❤️ for every future Pythonista.
-    </div>
-</footer>
+        <!-- topper memory sheet -->
+        <div
+          class="mt-10 p-5 bg-gradient-to-r from-yellow-500/10 via-orange-500/10 to-red-500/10 dark:from-yellow-500/20 dark:via-orange-500/20 dark:to-red-500/20 rounded-2xl border border-yellow-300 dark:border-yellow-700 text-center"
+        >
+          <p class="font-bold text-slate-800 dark:text-slate-200">
+            🧠 Topper Memory Sheet
+          </p>
+          <p class="text-sm mt-2 text-slate-600 dark:text-slate-300">
+            Bitcoin → input × live price | Portfolio → loop + sum multiple coins
+            | URL Shortener → API POST / JSON parsing | Weather → JSON fields +
+            formatting | Quotes → GET request + string formatting
+          </p>
+        </div>
+      </section>
+      <!-- =========  FOOTER  ========= -->
+      <footer class="bg-gray-900 text-white py-8 mt-12">
+        <div class="max-w-4xl mx-auto px-4 text-center text-gray-400">
+          © 2024 PythonLearn – built with ❤️ for every future Pythonista.
+        </div>
+      </footer>
 
-<!-- =========  EXISTING JS  ========= -->
-<script>
-/* ----- dark mode toggle (respects your nav) ----- */
-if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    document.documentElement.setAttribute('data-theme','dark');
-} else {
-    document.documentElement.setAttribute('data-theme','light');
-}
-
-/* ----- scroll reveal ----- */
-const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            anime({ targets: entry.target, opacity: 1, translateY: 0, duration: 600, easing: 'easeOutQuad' });
-            observer.unobserve(entry.target);
+      <!-- =========  EXISTING JS  ========= -->
+      <script>
+        /* ----- dark mode toggle (respects your nav) ----- */
+        if (
+          localStorage.theme === "dark" ||
+          (!("theme" in localStorage) &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        } else {
+          document.documentElement.setAttribute("data-theme", "light");
         }
-    });
-}, { threshold: .15 });
-reveals.forEach(el => observer.observe(el));
 
-/* ----- copy code ----- */
-function copyCode(btn) {
-    const box = btn.parentElement;
-    const code = box.textContent.trim();
-    navigator.clipboard.writeText(code);
-    btn.textContent = 'Copied!';
-    setTimeout(() => btn.textContent = 'Copy', 1200);
-}
+        /* ----- scroll reveal ----- */
+        const reveals = document.querySelectorAll(".reveal");
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                anime({
+                  targets: entry.target,
+                  opacity: 1,
+                  translateY: 0,
+                  duration: 600,
+                  easing: "easeOutQuad",
+                });
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.15 }
+        );
+        reveals.forEach((el) => observer.observe(el));
 
-/* ----- live runner (Skulpt) ----- */
-function outf(text) {
-    const out = document.getElementById('playground-out');
-    out.textContent += text;
-}
-function builtinRead(x) {
-    if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
-        throw new Error("File not found: " + x);
-    return Sk.builtinFiles["files"][x];
-}
-function runCode() {
-    const prog = document.getElementById('playground').value;
-    document.getElementById('playground-out').textContent = '';
-    Sk.pre = "playground-out";
-    Sk.configure({ output: outf, read: builtinRead, __future__: Sk.python3 });
-    (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'playground-out';
-    const myPromise = Sk.misceval.asyncToPromise(() => Sk.importMainWithBody("<stdin>", false, prog, true));
-    myPromise.then(() => {
-        const out = document.getElementById('playground-out').textContent;
-        if (out.includes('is in')) {
-            const cel = document.getElementById('celebrate');
-            if (cel) {
-                cel.classList.remove('hidden');
-                cel.querySelector('span').classList.add('check-celebration');
+        /* ----- copy code ----- */
+        function copyCode(btn) {
+          const box = btn.parentElement;
+          const code = box.textContent.trim();
+          navigator.clipboard.writeText(code);
+          btn.textContent = "Copied!";
+          setTimeout(() => (btn.textContent = "Copy"), 1200);
+        }
+
+        /* ----- live runner (Skulpt) ----- */
+        function outf(text) {
+          const out = document.getElementById("playground-out");
+          out.textContent += text;
+        }
+        function builtinRead(x) {
+          if (
+            Sk.builtinFiles === undefined ||
+            Sk.builtinFiles["files"][x] === undefined
+          )
+            throw new Error("File not found: " + x);
+          return Sk.builtinFiles["files"][x];
+        }
+        function runCode() {
+          const prog = document.getElementById("playground").value;
+          document.getElementById("playground-out").textContent = "";
+          Sk.pre = "playground-out";
+          Sk.configure({
+            output: outf,
+            read: builtinRead,
+            __future__: Sk.python3,
+          });
+          (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target =
+            "playground-out";
+          const myPromise = Sk.misceval.asyncToPromise(() =>
+            Sk.importMainWithBody("<stdin>", false, prog, true)
+          );
+          myPromise.then(
+            () => {
+              const out = document.getElementById("playground-out").textContent;
+              if (out.includes("is in")) {
+                const cel = document.getElementById("celebrate");
+                if (cel) {
+                  cel.classList.remove("hidden");
+                  cel.querySelector("span").classList.add("check-celebration");
+                }
+              }
+            },
+            (err) => {
+              document.getElementById("playground-out").textContent =
+                err.toString();
             }
+          );
         }
-    }, err => {
-        document.getElementById('playground-out').textContent = err.toString();
-    });
-}
-function resetCode() {
-    document.getElementById('playground').value = `import csv
+        function resetCode() {
+          document.getElementById("playground").value = `import csv
 
 with open("students.csv", "w") as f:
     writer = csv.DictWriter(f, fieldnames=["name", "house"])
@@ -303,12 +730,16 @@ with open("students.csv") as f:
     reader = csv.DictReader(f)
     for row in reader:
         print(f"{row['name']} is in {row['house']}")`;
-    document.getElementById('playground-out').textContent = 'Output will appear here…';
-}
+          document.getElementById("playground-out").textContent =
+            "Output will appear here…";
+        }
 
-/* highlight current lecture */
-document.querySelectorAll('.lecture2-nav a').forEach(a => {
-    if (a.href.endsWith('lec6.html')) a.classList.add('bg-teal-700','text-white');
-});
-</script>
-</body>
+        /* highlight current lecture */
+        document.querySelectorAll(".lecture2-nav a").forEach((a) => {
+          if (a.href.endsWith("lec6.html"))
+            a.classList.add("bg-teal-700", "text-white");
+        });
+      </script>
+    </body>
+  </body>
+</html>

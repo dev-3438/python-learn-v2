@@ -101,7 +101,7 @@ def projects():
 @app.route("/quiz")
 def quiz():
     return render_template("quiz.html")
-@app.route("/lec/<int:num>")
+@app.route("/lec<int:num>")
 def lecture(num):
     if num < 0 or num > 9:
         return "Lecture not found", 404

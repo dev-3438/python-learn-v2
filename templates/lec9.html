@@ -1,464 +1,496 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Python Playground - PythonLearn</title>
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Animation Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    
+
     <!-- CodeMirror for Code Editor -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css"
+    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
-    
+
     <!-- Custom Styles -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap');
-        
-        :root {
-            --primary-color: #0d9488;
-            --secondary-color: #1e293b;
-            --accent-color: #f97316;
-            --text-primary: #1f2937;
-            --text-secondary: #6b7280;
-            --bg-primary: #ffffff;
-            --bg-secondary: #f9fafb;
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap");
+
+      :root {
+        --primary-color: #0d9488;
+        --secondary-color: #1e293b;
+        --accent-color: #f97316;
+        --text-primary: #1f2937;
+        --text-secondary: #6b7280;
+        --bg-primary: #ffffff;
+        --bg-secondary: #f9fafb;
+      }
+
+      [data-theme="dark"] {
+        --text-primary: #f1f5f9;
+        --text-secondary: #94a3b8;
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+      }
+
+      * {
+        font-family: "Inter", sans-serif;
+      }
+
+      body {
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        transition: all 0.3s ease;
+      }
+
+      .glassmorphism {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .nav-link {
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .nav-link.active::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #0d9488;
+      }
+
+      .code-editor-container {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .CodeMirror {
+        height: 400px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px;
+      }
+
+      .output-panel {
+        background: #0f172a;
+        color: #e2e8f0;
+        font-family: "JetBrains Mono", monospace;
+        border-radius: 8px;
+        padding: 1rem;
+        min-height: 200px;
+        border: 1px solid #334155;
+        overflow-y: auto;
+      }
+
+      .output-panel .output-line {
+        margin-bottom: 0.25rem;
+        padding: 0.25rem 0;
+      }
+
+      .output-panel .error {
+        color: #ef4444;
+      }
+
+      .output-panel .success {
+        color: #10b981;
+      }
+
+      .output-panel .info {
+        color: #3b82f6;
+      }
+
+      .toolbar {
+        background: var(--bg-secondary);
+        border-bottom: 1px solid #e5e7eb;
+        padding: 0.75rem 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .toolbar-button {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        border: 1px solid transparent;
+      }
+
+      .toolbar-button.primary {
+        background: #0d9488;
+        color: white;
+      }
+
+      .toolbar-button.primary:hover {
+        background: #0f766e;
+      }
+
+      .toolbar-button.secondary {
+        background: white;
+        color: #374151;
+        border-color: #d1d5db;
+      }
+
+      .toolbar-button.secondary:hover {
+        background: #f9fafb;
+      }
+
+      .file-tree {
+        background: var(--bg-secondary);
+        border-radius: 8px;
+        padding: 1rem;
+        height: 500px;
+        overflow-y: auto;
+      }
+
+      .file-item {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        margin-bottom: 2px;
+      }
+
+      .file-item:hover {
+        background: #e5e7eb;
+      }
+
+      .file-item.active {
+        background: #0d9488;
+        color: white;
+      }
+
+      .file-icon {
+        margin-right: 0.5rem;
+        font-size: 1rem;
+      }
+
+      .examples-panel {
+        background: white;
+        border-radius: 8px;
+        padding: 1rem;
+        height: 300px;
+        overflow-y: auto;
+        border: 1px solid #e5e7eb;
+      }
+
+      .example-item {
+        padding: 0.75rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        margin-bottom: 0.5rem;
+        border: 1px solid #f3f4f6;
+      }
+
+      .example-item:hover {
+        background: #f9fafb;
+      }
+
+      .example-item h4 {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+        color: #1f2937;
+      }
+
+      .example-item p {
+        font-size: 0.875rem;
+        color: #6b7280;
+      }
+
+      .status-bar {
+        background: var(--bg-secondary);
+        border-top: 1px solid #e5e7eb;
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+        color: #6b7280;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .loading-spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #f3f3f3;
+        border-top: 2px solid #0d9488;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
         }
-        
-        [data-theme="dark"] {
-            --text-primary: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
+        100% {
+          transform: rotate(360deg);
         }
-        
-        * {
-            font-family: 'Inter', sans-serif;
+      }
+
+      .tab-container {
+        display: flex;
+        background: var(--bg-secondary);
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .tab {
+        padding: 0.75rem 1rem;
+        cursor: pointer;
+        border-right: 1px solid #e5e7eb;
+        transition: background-color 0.2s ease;
+        display: flex;
+        align-items: center;
+      }
+
+      .tab:hover {
+        background: #e5e7eb;
+      }
+      .tab.active {
+        background: white;
+        border-bottom: 2px solid #0d9488;
+      }
+
+      .tab-close {
+        margin-left: 0.5rem;
+        padding: 0.125rem;
+        border-radius: 2px;
+        transition: background-color 0.2s ease;
+      }
+
+      .tab-close:hover {
+        background: #d1d5db;
+      }
+
+      @media (max-width: 768px) {
+        .playground-layout {
+          flex-direction: column;
         }
-        
-        body {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            transition: all 0.3s ease;
+
+        .sidebar-panel {
+          order: 2;
         }
-        
-        .glassmorphism {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+
+        .main-panel {
+          order: 1;
         }
-        
-        .nav-link {
-            position: relative;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-link.active::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: #0d9488;
-        }
-        
-        .code-editor-container {
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-        
+
         .CodeMirror {
-            height: 400px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
+          height: 300px;
         }
-        
-        .output-panel {
-            background: #0f172a;
-            color: #e2e8f0;
-            font-family: 'JetBrains Mono', monospace;
-            border-radius: 8px;
-            padding: 1rem;
-            min-height: 200px;
-            border: 1px solid #334155;
-            overflow-y: auto;
-        }
-        
-        .output-panel .output-line {
-            margin-bottom: 0.25rem;
-            padding: 0.25rem 0;
-        }
-        
-        .output-panel .error {
-            color: #ef4444;
-        }
-        
-        .output-panel .success {
-            color: #10b981;
-        }
-        
-        .output-panel .info {
-            color: #3b82f6;
-        }
-        
-        .toolbar {
-            background: var(--bg-secondary);
-            border-bottom: 1px solid #e5e7eb;
-            padding: 0.75rem 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .toolbar-button {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            border: 1px solid transparent;
-        }
-        
-        .toolbar-button.primary {
-            background: #0d9488;
-            color: white;
-        }
-        
-        .toolbar-button.primary:hover {
-            background: #0f766e;
-        }
-        
-        .toolbar-button.secondary {
-            background: white;
-            color: #374151;
-            border-color: #d1d5db;
-        }
-        
-        .toolbar-button.secondary:hover {
-            background: #f9fafb;
-        }
-        
-        .file-tree {
-            background: var(--bg-secondary);
-            border-radius: 8px;
-            padding: 1rem;
-            height: 500px;
-            overflow-y: auto;
-        }
-        
-        .file-item {
-            display: flex;
-            align-items: center;
-            padding: 0.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-            margin-bottom: 2px;
-        }
-        
-        .file-item:hover {
-            background: #e5e7eb;
-        }
-        
-        .file-item.active {
-            background: #0d9488;
-            color: white;
-        }
-        
-        .file-icon {
-            margin-right: 0.5rem;
-            font-size: 1rem;
-        }
-        
-        .examples-panel {
-            background: white;
-            border-radius: 8px;
-            padding: 1rem;
-            height: 300px;
-            overflow-y: auto;
-            border: 1px solid #e5e7eb;
-        }
-        
-        .example-item {
-            padding: 0.75rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-            margin-bottom: 0.5rem;
-            border: 1px solid #f3f4f6;
-        }
-        
-        .example-item:hover {
-            background: #f9fafb;
-        }
-        
-        .example-item h4 {
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-            color: #1f2937;
-        }
-        
-        .example-item p {
-            font-size: 0.875rem;
-            color: #6b7280;
-        }
-        
-        .status-bar {
-            background: var(--bg-secondary);
-            border-top: 1px solid #e5e7eb;
-            padding: 0.5rem 1rem;
-            font-size: 0.75rem;
-            color: #6b7280;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .loading-spinner {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid #f3f3f3;
-            border-top: 2px solid #0d9488;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .tab-container {
-            display: flex;
-            background: var(--bg-secondary);
-            border-bottom: 1px solid #e5e7eb;
-        }
-        
-        .tab {
-            padding: 0.75rem 1rem;
-            cursor: pointer;
-            border-right: 1px solid #e5e7eb;
-            transition: background-color 0.2s ease;
-            display: flex;
-            align-items: center;
-        }
-        
-        .tab:hover {
-            background: #e5e7eb;
-        }
-        .tab.active {
-            background: white;
-            border-bottom: 2px solid #0d9488;
-        }
-        
-        .tab-close {
-            margin-left: 0.5rem;
-            padding: 0.125rem;
-            border-radius: 2px;
-            transition: background-color 0.2s ease;
-        }
-        
-        .tab-close:hover {
-            background: #d1d5db;
-        }
-        
-        @media (max-width: 768px) {
-            .playground-layout {
-                flex-direction: column;
-            }
-            
-            .sidebar-panel {
-                order: 2;
-            }
-            
-            .main-panel {
-                order: 1;
-            }
-            
-            .CodeMirror {
-                height: 300px;
-            }
-        }
+      }
     </style>
-<base target="_blank">
-</head>
-<body>
+    <base target="_blank" />
+  </head>
+  <body>
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 glassmorphism bg-teal-700">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Logo -->
-                <div class="flex items-center">
-                    <div class="text-2xl font-bold text-white">
-                        🐍 PythonLearn
-                    </div>
-                </div>
-                
-                <!-- Desktop Navigation -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="index.html" class="nav-link text-white hover:text-teal-300 px-3 py-2">Home</a>
-                    <a href="course.html" class="nav-link text-white hover:text-teal-300 px-3 py-2">Course</a>
-                    <a href="playground.html" class="nav-link text-white hover:text-teal-300 px-3 py-2">Playground</a>
-                    <a href="quiz.html" class="nav-link text-white hover:text-teal-300 px-3 py-2">Quiz</a>
-                    <a href="projects.html" class="nav-link text-white hover:text-teal-300 px-3 py-2">Projects</a>
-                    <a href="about.html" class="nav-link text-white hover:text-teal-300 px-3 py-2">About</a>
-                    <button id="theme-toggle" class="p-2 rounded-lg text-white hover:bg-white hover:bg-opacity-20 transition-colors">
-                        <span id="theme-icon">🌙</span>
-                    </button>
-                </div>
-                
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="text-white hover:text-teal-300">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Mobile Navigation -->
-            <div id="mobile-menu" class="hidden md:hidden">
-                <div class="px-2 pt-2 pb-3 space-y-1 bg-black bg-opacity-50 rounded-lg mt-2">
-                    <a href="index.html" class="block px-3 py-2 text-white hover:text-teal-300">Home</a>
-                    <a href="course.html" class="block px-3 py-2 text-white hover:text-teal-300">Course</a>
-                    <a href="playground.html" class="block px-3 py-2 text-white hover:text-teal-300">Playground</a>
-                    <a href="quiz.html" class="block px-3 py-2 text-white hover:text-teal-300">Quiz</a>
-                    <a href="projects.html" class="block px-3 py-2 text-white hover:text-teal-300">Projects</a>
-                    <a href="about.html" class="block px-3 py-2 text-white hover:text-teal-300">About</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <div class="mini-nav">
+      <div
+        class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap gap-2 justify-center"
+      >
+        <a
+          href="/lec0"
+          class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+          >Lecture 0</a
+        >
+        <a
+          href="/lec1"
+          class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+          >Lecture 1</a
+        >
+        <a
+          href="/lec2"
+          class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+          >Lecture 2</a
+        >
+        <a
+          href="/lec3"
+          class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+          >Lecture 3</a
+        >
+        <a
+          href="/lec4"
+          class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+          >Lecture 4</a
+        >
+        <a
+          href="/lec5"
+          class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+          >Lecture 5</a
+        >
+        <a
+          href="/lec6"
+          class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+          >Lecture 6</a
+        >
+        <a
+          href="/lec7"
+          class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+          >Lecture 7</a
+        >
+        <a
+          href="/lec8"
+          class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+          >Lecture 8</a
+        >
+        <a
+          href="/lec9"
+          class="px-4 py-2 rounded-full bg-emerald-400 hover:bg-emerald-500"
+          >Lecture 9</a
+        >
+      </div>
+    </div>
 
     <!-- Playground Header -->
-    <section class="pt-20 pb-8 bg-gradient-to-r from-teal-600 to-blue-600 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <h1 class="text-4xl md:text-5xl font-bold mb-4">Python Playground</h1>
-                <p class="text-xl mb-8 max-w-3xl mx-auto">
-                    Write, run, and experiment with Python code in your browser. 
-                    Perfect for learning, testing ideas, and building projects.
-                </p>
-                <div class="flex flex-wrap justify-center gap-4 text-sm">
-                    <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full">Real-time Execution</span>
-                    <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full">Syntax Highlighting</span>
-                    <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full">Error Detection</span>
-                    <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full">Code Examples</span>
-                </div>
-            </div>
+    <section
+      class="pt-20 pb-8 bg-gradient-to-r from-teal-600 to-blue-600 text-white"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">Python Playground</h1>
+          <p class="text-xl mb-8 max-w-3xl mx-auto">
+            Write, run, and experiment with Python code in your browser. Perfect
+            for learning, testing ideas, and building projects.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4 text-sm">
+            <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full"
+              >Real-time Execution</span
+            >
+            <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full"
+              >Syntax Highlighting</span
+            >
+            <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full"
+              >Error Detection</span
+            >
+            <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full"
+              >Code Examples</span
+            >
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Main Playground Interface -->
     <section class="py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col lg:flex-row gap-6 playground-layout">
-                <!-- Sidebar Panel -->
-                <div class="lg:w-1/4 sidebar-panel">
-                    <!-- File Explorer -->
-                    <div class="mb-6">
-                        <h3 class="text-lg font-semibold mb-3">File Explorer</h3>
-                        <div class="file-tree">
-                            <div class="file-item active" data-file="main.py">
-                                <span class="file-icon">🐍</span>
-                                <span>main.py</span>
-                            </div>
-                            <div class="file-item" data-file="examples.py">
-                                <span class="file-icon">📄</span>
-                                <span>examples.py</span>
-                            </div>
-                            <div class="file-item" data-file="utils.py">
-                                <span class="file-icon">🔧</span>
-                                <span>utils.py</span>
-                            </div>
-                            <div class="file-item" data-file="data.txt">
-                                <span class="file-icon">📊</span>
-                                <span>data.txt</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Code Examples -->
-                    <div>
-                        <h3 class="text-lg font-semibold mb-3">Code Examples</h3>
-                        <div class="examples-panel">
-                            <div class="example-item" data-example="hello-world">
-                                <h4>Hello World</h4>
-                                <p>Basic print statement</p>
-                            </div>
-                            <div class="example-item" data-example="variables">
-                                <h4>Variables & Data Types</h4>
-                                <p>Working with different data types</p>
-                            </div>
-                            <div class="example-item" data-example="loops">
-                                <h4>For Loops</h4>
-                                <p>Iterating with for loops</p>
-                            </div>
-                            <div class="example-item" data-example="functions">
-                                <h4>Functions</h4>
-                                <p>Defining and using functions</p>
-                            </div>
-                            <div class="example-item" data-example="lists">
-                                <h4>Lists & Lists Operations</h4>
-                                <p>Working with list data structures</p>
-                            </div>
-                            <div class="example-item" data-example="calculator">
-                                <h4>Simple Calculator</h4>
-                                <p>Basic arithmetic operations</p>
-                            </div>
-                        </div>
-                    </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col lg:flex-row gap-6 playground-layout">
+          <!-- Sidebar Panel -->
+          <div class="lg:w-1/4 sidebar-panel">
+            <!-- File Explorer -->
+            <div class="mb-6">
+              <h3 class="text-lg font-semibold mb-3">File Explorer</h3>
+              <div class="file-tree">
+                <div class="file-item active" data-file="main.py">
+                  <span class="file-icon">🐍</span>
+                  <span>main.py</span>
                 </div>
-                
-                <!-- Main Panel -->
-                <div class="lg:w-3/4 main-panel">
-                    <!-- Tab Bar -->
-                    <div class="tab-container">
-                        <div class="tab active" data-tab="main.py">
-                            <span>main.py</span>
-                            <span class="tab-close">×</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Toolbar -->
-                    <div class="toolbar">
-                        <div class="flex items-center space-x-2">
-                            <button id="run-code" class="toolbar-button primary">
-                                ▶️ Run Code
-                            </button>
-                            <button id="save-code" class="toolbar-button secondary">
-                                💾 Save
-                            </button>
-                            <button id="share-code" class="toolbar-button secondary">
-                                🔗 Share
-                            </button>
-                            <button id="clear-code" class="toolbar-button secondary">
-                                🗑️ Clear
-                            </button>
-                        </div>
-                        <div class="flex items-center space-x-2 text-sm text-gray-600">
-                            <span>Python 3.9</span>
-                            <span>•</span>
-                            <span id="cursor-position">Line 1, Col 1</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Code Editor -->
-                    <div class="code-editor-container">
-                        <textarea id="code-editor" placeholder="# Welcome to Python Playground!
+                <div class="file-item" data-file="examples.py">
+                  <span class="file-icon">📄</span>
+                  <span>examples.py</span>
+                </div>
+                <div class="file-item" data-file="utils.py">
+                  <span class="file-icon">🔧</span>
+                  <span>utils.py</span>
+                </div>
+                <div class="file-item" data-file="data.txt">
+                  <span class="file-icon">📊</span>
+                  <span>data.txt</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Code Examples -->
+            <div>
+              <h3 class="text-lg font-semibold mb-3">Code Examples</h3>
+              <div class="examples-panel">
+                <div class="example-item" data-example="hello-world">
+                  <h4>Hello World</h4>
+                  <p>Basic print statement</p>
+                </div>
+                <div class="example-item" data-example="variables">
+                  <h4>Variables & Data Types</h4>
+                  <p>Working with different data types</p>
+                </div>
+                <div class="example-item" data-example="loops">
+                  <h4>For Loops</h4>
+                  <p>Iterating with for loops</p>
+                </div>
+                <div class="example-item" data-example="functions">
+                  <h4>Functions</h4>
+                  <p>Defining and using functions</p>
+                </div>
+                <div class="example-item" data-example="lists">
+                  <h4>Lists & Lists Operations</h4>
+                  <p>Working with list data structures</p>
+                </div>
+                <div class="example-item" data-example="calculator">
+                  <h4>Simple Calculator</h4>
+                  <p>Basic arithmetic operations</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Main Panel -->
+          <div class="lg:w-3/4 main-panel">
+            <!-- Tab Bar -->
+            <div class="tab-container">
+              <div class="tab active" data-tab="main.py">
+                <span>main.py</span>
+                <span class="tab-close">×</span>
+              </div>
+            </div>
+
+            <!-- Toolbar -->
+            <div class="toolbar">
+              <div class="flex items-center space-x-2">
+                <button id="run-code" class="toolbar-button primary">
+                  ▶️ Run Code
+                </button>
+                <button id="save-code" class="toolbar-button secondary">
+                  💾 Save
+                </button>
+                <button id="share-code" class="toolbar-button secondary">
+                  🔗 Share
+                </button>
+                <button id="clear-code" class="toolbar-button secondary">
+                  🗑️ Clear
+                </button>
+              </div>
+              <div class="flex items-center space-x-2 text-sm text-gray-600">
+                <span>Python 3.9</span>
+                <span>•</span>
+                <span id="cursor-position">Line 1, Col 1</span>
+              </div>
+            </div>
+
+            <!-- Code Editor -->
+            <div class="code-editor-container">
+              <textarea
+                id="code-editor"
+                placeholder="# Welcome to Python Playground!
 # Write your Python code here and click 'Run Code' to execute it.
 
 print('Hello, Python World!')
@@ -474,140 +506,172 @@ print(f'{x} + {y} = {result}')
 for i in range(5):
     print(f'Count: {i}')
 
-print('Happy coding! 🐍')"></textarea>
-                    </div>
-                    
-                    <!-- Output Panel -->
-                    <div class="mt-4">
-                        <div class="flex items-center justify-between mb-2">
-                            <h3 class="text-lg font-semibold">Output</h3>
-                            <button id="clear-output" class="text-sm text-gray-600 hover:text-gray-800">
-                                Clear Output
-                            </button>
-                        </div>
-                        <div class="output-panel" id="output-panel">
-                            <div class="output-line info">Python Playground v1.0</div>
-                            <div class="output-line info">Ready to execute your code...</div>
-                            <div class="output-line">Click 'Run Code' to see the output!</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Status Bar -->
-                    <div class="status-bar">
-                        <div class="flex items-center space-x-4">
-                            <span id="execution-status">Ready</span>
-                            <span id="execution-time"></span>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <span>UTF-8</span>
-                            <span>Python</span>
-                        </div>
-                    </div>
-                </div>
+print('Happy coding! 🐍')"
+              ></textarea>
             </div>
+
+            <!-- Output Panel -->
+            <div class="mt-4">
+              <div class="flex items-center justify-between mb-2">
+                <h3 class="text-lg font-semibold">Output</h3>
+                <button
+                  id="clear-output"
+                  class="text-sm text-gray-600 hover:text-gray-800"
+                >
+                  Clear Output
+                </button>
+              </div>
+              <div class="output-panel" id="output-panel">
+                <div class="output-line info">Python Playground v1.0</div>
+                <div class="output-line info">
+                  Ready to execute your code...
+                </div>
+                <div class="output-line">
+                  Click 'Run Code' to see the output!
+                </div>
+              </div>
+            </div>
+
+            <!-- Status Bar -->
+            <div class="status-bar">
+              <div class="flex items-center space-x-4">
+                <span id="execution-status">Ready</span>
+                <span id="execution-time"></span>
+              </div>
+              <div class="flex items-center space-x-4">
+                <span>UTF-8</span>
+                <span>Python</span>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Tips Section -->
     <section class="py-12 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center mb-8">Playground Tips</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <div class="text-3xl mb-4">⌨️</div>
-                    <h3 class="text-xl font-semibold mb-2">Keyboard Shortcuts</h3>
-                    <ul class="text-gray-600 space-y-1">
-                        <li>• Ctrl/Cmd + Enter: Run code</li>
-                        <li>• Ctrl/Cmd + S: Save code</li>
-                        <li>• Ctrl/Cmd + /: Comment line</li>
-                        <li>• Tab: Auto-complete</li>
-                    </ul>
-                </div>
-                
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <div class="text-3xl mb-4">🐛</div>
-                    <h3 class="text-xl font-semibold mb-2">Debugging Tips</h3>
-                    <ul class="text-gray-600 space-y-1">
-                        <li>• Use print() to debug</li>
-                        <li>• Check indentation carefully</li>
-                        <li>• Watch for syntax errors</li>
-                        <li>• Test code step by step</li>
-                    </ul>
-                </div>
-                
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <div class="text-3xl mb-4">🚀</div>
-                    <h3 class="text-xl font-semibold mb-2">Advanced Features</h3>
-                    <ul class="text-gray-600 space-y-1">
-                        <li>• Import external libraries</li>
-                        <li>• Use built-in functions</li>
-                        <li>• Create multiple files</li>
-                        <li>• Share your code</li>
-                    </ul>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-center mb-8">Playground Tips</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="bg-white p-6 rounded-lg shadow-lg">
+            <div class="text-3xl mb-4">⌨️</div>
+            <h3 class="text-xl font-semibold mb-2">Keyboard Shortcuts</h3>
+            <ul class="text-gray-600 space-y-1">
+              <li>• Ctrl/Cmd + Enter: Run code</li>
+              <li>• Ctrl/Cmd + S: Save code</li>
+              <li>• Ctrl/Cmd + /: Comment line</li>
+              <li>• Tab: Auto-complete</li>
+            </ul>
+          </div>
+
+          <div class="bg-white p-6 rounded-lg shadow-lg">
+            <div class="text-3xl mb-4">🐛</div>
+            <h3 class="text-xl font-semibold mb-2">Debugging Tips</h3>
+            <ul class="text-gray-600 space-y-1">
+              <li>• Use print() to debug</li>
+              <li>• Check indentation carefully</li>
+              <li>• Watch for syntax errors</li>
+              <li>• Test code step by step</li>
+            </ul>
+          </div>
+
+          <div class="bg-white p-6 rounded-lg shadow-lg">
+            <div class="text-3xl mb-4">🚀</div>
+            <h3 class="text-xl font-semibold mb-2">Advanced Features</h3>
+            <ul class="text-gray-600 space-y-1">
+              <li>• Import external libraries</li>
+              <li>• Use built-in functions</li>
+              <li>• Create multiple files</li>
+              <li>• Share your code</li>
+            </ul>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-8">
-                <div>
-                    <div class="text-2xl font-bold mb-4">🐍 PythonLearn</div>
-                    <p class="text-gray-400 mb-4">
-                        Learn Python the smart way with our interactive platform designed for modern learners.
-                    </p>
-                </div>
-                
-                <div>
-                    <h4 class="font-bold mb-4">Learning</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="course.html" class="hover:text-white">Course Curriculum</a></li>
-                        <li><a href="playground.html" class="hover:text-white">Code Playground</a></li>
-                        <li><a href="quiz.html" class="hover:text-white">Interactive Quizzes</a></li>
-                        <li><a href="projects.html" class="hover:text-white">Project Gallery</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="font-bold mb-4">Resources</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="about.html" class="hover:text-white">About Us</a></li>
-                        <li><a href="#" class="hover:text-white">Blog</a></li>
-                        <li><a href="#" class="hover:text-white">Documentation</a></li>
-                        <li><a href="#" class="hover:text-white">Community</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="font-bold mb-4">Support</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white">Help Center</a></li>
-                        <li><a href="#" class="hover:text-white">Contact Us</a></li>
-                        <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-white">Terms of Service</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2024 PythonLearn. All rights reserved. Made with ❤️ for Python learners worldwide.</p>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-4 gap-8">
+          <div>
+            <div class="text-2xl font-bold mb-4">🐍 PythonLearn</div>
+            <p class="text-gray-400 mb-4">
+              Learn Python the smart way with our interactive platform designed
+              for modern learners.
+            </p>
+          </div>
+
+          <div>
+            <h4 class="font-bold mb-4">Learning</h4>
+            <ul class="space-y-2 text-gray-400">
+              <li>
+                <a href="course.html" class="hover:text-white"
+                  >Course Curriculum</a
+                >
+              </li>
+              <li>
+                <a href="playground.html" class="hover:text-white"
+                  >Code Playground</a
+                >
+              </li>
+              <li>
+                <a href="quiz.html" class="hover:text-white"
+                  >Interactive Quizzes</a
+                >
+              </li>
+              <li>
+                <a href="projects.html" class="hover:text-white"
+                  >Project Gallery</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-bold mb-4">Resources</h4>
+            <ul class="space-y-2 text-gray-400">
+              <li>
+                <a href="about.html" class="hover:text-white">About Us</a>
+              </li>
+              <li><a href="#" class="hover:text-white">Blog</a></li>
+              <li><a href="#" class="hover:text-white">Documentation</a></li>
+              <li><a href="#" class="hover:text-white">Community</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-bold mb-4">Support</h4>
+            <ul class="space-y-2 text-gray-400">
+              <li><a href="#" class="hover:text-white">Help Center</a></li>
+              <li><a href="#" class="hover:text-white">Contact Us</a></li>
+              <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+              <li><a href="#" class="hover:text-white">Terms of Service</a></li>
+            </ul>
+          </div>
         </div>
+
+        <div
+          class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400"
+        >
+          <p>
+            &copy; 2024 PythonLearn. All rights reserved. Made with ❤️ for
+            Python learners worldwide.
+          </p>
+        </div>
+      </div>
     </footer>
 
     <!-- Main JavaScript -->
     <script src="main.js"></script>
-    
+
     <!-- Playground-specific JavaScript -->
     <script>
-        class PythonPlayground {
-            constructor() {
-                this.editor = null;
-                this.currentFile = 'main.py';
-                this.files = {
-                    'main.py': `# Welcome to Python Playground!
+      class PythonPlayground {
+        constructor() {
+          this.editor = null;
+          this.currentFile = "main.py";
+          this.files = {
+            "main.py": `# Welcome to Python Playground!
 # Write your Python code here and click 'Run Code' to execute it.
 
 print('Hello, Python World!')
@@ -624,7 +688,7 @@ for i in range(5):
     print(f'Count: {i}')
 
 print('Happy coding! 🐍')`,
-                    'examples.py': `# Examples and demonstrations
+            "examples.py": `# Examples and demonstrations
 import math
 import random
 
@@ -649,7 +713,7 @@ print(f"Random number: {random_number}")
 # Math operations
 print(f"Pi: {math.pi}")
 print(f"Square root of 16: {math.sqrt(16)}")`,
-                    'utils.py': `# Utility functions
+            "utils.py": `# Utility functions
 
 def calculate_average(numbers):
     """Calculate the average of a list of numbers"""
@@ -685,27 +749,27 @@ if __name__ == "__main__":
     print(f"Max: {find_max(numbers)}")
     print(f"Is 17 prime? {is_prime(17)}")
     print(f"Factorial of 5: {factorial(5)}")`,
-                    'data.txt': `# Sample data file
+            "data.txt": `# Sample data file
 Name,Age,Score
 Alice,20,85
 Bob,22,78
 Charlie,19,92
 Diana,21,88
-Eve,20,90`
-                };
-                
-                this.examples = {
-                    'hello-world': {
-                        title: 'Hello World',
-                        description: 'Basic print statement',
-                        code: `print("Hello, World!")
+Eve,20,90`,
+          };
+
+          this.examples = {
+            "hello-world": {
+              title: "Hello World",
+              description: "Basic print statement",
+              code: `print("Hello, World!")
 print("Welcome to Python!")
-print("Let's start coding! 🚀")`
-                    },
-                    'variables': {
-                        title: 'Variables & Data Types',
-                        description: 'Working with different data types',
-                        code: `# Variables and data types
+print("Let's start coding! 🚀")`,
+            },
+            variables: {
+              title: "Variables & Data Types",
+              description: "Working with different data types",
+              code: `# Variables and data types
 name = "Alice"
 age = 25
 height = 5.6
@@ -720,12 +784,12 @@ print(f"Is student: {is_student}")
 print(f"Type of name: {type(name)}")
 print(f"Type of age: {type(age)}")
 print(f"Type of height: {type(height)}")
-print(f"Type of is_student: {type(is_student)}")`
-                    },
-                    'loops': {
-                        title: 'For Loops',
-                        description: 'Iterating with for loops',
-                        code: `# For loop examples
+print(f"Type of is_student: {type(is_student)}")`,
+            },
+            loops: {
+              title: "For Loops",
+              description: "Iterating with for loops",
+              code: `# For loop examples
 print("Counting from 0 to 4:")
 for i in range(5):
     print(f"Count: {i}")
@@ -741,12 +805,12 @@ for i in range(2, 21, 2):
 print("\nLoop through a list:")
 fruits = ["apple", "banana", "orange", "grape"]
 for fruit in fruits:
-    print(f"I like {fruit}")`
-                    },
-                    'functions': {
-                        title: 'Functions',
-                        description: 'Defining and using functions',
-                        code: `# Function examples
+    print(f"I like {fruit}")`,
+            },
+            functions: {
+              title: "Functions",
+              description: "Defining and using functions",
+              code: `# Function examples
 def greet(name):
     """Greet someone"""
     return f"Hello, {name}!"
@@ -768,12 +832,12 @@ print(greet("Alice"))
 print(f"5 + 3 = {add_numbers(5, 3)}")
 print(f"Area of 10x5 rectangle: {calculate_area(10, 5)}")
 print(f"Is 10 even? {is_even(10)}")
-print(f"Is 7 even? {is_even(7)}")`
-                    },
-                    'lists': {
-                        title: 'Lists & List Operations',
-                        description: 'Working with list data structures',
-                        code: `# List examples
+print(f"Is 7 even? {is_even(7)}")`,
+            },
+            lists: {
+              title: "Lists & List Operations",
+              description: "Working with list data structures",
+              code: `# List examples
 numbers = [1, 2, 3, 4, 5]
 print(f"Original list: {numbers}")
 
@@ -801,12 +865,12 @@ print(f"Min: {min(numbers)}")
 # List slicing
 print(f"First 3 elements: {numbers[:3]}")
 print(f"Last 2 elements: {numbers[-2:]}")
-print(f"Reversed: {numbers[::-1]}")`
-                    },
-                    'calculator': {
-                        title: 'Simple Calculator',
-                        description: 'Basic arithmetic operations',
-                        code: `# Simple calculator
+print(f"Reversed: {numbers[::-1]}")`,
+            },
+            calculator: {
+              title: "Simple Calculator",
+              description: "Basic arithmetic operations",
+              code: `# Simple calculator
 print("Python Calculator")
 print("================")
 
@@ -838,326 +902,360 @@ print(f"25 % 4 = {result} (remainder)")
 result = 2 ** 8
 print(f"2^8 = {result}")
 
-print("\nCalculator complete!")`
-                    }
-                };
-                
-                this.init();
+print("\nCalculator complete!")`,
+            },
+          };
+
+          this.init();
+        }
+
+        init() {
+          this.setupEditor();
+          this.setupEventListeners();
+          this.loadFile("main.py");
+        }
+
+        setupEditor() {
+          const textarea = document.getElementById("code-editor");
+          this.editor = CodeMirror.fromTextArea(textarea, {
+            mode: "python",
+            theme: "monokai",
+            lineNumbers: true,
+            autoCloseBrackets: true,
+            matchBrackets: true,
+            indentUnit: 4,
+            tabSize: 4,
+            lineWrapping: true,
+            foldGutter: true,
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+          });
+
+          // Update cursor position
+          this.editor.on("cursorActivity", () => {
+            const cursor = this.editor.getCursor();
+            document.getElementById("cursor-position").textContent = `Line ${
+              cursor.line + 1
+            }, Col ${cursor.ch + 1}`;
+          });
+
+          // Auto-save on change
+          this.editor.on("change", () => {
+            this.files[this.currentFile] = this.editor.getValue();
+          });
+        }
+
+        setupEventListeners() {
+          // File explorer
+          const fileItems = document.querySelectorAll(".file-item");
+          fileItems.forEach((item) => {
+            item.addEventListener("click", () => {
+              const filename = item.getAttribute("data-file");
+              this.loadFile(filename);
+
+              // Update active file
+              fileItems.forEach((f) => f.classList.remove("active"));
+              item.classList.add("active");
+            });
+          });
+
+          // Code examples
+          const exampleItems = document.querySelectorAll(".example-item");
+          exampleItems.forEach((item) => {
+            item.addEventListener("click", () => {
+              const exampleId = item.getAttribute("data-example");
+              this.loadExample(exampleId);
+            });
+          });
+
+          // Toolbar buttons
+          document
+            .getElementById("run-code")
+            .addEventListener("click", () => this.runCode());
+          document
+            .getElementById("save-code")
+            .addEventListener("click", () => this.saveCode());
+          document
+            .getElementById("share-code")
+            .addEventListener("click", () => this.shareCode());
+          document
+            .getElementById("clear-code")
+            .addEventListener("click", () => this.clearCode());
+          document
+            .getElementById("clear-output")
+            .addEventListener("click", () => this.clearOutput());
+
+          // Keyboard shortcuts
+          document.addEventListener("keydown", (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+              e.preventDefault();
+              this.runCode();
             }
-            
-            init() {
-                this.setupEditor();
-                this.setupEventListeners();
-                this.loadFile('main.py');
+            if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+              e.preventDefault();
+              this.saveCode();
             }
-            
-            setupEditor() {
-                const textarea = document.getElementById('code-editor');
-                this.editor = CodeMirror.fromTextArea(textarea, {
-                    mode: 'python',
-                    theme: 'monokai',
-                    lineNumbers: true,
-                    autoCloseBrackets: true,
-                    matchBrackets: true,
-                    indentUnit: 4,
-                    tabSize: 4,
-                    lineWrapping: true,
-                    foldGutter: true,
-                    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
-                });
-                
-                // Update cursor position
-                this.editor.on('cursorActivity', () => {
-                    const cursor = this.editor.getCursor();
-                    document.getElementById('cursor-position').textContent = `Line ${cursor.line + 1}, Col ${cursor.ch + 1}`;
-                });
-                
-                // Auto-save on change
-                this.editor.on('change', () => {
-                    this.files[this.currentFile] = this.editor.getValue();
-                });
-            }
-            
-            setupEventListeners() {
-                // File explorer
-                const fileItems = document.querySelectorAll('.file-item');
-                fileItems.forEach(item => {
-                    item.addEventListener('click', () => {
-                        const filename = item.getAttribute('data-file');
-                        this.loadFile(filename);
-                        
-                        // Update active file
-                        fileItems.forEach(f => f.classList.remove('active'));
-                        item.classList.add('active');
-                    });
-                });
-                
-                // Code examples
-                const exampleItems = document.querySelectorAll('.example-item');
-                exampleItems.forEach(item => {
-                    item.addEventListener('click', () => {
-                        const exampleId = item.getAttribute('data-example');
-                        this.loadExample(exampleId);
-                    });
-                });
-                
-                // Toolbar buttons
-                document.getElementById('run-code').addEventListener('click', () => this.runCode());
-                document.getElementById('save-code').addEventListener('click', () => this.saveCode());
-                document.getElementById('share-code').addEventListener('click', () => this.shareCode());
-                document.getElementById('clear-code').addEventListener('click', () => this.clearCode());
-                document.getElementById('clear-output').addEventListener('click', () => this.clearOutput());
-                
-                // Keyboard shortcuts
-                document.addEventListener('keydown', (e) => {
-                    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-                        e.preventDefault();
-                        this.runCode();
-                    }
-                    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-                        e.preventDefault();
-                        this.saveCode();
-                    }
-                });
-            }
-            
-            loadFile(filename) {
-                this.currentFile = filename;
-                const content = this.files[filename] || `# File: ${filename}\n\nprint("Hello from ${filename}!")`;
-                this.editor.setValue(content);
-                
-                // Update tab
-                this.updateTab(filename);
-                
-                // Update status
-                this.updateStatus(`Loaded ${filename}`);
-            }
-            
-            loadExample(exampleId) {
-                const example = this.examples[exampleId];
-                if (example) {
-                    this.editor.setValue(example.code);
-                    this.updateStatus(`Loaded example: ${example.title}`);
-                    
-                    // Add to output
-                    this.addOutput(`info`, `Loaded example: ${example.title}`);
-                    this.addOutput(`info`, `Description: ${example.description}`);
-                }
-            }
-            
-            updateTab(filename) {
-                const tabContainer = document.querySelector('.tab-container');
-                const existingTab = tabContainer.querySelector(`[data-tab="${filename}"]`);
-                
-                // Remove active from all tabs
-                tabContainer.querySelectorAll('.tab').forEach(tab => {
-                    tab.classList.remove('active');
-                });
-                
-                if (existingTab) {
-                    existingTab.classList.add('active');
-                } else {
-                    const newTab = document.createElement('div');
-                    newTab.className = 'tab active';
-                    newTab.setAttribute('data-tab', filename);
-                    newTab.innerHTML = `
+          });
+        }
+
+        loadFile(filename) {
+          this.currentFile = filename;
+          const content =
+            this.files[filename] ||
+            `# File: ${filename}\n\nprint("Hello from ${filename}!")`;
+          this.editor.setValue(content);
+
+          // Update tab
+          this.updateTab(filename);
+
+          // Update status
+          this.updateStatus(`Loaded ${filename}`);
+        }
+
+        loadExample(exampleId) {
+          const example = this.examples[exampleId];
+          if (example) {
+            this.editor.setValue(example.code);
+            this.updateStatus(`Loaded example: ${example.title}`);
+
+            // Add to output
+            this.addOutput(`info`, `Loaded example: ${example.title}`);
+            this.addOutput(`info`, `Description: ${example.description}`);
+          }
+        }
+
+        updateTab(filename) {
+          const tabContainer = document.querySelector(".tab-container");
+          const existingTab = tabContainer.querySelector(
+            `[data-tab="${filename}"]`
+          );
+
+          // Remove active from all tabs
+          tabContainer.querySelectorAll(".tab").forEach((tab) => {
+            tab.classList.remove("active");
+          });
+
+          if (existingTab) {
+            existingTab.classList.add("active");
+          } else {
+            const newTab = document.createElement("div");
+            newTab.className = "tab active";
+            newTab.setAttribute("data-tab", filename);
+            newTab.innerHTML = `
                         <span>${filename}</span>
                         <span class="tab-close">×</span>
                     `;
-                    tabContainer.appendChild(newTab);
-                }
-            }
-            
-            runCode() {
-                const code = this.editor.getValue();
-                if (!code.trim()) {
-                    this.addOutput('error', 'No code to execute!');
-                    return;
-                }
-                
-                this.updateStatus('Running...', true);
-                this.addOutput('info', 'Executing code...');
-                
-                const startTime = performance.now();
-                
-                try {
-                    // Simulate Python execution
-                    const result = this.simulatePythonExecution(code);
-                    const endTime = performance.now();
-                    const executionTime = ((endTime - startTime) / 1000).toFixed(3);
-                    
-                    this.addOutput('success', `Execution completed in ${executionTime}s`);
-                    this.updateStatus(`Completed in ${executionTime}s`);
-                    
-                } catch (error) {
-                    this.addOutput('error', `Error: ${error.message}`);
-                    this.updateStatus('Error occurred');
-                }
-            }
-            
-            simulatePythonExecution(code) {
-                const output = [];
-                const lines = code.split('\n');
-                
-                // Simple Python-to-JavaScript simulation
-                for (let line of lines) {
-                    line = line.trim();
-                    if (!line || line.startsWith('#')) continue;
-                    
-                    try {
-                        // Handle print statements
-                        if (line.includes('print(')) {
-                            const match = line.match(/print\((.*)\)/);
-                            if (match) {
-                                let content = match[1];
-                                
-                                // Handle f-strings (simplified)
-                                if (content.includes('f"') || content.includes("f'")) {
-                                    content = content.replace(/f["'](.*)["']/, '$1');
-                                    // Simple variable substitution
-                                    content = content.replace(/\{(\w+)\}/g, (match, varName) => {
-                                        return this.getVariableValue(varName) || match;
-                                    });
-                                }
-                                
-                                // Remove quotes
-                                content = content.replace(/^["'](.*)["']$/, '$1');
-                                
-                                this.addOutput('normal', content);
-                            }
-                        }
-                        
-                        // Handle variable assignments (simplified)
-                        else if (line.includes('=') && !line.includes('if') && !line.includes('for') && !line.includes('def')) {
-                            const parts = line.split('=');
-                            if (parts.length === 2) {
-                                const varName = parts[0].trim();
-                                let value = parts[1].trim();
-                                
-                                // Store variable for f-string substitution
-                                this.variables = this.variables || {};
-                                this.variables[varName] = value;
-                            }
-                        }
-                        
-                        // Handle for loops (simplified)
-                        else if (line.startsWith('for') && line.includes('range(')) {
-                            const rangeMatch = line.match(/range\((\d+)\)/);
-                            if (rangeMatch) {
-                                const count = parseInt(rangeMatch[1]);
-                                const nextLine = lines[lines.indexOf(line) + 1];
-                                if (nextLine && nextLine.includes('print(')) {
-                                    for (let i = 0; i < count; i++) {
-                                        let printContent = nextLine.match(/print\((.*)\)/)[1];
-                                        printContent = printContent.replace(/\{i\}/g, i);
-                                        printContent = printContent.replace(/^["'](.*)["']$/, '$1');
-                                        this.addOutput('normal', printContent);
-                                    }
-                                }
-                            }
-                        }
-                        
-                        // Handle math operations
-                        else if (line.includes('+') || line.includes('-') || line.includes('*') || line.includes('/')) {
-                            // Just acknowledge math operations
-                        }
-                        
-                    } catch (e) {
-                        // Silently continue for parsing errors
-                    }
-                }
-                
-                return output;
-            }
-            
-            getVariableValue(varName) {
-                if (this.variables && this.variables[varName]) {
-                    return this.variables[varName].replace(/^["'](.*)["']$/, '$1');
-                }
-                return varName;
-            }
-            
-            addOutput(type, message) {
-                const outputPanel = document.getElementById('output-panel');
-                const line = document.createElement('div');
-                line.className = `output-line ${type}`;
-                line.textContent = message;
-                outputPanel.appendChild(line);
-                
-                // Auto-scroll to bottom
-                outputPanel.scrollTop = outputPanel.scrollHeight;
-            }
-            
-            clearOutput() {
-                const outputPanel = document.getElementById('output-panel');
-                outputPanel.innerHTML = '<div class="output-line info">Output cleared. Ready for new execution!</div>';
-            }
-            
-            clearCode() {
-                if (confirm('Are you sure you want to clear the editor?')) {
-                    this.editor.setValue('');
-                    this.updateStatus('Code cleared');
-                }
-            }
-            
-            saveCode() {
-                const code = this.editor.getValue();
-                this.files[this.currentFile] = code;
-                
-                // Save to localStorage
-                localStorage.setItem('playground-code', JSON.stringify(this.files));
-                
-                this.updateStatus('Code saved');
-                this.addOutput('success', 'Code saved successfully!');
-            }
-            
-            shareCode() {
-                const code = this.editor.getValue();
-                if (navigator.share) {
-                    navigator.share({
-                        title: 'Python Code from Playground',
-                        text: code
-                    });
-                } else {
-                    // Fallback: copy to clipboard
-                    navigator.clipboard.writeText(code).then(() => {
-                        this.updateStatus('Code copied to clipboard');
-                        this.addOutput('success', 'Code copied to clipboard!');
-                    });
-                }
-            }
-            
-            updateStatus(message, loading = false) {
-                const statusElement = document.getElementById('execution-status');
-                const timeElement = document.getElementById('execution-time');
-                
-                if (loading) {
-                    statusElement.innerHTML = `<div class="loading-spinner"></div> ${message}`;
-                } else {
-                    statusElement.textContent = message;
-                    timeElement.textContent = new Date().toLocaleTimeString();
-                }
-            }
-            
-            // Load saved code on page load
-            loadSavedCode() {
-                const saved = localStorage.getItem('playground-code');
-                if (saved) {
-                    try {
-                        this.files = JSON.parse(saved);
-                        this.loadFile(this.currentFile);
-                    } catch (e) {
-                        console.log('Could not load saved code');
-                    }
-                }
-            }
+            tabContainer.appendChild(newTab);
+          }
         }
-        
-        // Initialize playground when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            window.playground = new PythonPlayground();
-            window.playground.loadSavedCode();
-        });
+
+        runCode() {
+          const code = this.editor.getValue();
+          if (!code.trim()) {
+            this.addOutput("error", "No code to execute!");
+            return;
+          }
+
+          this.updateStatus("Running...", true);
+          this.addOutput("info", "Executing code...");
+
+          const startTime = performance.now();
+
+          try {
+            // Simulate Python execution
+            const result = this.simulatePythonExecution(code);
+            const endTime = performance.now();
+            const executionTime = ((endTime - startTime) / 1000).toFixed(3);
+
+            this.addOutput(
+              "success",
+              `Execution completed in ${executionTime}s`
+            );
+            this.updateStatus(`Completed in ${executionTime}s`);
+          } catch (error) {
+            this.addOutput("error", `Error: ${error.message}`);
+            this.updateStatus("Error occurred");
+          }
+        }
+
+        simulatePythonExecution(code) {
+          const output = [];
+          const lines = code.split("\n");
+
+          // Simple Python-to-JavaScript simulation
+          for (let line of lines) {
+            line = line.trim();
+            if (!line || line.startsWith("#")) continue;
+
+            try {
+              // Handle print statements
+              if (line.includes("print(")) {
+                const match = line.match(/print\((.*)\)/);
+                if (match) {
+                  let content = match[1];
+
+                  // Handle f-strings (simplified)
+                  if (content.includes('f"') || content.includes("f'")) {
+                    content = content.replace(/f["'](.*)["']/, "$1");
+                    // Simple variable substitution
+                    content = content.replace(
+                      /\{(\w+)\}/g,
+                      (match, varName) => {
+                        return this.getVariableValue(varName) || match;
+                      }
+                    );
+                  }
+
+                  // Remove quotes
+                  content = content.replace(/^["'](.*)["']$/, "$1");
+
+                  this.addOutput("normal", content);
+                }
+              }
+
+              // Handle variable assignments (simplified)
+              else if (
+                line.includes("=") &&
+                !line.includes("if") &&
+                !line.includes("for") &&
+                !line.includes("def")
+              ) {
+                const parts = line.split("=");
+                if (parts.length === 2) {
+                  const varName = parts[0].trim();
+                  let value = parts[1].trim();
+
+                  // Store variable for f-string substitution
+                  this.variables = this.variables || {};
+                  this.variables[varName] = value;
+                }
+              }
+
+              // Handle for loops (simplified)
+              else if (line.startsWith("for") && line.includes("range(")) {
+                const rangeMatch = line.match(/range\((\d+)\)/);
+                if (rangeMatch) {
+                  const count = parseInt(rangeMatch[1]);
+                  const nextLine = lines[lines.indexOf(line) + 1];
+                  if (nextLine && nextLine.includes("print(")) {
+                    for (let i = 0; i < count; i++) {
+                      let printContent = nextLine.match(/print\((.*)\)/)[1];
+                      printContent = printContent.replace(/\{i\}/g, i);
+                      printContent = printContent.replace(
+                        /^["'](.*)["']$/,
+                        "$1"
+                      );
+                      this.addOutput("normal", printContent);
+                    }
+                  }
+                }
+              }
+
+              // Handle math operations
+              else if (
+                line.includes("+") ||
+                line.includes("-") ||
+                line.includes("*") ||
+                line.includes("/")
+              ) {
+                // Just acknowledge math operations
+              }
+            } catch (e) {
+              // Silently continue for parsing errors
+            }
+          }
+
+          return output;
+        }
+
+        getVariableValue(varName) {
+          if (this.variables && this.variables[varName]) {
+            return this.variables[varName].replace(/^["'](.*)["']$/, "$1");
+          }
+          return varName;
+        }
+
+        addOutput(type, message) {
+          const outputPanel = document.getElementById("output-panel");
+          const line = document.createElement("div");
+          line.className = `output-line ${type}`;
+          line.textContent = message;
+          outputPanel.appendChild(line);
+
+          // Auto-scroll to bottom
+          outputPanel.scrollTop = outputPanel.scrollHeight;
+        }
+
+        clearOutput() {
+          const outputPanel = document.getElementById("output-panel");
+          outputPanel.innerHTML =
+            '<div class="output-line info">Output cleared. Ready for new execution!</div>';
+        }
+
+        clearCode() {
+          if (confirm("Are you sure you want to clear the editor?")) {
+            this.editor.setValue("");
+            this.updateStatus("Code cleared");
+          }
+        }
+
+        saveCode() {
+          const code = this.editor.getValue();
+          this.files[this.currentFile] = code;
+
+          // Save to localStorage
+          localStorage.setItem("playground-code", JSON.stringify(this.files));
+
+          this.updateStatus("Code saved");
+          this.addOutput("success", "Code saved successfully!");
+        }
+
+        shareCode() {
+          const code = this.editor.getValue();
+          if (navigator.share) {
+            navigator.share({
+              title: "Python Code from Playground",
+              text: code,
+            });
+          } else {
+            // Fallback: copy to clipboard
+            navigator.clipboard.writeText(code).then(() => {
+              this.updateStatus("Code copied to clipboard");
+              this.addOutput("success", "Code copied to clipboard!");
+            });
+          }
+        }
+
+        updateStatus(message, loading = false) {
+          const statusElement = document.getElementById("execution-status");
+          const timeElement = document.getElementById("execution-time");
+
+          if (loading) {
+            statusElement.innerHTML = `<div class="loading-spinner"></div> ${message}`;
+          } else {
+            statusElement.textContent = message;
+            timeElement.textContent = new Date().toLocaleTimeString();
+          }
+        }
+
+        // Load saved code on page load
+        loadSavedCode() {
+          const saved = localStorage.getItem("playground-code");
+          if (saved) {
+            try {
+              this.files = JSON.parse(saved);
+              this.loadFile(this.currentFile);
+            } catch (e) {
+              console.log("Could not load saved code");
+            }
+          }
+        }
+      }
+
+      // Initialize playground when DOM is loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        window.playground = new PythonPlayground();
+        window.playground.loadSavedCode();
+      });
     </script>
-</body>
+  </body>
 </html>
