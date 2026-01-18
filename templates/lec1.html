@@ -77,20 +77,350 @@
         background: var(--surface);
         border-bottom: 1px solid var(--border);
       }
+
+      /* Text-to-Speech Styles */
+      .tts-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        background: var(--bg);
+        border: 2px solid var(--accent);
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        padding: 16px;
+        min-width: 280px;
+        max-width: 400px;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+      }
+
+      .tts-container.collapsed {
+        transform: translateY(calc(100% - 60px));
+      }
+
+      .tts-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        cursor: pointer;
+      }
+
+      .tts-title {
+        font-weight: 600;
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .tts-controls {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+      }
+
+      .tts-btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 8px;
+        background: var(--accent);
+        color: white;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .tts-btn:hover {
+        background: #115e59;
+        transform: translateY(-2px);
+      }
+
+      .tts-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .tts-btn.secondary {
+        background: var(--surface);
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+
+      .tts-btn.secondary:hover {
+        background: var(--border);
+      }
+
+      .tts-speed-control {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+        font-size: 14px;
+      }
+
+      .tts-speed-slider {
+        flex: 1;
+        height: 6px;
+        border-radius: 3px;
+        background: var(--border);
+        outline: none;
+        -webkit-appearance: none;
+      }
+
+      .tts-speed-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--accent);
+        cursor: pointer;
+      }
+
+      .tts-speed-slider::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--accent);
+        cursor: pointer;
+        border: none;
+      }
+
+      .tts-status {
+        font-size: 12px;
+        color: var(--text);
+        opacity: 0.7;
+        margin-top: 8px;
+        text-align: center;
+      }
+
+      .tts-reading {
+        background: rgba(13, 148, 136, 0.1);
+        border-left: 3px solid var(--accent);
+        padding-left: 8px;
+        transition: all 0.3s;
+      }
+
+      @media (max-width: 640px) {
+        .tts-container {
+          bottom: 10px;
+          right: 10px;
+          left: 10px;
+          max-width: none;
+        }
+      }
+
+      /* Section Completion Checkbox */
+      .section-complete {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 16px;
+        padding: 12px 16px;
+        background: var(--slate-50);
+        border-radius: 12px;
+        border: 2px solid var(--slate-200);
+        transition: all 0.3s ease;
+      }
+
+      .section-complete:hover {
+        border-color: var(--primary-600);
+        background: rgba(59, 130, 246, 0.05);
+      }
+
+      .section-complete.completed {
+        background: rgba(16, 185, 129, 0.1);
+        border-color: var(--accent-500);
+      }
+
+      .section-checkbox {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        accent-color: var(--primary-600);
+        flex-shrink: 0;
+      }
+
+      .section-checkbox-label {
+        font-weight: 600;
+        color: var(--slate-700);
+        cursor: pointer;
+        user-select: none;
+        flex: 1;
+      }
+
+      .section-complete.completed .section-checkbox-label {
+        color: var(--accent-600);
+      }
+
+      .xp-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 12px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-600),
+          var(--secondary-600)
+        );
+        color: white;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-left: auto;
+      }
+
+      .xp-badge.earned {
+        animation: xpPop 0.5s ease;
+      }
+
+      @keyframes xpPop {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+      }
+
+      /* Navigation updates */
+      :root {
+        --primary-600: #3b82f6;
+        --primary-700: #2563eb;
+        --primary-800: #1d4ed8;
+        --secondary-600: #6366f1;
+        --secondary-700: #4f46e5;
+        --secondary-800: #4338ca;
+        --accent-500: #10b981;
+        --accent-600: #059669;
+        --slate-50: #f8fafc;
+        --slate-100: #f1f5f9;
+        --slate-200: #e2e8f0;
+        --slate-300: #cbd5e1;
+        --slate-400: #94a3b8;
+        --slate-600: #475569;
+        --slate-700: #334155;
+        --slate-800: #1e293b;
+        --slate-900: #0f172a;
+        --white: #ffffff;
+      }
+
+      .nav-glassmorphism {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .nav-link {
+        position: relative;
+        font-weight: 500;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-600),
+          var(--secondary-600)
+        );
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .nav-link:hover::after,
+      .nav-link.active::after {
+        transform: scaleX(1);
+      }
+
+      .nav-link.active {
+        color: var(--primary-600);
+        font-weight: 600;
+      }
+
+      .text-gradient {
+        background: linear-gradient(
+          135deg,
+          var(--primary-600),
+          var(--secondary-600)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
     </style>
   </head>
   <body>
     <!-- =========  TOP BAR  ========= -->
-    <nav class="sticky top-0 z-40 bg-teal-700 text-white shadow-lg">
-      <div
-        class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between"
-      >
-        <div class="text-2xl font-bold flex items-center gap-2">
-          <span class="hidden sm:inline">🐍</span> PythonLearn
+    <nav class="nav-glassmorphism">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+          <!-- Logo -->
+          <div class="flex items-center">
+            <a href="/" class="text-3xl font-bold text-gradient"
+              >🐍 PythonLearn</a
+            >
+          </div>
+
+          <!-- Desktop Navigation -->
+          <div class="hidden md:flex items-center space-x-10">
+            <a
+              href="/"
+              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2"
+              >Home</a
+            >
+            <a
+              href="/course"
+              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2 active"
+              >Course</a
+            >
+            <a
+              href="/playground"
+              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2"
+              >Playground</a
+            >
+            <a
+              href="/quiz"
+              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2"
+              >Quiz</a
+            >
+            <a
+              href="/dashboard"
+              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2"
+              >Dashboard</a
+            >
+          </div>
+
+          <!-- XP Display -->
+          <div class="hidden md:flex items-center gap-4">
+            <div
+              class="px-4 py-2 bg-gradient-to-r from-primary-600 to-secondary-600 text-white rounded-lg font-semibold"
+            >
+              <span id="user-xp-display">XP: 0</span>
+            </div>
+            <div
+              class="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg font-semibold"
+            >
+              <span id="user-level-display">Level 1</span>
+            </div>
+          </div>
         </div>
-        <a href="/course" class="text-sm sm:text-base hover:underline"
-          >← Back to Course</a
-        >
       </div>
     </nav>
 
@@ -168,7 +498,7 @@
       </header>
 
       <!-- 1. Conditionals -->
-      <section class="reveal mb-12">
+      <section class="reveal mb-12" data-section-id="lec1-section-1">
         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
           <span class="text-teal-600">🧭</span> Conditionals
         </h2>
@@ -179,28 +509,42 @@
           <br />
           Conditionals allow your program to make decisions, choosing one path
           over another depending on specified conditions. <br />
-          Built within Python are a set of “operators” that are used to ask
+          Built within Python are a set of "operators" that are used to ask
           mathematical questions. <br />
           <code>></code> and <code><</code> symbols are probably quite familiar
           to you. <br />
-          <code>>=</code> denotes “greater than or equal to.” <br />
-          <code><=</code> denotes “less than or equal to.” <br />
-          <code>==</code> denotes “equals.” Note the double equal sign: a single
+          <code>>=</code> denotes "greater than or equal to." <br />
+          <code><=</code> denotes "less than or equal to." <br />
+          <code>==</code> denotes "equals." Note the double equal sign: a single
           equal sign assigns a value, whereas two equal signs compare values.
           <br />
-          <code>!=</code> denotes “not equal to.” <br />
+          <code>!=</code> denotes "not equal to." <br />
           Conditional statements compare a left-hand term to a right-hand term.
         </p>
+        <div class="section-complete" id="complete-lec1-section-1">
+          <input
+            type="checkbox"
+            class="section-checkbox"
+            id="checkbox-lec1-section-1"
+            data-section-id="lec1-section-1"
+            data-xp="10"
+            onchange="handleSectionComplete(this)"
+          />
+          <label for="checkbox-lec1-section-1" class="section-checkbox-label"
+            >✓ I understand this topic</label
+          >
+          <span class="xp-badge" id="xp-badge-lec1-section-1">+10 XP</span>
+        </div>
       </section>
 
       <!-- 2. if Statements -->
-      <section class="reveal mb-12">
+      <section class="reveal mb-12" data-section-id="lec1-section-2">
         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
           <span class="text-indigo-500">🔍</span> if Statements
         </h2>
         <p class="mb-4">
           In your terminal window, type <code>code compare.py</code>. This will
-          create a brand new file called “compare.” <br />
+          create a brand new file called "compare." <br />
           In the text editor window, begin with the following:
         </p>
         <div class="code-box">
@@ -214,10 +558,24 @@
           whether or not to execute code. If the comparison
           <code>x < y</code> is True, the interpreter runs the indented block.
         </p>
+        <div class="section-complete" id="complete-lec1-section-2">
+          <input
+            type="checkbox"
+            class="section-checkbox"
+            id="checkbox-lec1-section-2"
+            data-section-id="lec1-section-2"
+            data-xp="10"
+            onchange="handleSectionComplete(this)"
+          />
+          <label for="checkbox-lec1-section-2" class="section-checkbox-label"
+            >✓ I understand this topic</label
+          >
+          <span class="xp-badge" id="xp-badge-lec1-section-2">+10 XP</span>
+        </div>
       </section>
 
       <!-- 3. Control Flow, elif, and else -->
-      <section class="reveal mb-12">
+      <section class="reveal mb-12" data-section-id="lec1-section-3">
         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
           <span class="text-purple-500">🔀</span> Control Flow, elif, and else
         </h2>
@@ -234,10 +592,24 @@
           Notice how the use of <code>elif</code> and <code>else</code> allows
           the program to make fewer decisions and improves readability.
         </p>
+        <div class="section-complete" id="complete-lec1-section-3">
+          <input
+            type="checkbox"
+            class="section-checkbox"
+            id="checkbox-lec1-section-3"
+            data-section-id="lec1-section-3"
+            data-xp="10"
+            onchange="handleSectionComplete(this)"
+          />
+          <label for="checkbox-lec1-section-3" class="section-checkbox-label"
+            >✓ I understand this topic</label
+          >
+          <span class="xp-badge" id="xp-badge-lec1-section-3">+10 XP</span>
+        </div>
       </section>
 
       <!-- 4. or -->
-      <section class="reveal mb-12">
+      <section class="reveal mb-12" data-section-id="lec1-section-4">
         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
           <span class="text-orange-500">🔗</span> or
         </h2>
@@ -255,10 +627,24 @@
           This is more efficient than asking separate questions for
           <code>x < y</code> and <code>x > y</code>.
         </p>
+        <div class="section-complete" id="complete-lec1-section-4">
+          <input
+            type="checkbox"
+            class="section-checkbox"
+            id="checkbox-lec1-section-4"
+            data-section-id="lec1-section-4"
+            data-xp="10"
+            onchange="handleSectionComplete(this)"
+          />
+          <label for="checkbox-lec1-section-4" class="section-checkbox-label"
+            >✓ I understand this topic</label
+          >
+          <span class="xp-badge" id="xp-badge-lec1-section-4">+10 XP</span>
+        </div>
       </section>
 
       <!-- 5. and -->
-      <section class="reveal mb-12">
+      <section class="reveal mb-12" data-section-id="lec1-section-5">
         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
           <span class="text-green-500">✨</span> and
         </h2>
@@ -281,10 +667,24 @@
           makes our program easier to read and far more maintainable in the
           future.
         </p>
+        <div class="section-complete" id="complete-lec1-section-5">
+          <input
+            type="checkbox"
+            class="section-checkbox"
+            id="checkbox-lec1-section-5"
+            data-section-id="lec1-section-5"
+            data-xp="10"
+            onchange="handleSectionComplete(this)"
+          />
+          <label for="checkbox-lec1-section-5" class="section-checkbox-label"
+            >✓ I understand this topic</label
+          >
+          <span class="xp-badge" id="xp-badge-lec1-section-5">+10 XP</span>
+        </div>
       </section>
 
       <!-- 6. Modulo -->
-      <section class="reveal mb-12">
+      <section class="reveal mb-12" data-section-id="lec1-section-6">
         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
           <span class="text-pink-500">➗</span> Modulo
         </h2>
@@ -306,10 +706,24 @@
           print("Even")<br />else:<br />
           print("Odd")
         </div>
+        <div class="section-complete" id="complete-lec1-section-6">
+          <input
+            type="checkbox"
+            class="section-checkbox"
+            id="checkbox-lec1-section-6"
+            data-section-id="lec1-section-6"
+            data-xp="10"
+            onchange="handleSectionComplete(this)"
+          />
+          <label for="checkbox-lec1-section-6" class="section-checkbox-label"
+            >✓ I understand this topic</label
+          >
+          <span class="xp-badge" id="xp-badge-lec1-section-6">+10 XP</span>
+        </div>
       </section>
 
       <!-- 7. Creating Our Own Parity Function -->
-      <section class="reveal mb-12">
+      <section class="reveal mb-12" data-section-id="lec1-section-7">
         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
           <span class="text-yellow-500">🧪</span> Creating Our Own Parity
           Function
@@ -329,16 +743,30 @@
           print("Odd")<br /><br />def is_even(n):<br />
           return n % 2 == 0<br /><br />main()
         </div>
+        <div class="section-complete" id="complete-lec1-section-7">
+          <input
+            type="checkbox"
+            class="section-checkbox"
+            id="checkbox-lec1-section-7"
+            data-section-id="lec1-section-7"
+            data-xp="10"
+            onchange="handleSectionComplete(this)"
+          />
+          <label for="checkbox-lec1-section-7" class="section-checkbox-label"
+            >✓ I understand this topic</label
+          >
+          <span class="xp-badge" id="xp-badge-lec1-section-7">+10 XP</span>
+        </div>
       </section>
 
       <!-- 8. Pythonic -->
-      <section class="reveal mb-12">
+      <section class="reveal mb-12" data-section-id="lec1-section-8">
         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
           <span class="text-teal-500">🐍</span> Pythonic
         </h2>
         <p class="mb-4">
           In the programming world, there are types of programming that are
-          called “Pythonic” in nature. That is, there are ways to program that
+          called "Pythonic" in nature. That is, there are ways to program that
           are sometimes only seen in Python programming. Consider the following
           revision to our program:
         </p>
@@ -352,10 +780,24 @@
           sentence in English. This is a unique way of coding only seen in
           Python.
         </p>
+        <div class="section-complete" id="complete-lec1-section-8">
+          <input
+            type="checkbox"
+            class="section-checkbox"
+            id="checkbox-lec1-section-8"
+            data-section-id="lec1-section-8"
+            data-xp="10"
+            onchange="handleSectionComplete(this)"
+          />
+          <label for="checkbox-lec1-section-8" class="section-checkbox-label"
+            >✓ I understand this topic</label
+          >
+          <span class="xp-badge" id="xp-badge-lec1-section-8">+10 XP</span>
+        </div>
       </section>
 
       <!-- 9. match -->
-      <section class="reveal mb-12">
+      <section class="reveal mb-12" data-section-id="lec1-section-9">
         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
           <span class="text-cyan-500">🔀</span> match
         </h2>
@@ -380,11 +822,26 @@
           will match with any input, resulting in similar behavior as an
           <code>else</code> statement.
         </p>
+        <div class="section-complete" id="complete-lec1-section-9">
+          <input
+            type="checkbox"
+            class="section-checkbox"
+            id="checkbox-lec1-section-9"
+            data-section-id="lec1-section-9"
+            data-xp="10"
+            onchange="handleSectionComplete(this)"
+          />
+          <label for="checkbox-lec1-section-9" class="section-checkbox-label"
+            >✓ I understand this topic</label
+          >
+          <span class="xp-badge" id="xp-badge-lec1-section-9">+10 XP</span>
+        </div>
       </section>
 
       <!-- 10. Summing Up -->
       <section
         class="reveal mb-12 p-6 bg-gradient-to-r from-teal-50 to-blue-50 dark:from-teal-900/20 dark:to-blue-900/20 rounded-xl"
+        data-section-id="lec1-section-10"
       >
         <h2 class="text-2xl font-bold mb-3">Summing Up</h2>
         <p class="mb-4">
@@ -410,10 +867,24 @@
             >Next Lecture →</a
           >
         </div>
+        <div class="section-complete mt-4" id="complete-lec1-section-10">
+          <input
+            type="checkbox"
+            class="section-checkbox"
+            id="checkbox-lec1-section-10"
+            data-section-id="lec1-section-10"
+            data-xp="10"
+            onchange="handleSectionComplete(this)"
+          />
+          <label for="checkbox-lec1-section-10" class="section-checkbox-label"
+            >✓ I understand this topic</label
+          >
+          <span class="xp-badge" id="xp-badge-lec1-section-10">+10 XP</span>
+        </div>
       </section>
 
       <!-- 11. Live Playground -->
-      <section class="reveal mb-12">
+      <section class="reveal mb-12" data-section-id="lec1-section-11">
         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
           <span class="text-teal-500">🚀</span> Live Playground
         </h2>
@@ -445,6 +916,20 @@ else:
         </div>
         <div id="playground-out" class="output-box mt-3">
           Output will appear here…
+        </div>
+        <div class="section-complete mt-4" id="complete-lec1-section-11">
+          <input
+            type="checkbox"
+            class="section-checkbox"
+            id="checkbox-lec1-section-11"
+            data-section-id="lec1-section-11"
+            data-xp="10"
+            onchange="handleSectionComplete(this)"
+          />
+          <label for="checkbox-lec1-section-11" class="section-checkbox-label"
+            >✓ I understand this topic</label
+          >
+          <span class="xp-badge" id="xp-badge-lec1-section-11">+10 XP</span>
         </div>
       </section>
     </main>
@@ -647,6 +1132,60 @@ else:
       </div>
     </footer>
 
+    <!-- =========  TEXT-TO-SPEECH PANEL  ========= -->
+    <div class="tts-container" id="ttsContainer">
+      <div class="tts-header" onclick="toggleTTS()">
+        <div class="tts-title">
+          <span>🔊</span>
+          <span>Text to Speech</span>
+        </div>
+        <button
+          class="tts-btn secondary"
+          style="padding: 4px 8px; font-size: 12px"
+        >
+          <span id="ttsToggleIcon">−</span>
+        </button>
+      </div>
+      <div id="ttsControls">
+        <div class="tts-controls">
+          <button class="tts-btn" id="ttsPlayBtn" onclick="playSelectedText()">
+            <span>▶</span> Read Selected
+          </button>
+          <button
+            class="tts-btn secondary"
+            id="ttsSectionBtn"
+            onclick="readCurrentSection()"
+          >
+            <span>📖</span> Read Section
+          </button>
+          <button
+            class="tts-btn secondary"
+            id="ttsStopBtn"
+            onclick="stopTTS()"
+            disabled
+          >
+            <span>⏹</span> Stop
+          </button>
+        </div>
+        <div class="tts-speed-control">
+          <span>Speed:</span>
+          <input
+            type="range"
+            min="0.5"
+            max="2"
+            step="0.1"
+            value="1"
+            class="tts-speed-slider"
+            id="ttsSpeedSlider"
+          />
+          <span id="ttsSpeedValue">1.0x</span>
+        </div>
+        <div class="tts-status" id="ttsStatus">
+          Select text or click "Read Section"
+        </div>
+      </div>
+    </div>
+
     <!-- =========  EXISTING JS  ========= -->
     <script>
       const cards = document.querySelectorAll("[data-src]");
@@ -768,6 +1307,429 @@ else:
         if (a.href.endsWith("lec1.html"))
           a.classList.add("bg-teal-700", "text-white");
       });
+
+      /* =========  TEXT-TO-SPEECH FUNCTIONALITY  ========= */
+      let synth = window.speechSynthesis;
+      let currentUtterance = null;
+      let isReading = false;
+      let currentHighlight = null;
+
+      function toggleTTS() {
+        const container = document.getElementById("ttsContainer");
+        const controls = document.getElementById("ttsControls");
+        const icon = document.getElementById("ttsToggleIcon");
+
+        if (container.classList.contains("collapsed")) {
+          container.classList.remove("collapsed");
+          controls.style.display = "block";
+          icon.textContent = "−";
+        } else {
+          container.classList.add("collapsed");
+          controls.style.display = "none";
+          icon.textContent = "+";
+        }
+      }
+
+      function getSelectedText() {
+        const selection = window.getSelection();
+        return selection.toString().trim();
+      }
+
+      function removeHighlights() {
+        if (currentHighlight) {
+          currentHighlight.classList.remove("tts-reading");
+          currentHighlight = null;
+        }
+        document.querySelectorAll(".tts-reading").forEach((el) => {
+          el.classList.remove("tts-reading");
+        });
+      }
+
+      function speakText(text, element = null) {
+        if (!text) {
+          updateStatus("No text selected");
+          return;
+        }
+
+        stopTTS();
+
+        const cleanText = text
+          .replace(/<[^>]*>/g, "")
+          .replace(/\s+/g, " ")
+          .trim();
+
+        if (!cleanText) {
+          updateStatus("No readable text found");
+          return;
+        }
+
+        currentUtterance = new SpeechSynthesisUtterance(cleanText);
+        const speed = parseFloat(
+          document.getElementById("ttsSpeedSlider").value
+        );
+        currentUtterance.rate = speed;
+        currentUtterance.pitch = 1;
+        currentUtterance.volume = 1;
+
+        if (element) {
+          removeHighlights();
+          element.classList.add("tts-reading");
+          currentHighlight = element;
+          element.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+
+        currentUtterance.onstart = () => {
+          isReading = true;
+          updateButtons(true);
+          updateStatus("Reading...");
+        };
+
+        currentUtterance.onend = () => {
+          isReading = false;
+          updateButtons(false);
+          removeHighlights();
+          updateStatus("Finished reading");
+          setTimeout(
+            () => updateStatus('Select text or click "Read Section"'),
+            2000
+          );
+        };
+
+        currentUtterance.onerror = (event) => {
+          isReading = false;
+          updateButtons(false);
+          removeHighlights();
+          updateStatus("Error: " + event.error);
+        };
+
+        synth.speak(currentUtterance);
+      }
+
+      function playSelectedText() {
+        const selectedText = getSelectedText();
+        if (selectedText) {
+          speakText(selectedText);
+          updateStatus("Reading selected text...");
+        } else {
+          updateStatus("Please select some text first");
+          readCurrentSection();
+        }
+      }
+
+      function readCurrentSection() {
+        const sections = document.querySelectorAll("section.reveal");
+        let targetSection = null;
+
+        sections.forEach((section) => {
+          const rect = section.getBoundingClientRect();
+          if (rect.top >= 0 && rect.top <= window.innerHeight / 2) {
+            targetSection = section;
+          }
+        });
+
+        if (!targetSection && sections.length > 0) {
+          targetSection = sections[0];
+        }
+
+        if (targetSection) {
+          const codeBoxes = targetSection.querySelectorAll(
+            ".code-box, .output-box"
+          );
+          codeBoxes.forEach((box) => (box.style.display = "none"));
+
+          const text = targetSection.innerText || targetSection.textContent;
+
+          codeBoxes.forEach((box) => (box.style.display = ""));
+
+          if (text) {
+            speakText(text, targetSection);
+            updateStatus(
+              "Reading section: " +
+                (targetSection.querySelector("h2")?.textContent || "Section")
+            );
+          } else {
+            updateStatus("No text found in section");
+          }
+        } else {
+          updateStatus("No section found");
+        }
+      }
+
+      function stopTTS() {
+        if (synth.speaking) {
+          synth.cancel();
+        }
+        isReading = false;
+        updateButtons(false);
+        removeHighlights();
+        updateStatus("Stopped");
+        setTimeout(
+          () => updateStatus('Select text or click "Read Section"'),
+          2000
+        );
+      }
+
+      function updateButtons(reading) {
+        document.getElementById("ttsPlayBtn").disabled = reading;
+        document.getElementById("ttsSectionBtn").disabled = reading;
+        document.getElementById("ttsStopBtn").disabled = !reading;
+      }
+
+      function updateStatus(message) {
+        document.getElementById("ttsStatus").textContent = message;
+      }
+
+      document
+        .getElementById("ttsSpeedSlider")
+        .addEventListener("input", function (e) {
+          const speed = parseFloat(e.target.value);
+          document.getElementById("ttsSpeedValue").textContent =
+            speed.toFixed(1) + "x";
+          if (currentUtterance && isReading) {
+            synth.cancel();
+            currentUtterance.rate = speed;
+            synth.speak(currentUtterance);
+          }
+        });
+
+      window.addEventListener("beforeunload", () => {
+        stopTTS();
+      });
+
+      document.addEventListener("dblclick", function (e) {
+        if (e.target.tagName === "P" || e.target.closest("p")) {
+          const paragraph =
+            e.target.tagName === "P" ? e.target : e.target.closest("p");
+          const text = paragraph.innerText || paragraph.textContent;
+          if (text.trim()) {
+            speakText(text, paragraph);
+          }
+        }
+      });
+
+      /* =========  XP & LEVEL SYSTEM  ========= */
+      const XP_SYSTEM = {
+        getXPForLevel: (level) => Math.floor(100 * Math.pow(1.5, level - 1)),
+        getLevelFromXP: (totalXP) => {
+          let level = 1;
+          let xpNeeded = 0;
+          while (xpNeeded <= totalXP) {
+            xpNeeded += XP_SYSTEM.getXPForLevel(level);
+            if (xpNeeded <= totalXP) level++;
+          }
+          return level;
+        },
+        init: () => {
+          let userData = JSON.parse(
+            localStorage.getItem("pythonLearnUserData") || "{}"
+          );
+          if (!userData.xp) userData.xp = 0;
+          if (!userData.completedSections) userData.completedSections = [];
+          if (!userData.completedQuizzes) userData.completedQuizzes = [];
+          localStorage.setItem("pythonLearnUserData", JSON.stringify(userData));
+          return userData;
+        },
+        addXP: (amount, source) => {
+          const userData = XP_SYSTEM.init();
+          const oldLevel = XP_SYSTEM.getLevelFromXP(userData.xp);
+          userData.xp += amount;
+          const newLevel = XP_SYSTEM.getLevelFromXP(userData.xp);
+          localStorage.setItem("pythonLearnUserData", JSON.stringify(userData));
+          if (newLevel > oldLevel) XP_SYSTEM.showLevelUp(newLevel);
+          XP_SYSTEM.updateDisplay();
+          return {
+            xp: userData.xp,
+            level: newLevel,
+            leveledUp: newLevel > oldLevel,
+          };
+        },
+        showLevelUp: (level) => {
+          const modal = document.createElement("div");
+          modal.className = "level-up-modal";
+          modal.innerHTML = `<div class="level-up-content"><div class="level-up-icon">🎉</div><h2>Level Up!</h2><p class="level-up-text">You've reached Level ${level}!</p><p class="level-up-subtext">Keep learning to unlock more levels!</p><button onclick="this.closest('.level-up-modal').remove()" class="level-up-btn">Awesome!</button></div>`;
+          document.body.appendChild(modal);
+          setTimeout(() => modal.classList.add("show"), 100);
+        },
+        updateDisplay: () => {
+          const userData = XP_SYSTEM.init();
+          const level = XP_SYSTEM.getLevelFromXP(userData.xp);
+          const xpDisplay = document.getElementById("user-xp-display");
+          const levelDisplay = document.getElementById("user-level-display");
+          if (xpDisplay) xpDisplay.textContent = `XP: ${userData.xp}`;
+          if (levelDisplay) levelDisplay.textContent = `Level ${level}`;
+        },
+        loadCompletedSections: () => {
+          const userData = XP_SYSTEM.init();
+          if (userData.completedSections) {
+            userData.completedSections.forEach((sectionId) => {
+              const checkbox = document.getElementById(`checkbox-${sectionId}`);
+              const completeDiv = document.getElementById(
+                `complete-${sectionId}`
+              );
+              if (checkbox) {
+                checkbox.checked = true;
+                if (completeDiv) completeDiv.classList.add("completed");
+              }
+            });
+          }
+        },
+      };
+
+      function handleSectionComplete(checkbox) {
+        const sectionId = checkbox.dataset.sectionId;
+        const xpAmount = parseInt(checkbox.dataset.xp || 10);
+        const completeDiv = document.getElementById(`complete-${sectionId}`);
+        const xpBadge = document.getElementById(`xp-badge-${sectionId}`);
+        if (checkbox.checked) {
+          if (completeDiv) completeDiv.classList.add("completed");
+          const result = XP_SYSTEM.addXP(xpAmount, "section");
+          const userData = XP_SYSTEM.init();
+          if (!userData.completedSections.includes(sectionId)) {
+            userData.completedSections.push(sectionId);
+            localStorage.setItem(
+              "pythonLearnUserData",
+              JSON.stringify(userData)
+            );
+            if (xpBadge) {
+              xpBadge.classList.add("earned");
+              setTimeout(() => xpBadge.classList.remove("earned"), 500);
+            }
+            showXPNotification(`+${xpAmount} XP`, result.leveledUp);
+          }
+        } else {
+          if (completeDiv) completeDiv.classList.remove("completed");
+          const userData = XP_SYSTEM.init();
+          userData.completedSections = userData.completedSections.filter(
+            (id) => id !== sectionId
+          );
+          localStorage.setItem("pythonLearnUserData", JSON.stringify(userData));
+        }
+      }
+
+      function showXPNotification(message, leveledUp = false) {
+        const notification = document.createElement("div");
+        notification.className = "xp-notification";
+        notification.textContent = message;
+        if (leveledUp) notification.classList.add("level-up");
+        document.body.appendChild(notification);
+        setTimeout(() => notification.classList.add("show"), 100);
+        setTimeout(() => {
+          notification.classList.remove("show");
+          setTimeout(() => notification.remove(), 300);
+        }, 2000);
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        XP_SYSTEM.updateDisplay();
+        XP_SYSTEM.loadCompletedSections();
+      });
     </script>
+
+    <style>
+      .level-up-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .level-up-modal.show {
+        opacity: 1;
+      }
+      .level-up-content {
+        background: white;
+        border-radius: 24px;
+        padding: 3rem;
+        text-align: center;
+        max-width: 400px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        transform: scale(0.8);
+        transition: transform 0.3s ease;
+      }
+      .level-up-modal.show .level-up-content {
+        transform: scale(1);
+      }
+      .level-up-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        animation: bounce 0.6s ease;
+      }
+      .level-up-content h2 {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--primary-600);
+        margin-bottom: 0.5rem;
+      }
+      .level-up-text {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--slate-700);
+        margin-bottom: 0.5rem;
+      }
+      .level-up-subtext {
+        color: var(--slate-600);
+        margin-bottom: 1.5rem;
+      }
+      .level-up-btn {
+        padding: 12px 32px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-600),
+          var(--secondary-600)
+        );
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+      .level-up-btn:hover {
+        transform: translateY(-2px);
+      }
+      .xp-notification {
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-600),
+          var(--secondary-600)
+        );
+        color: white;
+        padding: 16px 24px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1.125rem;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        z-index: 10001;
+        transform: translateX(400px);
+        transition: transform 0.3s ease;
+      }
+      .xp-notification.show {
+        transform: translateX(0);
+      }
+      .xp-notification.level-up {
+        background: linear-gradient(135deg, #f59e0b, #ef4444);
+        font-size: 1.25rem;
+      }
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+    </style>
   </body>
 </html>

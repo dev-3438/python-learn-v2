@@ -97,6 +97,144 @@
           transform: scale(1.2);
         }
       }
+      
+      /* Text-to-Speech Styles */
+      .tts-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        background: var(--bg);
+        border: 2px solid var(--accent);
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        padding: 16px;
+        min-width: 280px;
+        max-width: 400px;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+      }
+      
+      .tts-container.collapsed {
+        transform: translateY(calc(100% - 60px));
+      }
+      
+      .tts-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        cursor: pointer;
+      }
+      
+      .tts-title {
+        font-weight: 600;
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      
+      .tts-controls {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+      }
+      
+      .tts-btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 8px;
+        background: var(--accent);
+        color: white;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      
+      .tts-btn:hover {
+        background: var(--accent-dark);
+        transform: translateY(-2px);
+      }
+      
+      .tts-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      
+      .tts-btn.secondary {
+        background: var(--surface);
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+      
+      .tts-btn.secondary:hover {
+        background: var(--border);
+      }
+      
+      .tts-speed-control {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+        font-size: 14px;
+      }
+      
+      .tts-speed-slider {
+        flex: 1;
+        height: 6px;
+        border-radius: 3px;
+        background: var(--border);
+        outline: none;
+        -webkit-appearance: none;
+      }
+      
+      .tts-speed-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--accent);
+        cursor: pointer;
+      }
+      
+      .tts-speed-slider::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--accent);
+        cursor: pointer;
+        border: none;
+      }
+      
+      .tts-status {
+        font-size: 12px;
+        color: var(--text);
+        opacity: 0.7;
+        margin-top: 8px;
+        text-align: center;
+      }
+      
+      .tts-reading {
+        background: rgba(13, 148, 136, 0.1);
+        border-left: 3px solid var(--accent);
+        padding-left: 8px;
+        transition: all 0.3s;
+      }
+      
+      @media (max-width: 640px) {
+        .tts-container {
+          bottom: 10px;
+          right: 10px;
+          left: 10px;
+          max-width: none;
+        }
+      }
     </style>
   </head>
   <body>
@@ -708,6 +846,38 @@ for i in range(3):
             </div>
           </footer>
 
+          <!-- =========  TEXT-TO-SPEECH PANEL  ========= -->
+          <div class="tts-container" id="ttsContainer">
+            <div class="tts-header" onclick="toggleTTS()">
+              <div class="tts-title">
+                <span>🔊</span>
+                <span>Text to Speech</span>
+              </div>
+              <button class="tts-btn secondary" style="padding: 4px 8px; font-size: 12px;">
+                <span id="ttsToggleIcon">−</span>
+              </button>
+            </div>
+            <div id="ttsControls">
+              <div class="tts-controls">
+                <button class="tts-btn" id="ttsPlayBtn" onclick="playSelectedText()">
+                  <span>▶</span> Read Selected
+                </button>
+                <button class="tts-btn secondary" id="ttsSectionBtn" onclick="readCurrentSection()">
+                  <span>📖</span> Read Section
+                </button>
+                <button class="tts-btn secondary" id="ttsStopBtn" onclick="stopTTS()" disabled>
+                  <span>⏹</span> Stop
+                </button>
+              </div>
+              <div class="tts-speed-control">
+                <span>Speed:</span>
+                <input type="range" min="0.5" max="2" step="0.1" value="1" class="tts-speed-slider" id="ttsSpeedSlider">
+                <span id="ttsSpeedValue">1.0x</span>
+              </div>
+              <div class="tts-status" id="ttsStatus">Select text or click "Read Section"</div>
+            </div>
+          </div>
+
           <!-- =========  EXISTING JS  ========= -->
           <script>
             /* ----- dark mode toggle (respects your nav) ----- */
@@ -809,6 +979,185 @@ for i in range(3):
             document.querySelectorAll(".lecture2-nav a").forEach((a) => {
               if (a.href.endsWith("lec2.html"))
                 a.classList.add("bg-teal-700", "text-white");
+            });
+
+            /* =========  TEXT-TO-SPEECH FUNCTIONALITY  ========= */
+            let synth = window.speechSynthesis;
+            let currentUtterance = null;
+            let isReading = false;
+            let currentHighlight = null;
+
+            function toggleTTS() {
+              const container = document.getElementById('ttsContainer');
+              const controls = document.getElementById('ttsControls');
+              const icon = document.getElementById('ttsToggleIcon');
+              
+              if (container.classList.contains('collapsed')) {
+                container.classList.remove('collapsed');
+                controls.style.display = 'block';
+                icon.textContent = '−';
+              } else {
+                container.classList.add('collapsed');
+                controls.style.display = 'none';
+                icon.textContent = '+';
+              }
+            }
+
+            function getSelectedText() {
+              const selection = window.getSelection();
+              return selection.toString().trim();
+            }
+
+            function removeHighlights() {
+              if (currentHighlight) {
+                currentHighlight.classList.remove('tts-reading');
+                currentHighlight = null;
+              }
+              document.querySelectorAll('.tts-reading').forEach(el => {
+                el.classList.remove('tts-reading');
+              });
+            }
+
+            function speakText(text, element = null) {
+              if (!text) {
+                updateStatus('No text selected');
+                return;
+              }
+
+              stopTTS();
+
+              const cleanText = text.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+              
+              if (!cleanText) {
+                updateStatus('No readable text found');
+                return;
+              }
+
+              currentUtterance = new SpeechSynthesisUtterance(cleanText);
+              const speed = parseFloat(document.getElementById('ttsSpeedSlider').value);
+              currentUtterance.rate = speed;
+              currentUtterance.pitch = 1;
+              currentUtterance.volume = 1;
+
+              if (element) {
+                removeHighlights();
+                element.classList.add('tts-reading');
+                currentHighlight = element;
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }
+
+              currentUtterance.onstart = () => {
+                isReading = true;
+                updateButtons(true);
+                updateStatus('Reading...');
+              };
+
+              currentUtterance.onend = () => {
+                isReading = false;
+                updateButtons(false);
+                removeHighlights();
+                updateStatus('Finished reading');
+                setTimeout(() => updateStatus('Select text or click "Read Section"'), 2000);
+              };
+
+              currentUtterance.onerror = (event) => {
+                isReading = false;
+                updateButtons(false);
+                removeHighlights();
+                updateStatus('Error: ' + event.error);
+              };
+
+              synth.speak(currentUtterance);
+            }
+
+            function playSelectedText() {
+              const selectedText = getSelectedText();
+              if (selectedText) {
+                speakText(selectedText);
+                updateStatus('Reading selected text...');
+              } else {
+                updateStatus('Please select some text first');
+                readCurrentSection();
+              }
+            }
+
+            function readCurrentSection() {
+              const sections = document.querySelectorAll('section.reveal');
+              let targetSection = null;
+              
+              sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top >= 0 && rect.top <= window.innerHeight / 2) {
+                  targetSection = section;
+                }
+              });
+
+              if (!targetSection && sections.length > 0) {
+                targetSection = sections[0];
+              }
+
+              if (targetSection) {
+                const codeBoxes = targetSection.querySelectorAll('.code-box, .output-box');
+                codeBoxes.forEach(box => box.style.display = 'none');
+                
+                const text = targetSection.innerText || targetSection.textContent;
+                
+                codeBoxes.forEach(box => box.style.display = '');
+                
+                if (text) {
+                  speakText(text, targetSection);
+                  updateStatus('Reading section: ' + (targetSection.querySelector('h2')?.textContent || 'Section'));
+                } else {
+                  updateStatus('No text found in section');
+                }
+              } else {
+                updateStatus('No section found');
+              }
+            }
+
+            function stopTTS() {
+              if (synth.speaking) {
+                synth.cancel();
+              }
+              isReading = false;
+              updateButtons(false);
+              removeHighlights();
+              updateStatus('Stopped');
+              setTimeout(() => updateStatus('Select text or click "Read Section"'), 2000);
+            }
+
+            function updateButtons(reading) {
+              document.getElementById('ttsPlayBtn').disabled = reading;
+              document.getElementById('ttsSectionBtn').disabled = reading;
+              document.getElementById('ttsStopBtn').disabled = !reading;
+            }
+
+            function updateStatus(message) {
+              document.getElementById('ttsStatus').textContent = message;
+            }
+
+            document.getElementById('ttsSpeedSlider').addEventListener('input', function(e) {
+              const speed = parseFloat(e.target.value);
+              document.getElementById('ttsSpeedValue').textContent = speed.toFixed(1) + 'x';
+              if (currentUtterance && isReading) {
+                synth.cancel();
+                currentUtterance.rate = speed;
+                synth.speak(currentUtterance);
+              }
+            });
+
+            window.addEventListener('beforeunload', () => {
+              stopTTS();
+            });
+
+            document.addEventListener('dblclick', function(e) {
+              if (e.target.tagName === 'P' || e.target.closest('p')) {
+                const paragraph = e.target.tagName === 'P' ? e.target : e.target.closest('p');
+                const text = paragraph.innerText || paragraph.textContent;
+                if (text.trim()) {
+                  speakText(text, paragraph);
+                }
+              }
             });
           </script>
         </body>

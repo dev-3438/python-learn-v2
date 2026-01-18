@@ -6,11 +6,11 @@
     <title>Dashboard - PythonLearn</title>
 
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com "></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Animation Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js "></script>
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
 
     <!-- Google Fonts -->
     <link
@@ -20,21 +20,18 @@
 
     <!-- Custom Styles -->
     <style>
-      /* =========================================================
-   MODERN, ACCESSIBLE COLOUR SYSTEM
-   ========================================================= */
-
       :root {
-        /* -------- Brand core -------- */
-        --primary-600: #0d9488; /* teal  */
-        --primary-700: #0f766e;
-        --primary-800: #115e59;
+        /* -------- Modern Tech Brand Colors (freeCodeCamp/Codecademy style) -------- */
+        --primary-600: #3b82f6; /* blue - primary action */
+        --primary-700: #2563eb;
+        --primary-800: #1d4ed8;
 
-        --secondary-600: #f97316; /* amber / orange  */
-        --secondary-700: #ea580c;
-        --secondary-800: #c2410c;
+        --secondary-600: #6366f1; /* indigo - secondary action */
+        --secondary-700: #4f46e5;
+        --secondary-800: #4338ca;
 
-        --accent-500: #22c55e; /* success green  */
+        --accent-500: #10b981; /* green - success/positive */
+        --accent-600: #059669;
 
         /* -------- Neutral light-scale -------- */
         --slate-50: #f8fafc; /* page bg        */
@@ -54,31 +51,35 @@
    DARK-MODE OVERRIDES (auto or via data-theme="dark")
    --------------------------------------------------------- */
       [data-theme="dark"] {
-        --primary-600: #2dd4bf;
+        /* desaturated but recognisable brand colours */
+        --primary-600: #2dd4bf; /* brighter teal   */
         --primary-700: #14b8a6;
         --primary-800: #0d9488;
 
-        --secondary-600: #fb923c;
+        --secondary-600: #fb923c; /* softer orange   */
         --secondary-700: #f97316;
         --secondary-800: #ea580c;
 
-        --accent-500: #4ade80;
+        --accent-500: #4ade80; /* mint green       */
 
-        --slate-50: #0b1120;
-        --slate-100: #111827;
-        --slate-200: #1f2937;
+        /* inverted neutral scale */
+        --slate-50: #0b1120; /* page bg          */
+        --slate-100: #111827; /* card / elevated  */
+        --slate-200: #1f2937; /* border           */
         --slate-300: #374151;
         --slate-400: #4b5563;
-        --slate-600: #9ca3af;
-        --slate-700: #d1d5db;
+        --slate-600: #9ca3af; /* body text        */
+        --slate-700: #d1d5db; /* heading text     */
         --slate-800: #e5e7eb;
-        --slate-900: #f9fafb;
+        --slate-900: #f9fafb; /* lightest text    */
 
-        --white: #0b1120;
+        --white: #0b1120; /* same as page bg  */
       }
 
+      /* automatic dark if user has system preference */
       @media (prefers-color-scheme: dark) {
         :root:not([data-theme="light"]) {
+          /* copy the exact same block as [data-theme="dark"] */
           --primary-600: #2dd4bf;
           --primary-700: #14b8a6;
           --primary-800: #0d9488;
@@ -109,12 +110,15 @@
         line-height: 1.6;
       }
 
-      /* Premium Navigation */
+      /* Premium Navigation - Sticky with better styling */
       .nav-glassmorphism {
-        background: rgba(255, 255, 255, 0.95);
+        background: rgba(255, 255, 255, 0.98);
         backdrop-filter: blur(20px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
       }
 
       .nav-link {
@@ -144,13 +148,18 @@
         transform: scaleX(1);
       }
 
-      /* Premium Cards */
+      .nav-link.active {
+        color: var(--primary-600);
+        font-weight: 600;
+      }
+
+      /* Premium Cards - Matching index.html */
       .card-premium {
         background: var(--white);
-        border-radius: 20px;
+        border-radius: 24px;
         padding: 2rem;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        border: 1px solid rgba(0, 0, 0, 0.05);
+        border: 1px solid var(--slate-200);
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
         overflow: hidden;
@@ -168,17 +177,18 @@
           var(--primary-600),
           var(--secondary-600)
         );
-        transform: scaleX(0);
-        transition: transform 0.3s ease;
+        opacity: 0;
+        transition: opacity 0.3s ease;
       }
 
       .card-premium:hover::before {
-        transform: scaleX(1);
+        opacity: 1;
       }
 
       .card-premium:hover {
         transform: translateY(-4px);
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        border-color: var(--slate-300);
       }
 
       /* Progress Bar */
@@ -200,18 +210,19 @@
         transition: width 0.6s ease;
       }
 
-      /* Stat Cards */
+      /* Stat Cards - Matching index.html style */
       .stat-card {
         background: linear-gradient(
           135deg,
           var(--primary-600),
           var(--primary-700)
         );
-        border-radius: 20px;
+        border-radius: 24px;
         padding: 2rem;
         color: white;
         position: relative;
         overflow: hidden;
+        transition: all 0.3s ease;
       }
 
       .stat-card::before {
@@ -226,6 +237,16 @@
           rgba(255, 255, 255, 0.1) 0%,
           transparent 70%
         );
+        transition: all 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(59, 130, 246, 0.3);
+      }
+
+      .stat-card:hover::before {
+        transform: scale(1.1);
       }
 
       /* Text Gradient */
@@ -258,7 +279,11 @@
         width: 70px;
         height: 70px;
         border-radius: 50%;
-        background: linear-gradient(135deg, var(--primary-600), var(--secondary-600));
+        background: linear-gradient(
+          135deg,
+          var(--primary-600),
+          var(--secondary-600)
+        );
         display: flex;
         align-items: center;
         justify-content: center;
@@ -302,17 +327,92 @@
           bottom: 20px;
           right: 20px;
         }
-        
+
         .user-circle-button {
           width: 60px;
           height: 60px;
           font-size: 1.5rem;
         }
-        
+
         .user-dropdown-menu {
           width: 260px;
           bottom: 80px;
         }
+      }
+
+      /* Hero-style Welcome Section - Good Contrast */
+      .hero-welcome-section {
+        background: linear-gradient(
+          135deg,
+          #3b82f6 0%,
+          #6366f1 50%,
+          #8b5cf6 100%
+        );
+        background-size: 400% 400%;
+        animation: premiumGradientShift 15s ease-in-out infinite;
+        position: relative;
+        overflow: hidden;
+        border-radius: 24px;
+        padding: 4rem 2rem;
+        box-shadow: 0 8px 32px rgba(59, 130, 246, 0.25);
+      }
+
+      .hero-welcome-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(255, 255, 255, 0.05) 2px,
+            rgba(255, 255, 255, 0.05) 4px
+          ),
+          repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 2px,
+            rgba(255, 255, 255, 0.05) 2px,
+            rgba(255, 255, 255, 0.05) 4px
+          );
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      @keyframes premiumGradientShift {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+
+      .hero-welcome-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+      }
+
+      .hero-headline {
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        margin-bottom: 1.5rem;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .hero-subtitle {
+        font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+        font-weight: 400;
+        line-height: 1.6;
+        max-width: 42rem;
+        margin: 0 auto;
       }
     </style>
   </head>
@@ -323,7 +423,9 @@
         <div class="flex justify-between items-center h-20">
           <!-- Logo -->
           <div class="flex items-center">
-            <a href="/" class="text-3xl font-bold text-gradient">🐍 PythonLearn</a>
+            <a href="/" class="text-3xl font-bold text-gradient"
+              >🐍 PythonLearn</a
+            >
           </div>
 
           <!-- Desktop Navigation -->
@@ -420,37 +522,109 @@
     </nav>
 
     <!-- Dashboard Content -->
-    <div class="pt-24 pb-20 min-h-screen">
+    <div class="pt-24 pb-20 min-h-screen bg-slate-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Welcome Section -->
-        <div class="mb-8">
-          <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-2">
-            Welcome back, <span class="text-gradient">{{ user.split('@')[0] }}</span>! 👋
-          </h1>
-          <p class="text-xl text-slate-600">Track your progress and continue learning</p>
+        <!-- Welcome Section with Hero-style Background -->
+        <div class="mb-12 relative">
+          <div class="hero-welcome-section">
+            <div class="hero-welcome-content">
+              <h1
+                class="hero-headline mb-4"
+                style="color: white; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2)"
+              >
+                Welcome back,
+                <span style="color: white">{{ user.split('@')[0] }}</span>! 👋
+              </h1>
+              <p
+                class="hero-subtitle"
+                style="color: rgba(255, 255, 255, 0.95); font-weight: 400"
+              >
+                Track your progress and continue your Python learning journey
+              </p>
+            </div>
+          </div>
         </div>
 
         <!-- Stats Grid -->
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <!-- Level & XP Card -->
+          <div
+            class="stat-card"
+            style="background: linear-gradient(135deg, #f59e0b, #d97706)"
+          >
+            <div class="text-4xl mb-2">⭐</div>
+            <div class="text-3xl font-bold mb-1" id="dashboard-level">
+              Level 1
+            </div>
+            <div class="text-white/90 font-medium">Current Level</div>
+            <div class="mt-2 text-sm text-white/80" id="dashboard-xp">
+              XP: 0
+            </div>
+          </div>
           <div class="stat-card">
             <div class="text-4xl mb-2">📚</div>
-            <div class="text-3xl font-bold mb-1">12</div>
-            <div class="text-white/90">Lessons Completed</div>
+            <div class="text-3xl font-bold mb-1" id="dashboard-lessons">0</div>
+            <div class="text-white/90 font-medium">Lessons Completed</div>
           </div>
-          <div class="stat-card" style="background: linear-gradient(135deg, var(--secondary-600), var(--secondary-700));">
+          <div
+            class="stat-card"
+            style="
+              background: linear-gradient(
+                135deg,
+                var(--secondary-600),
+                var(--secondary-700)
+              );
+            "
+          >
             <div class="text-4xl mb-2">🎯</div>
-            <div class="text-3xl font-bold mb-1">85%</div>
-            <div class="text-white/90">Overall Progress</div>
+            <div class="text-3xl font-bold mb-1" id="dashboard-progress">
+              0%
+            </div>
+            <div class="text-white/90 font-medium">Overall Progress</div>
           </div>
-          <div class="stat-card" style="background: linear-gradient(135deg, var(--accent-500), #16a34a);">
-            <div class="text-4xl mb-2">⭐</div>
-            <div class="text-3xl font-bold mb-1">8</div>
-            <div class="text-white/90">Quizzes Passed</div>
-          </div>
-          <div class="stat-card" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+          <div
+            class="stat-card"
+            style="
+              background: linear-gradient(135deg, var(--accent-500), #16a34a);
+            "
+          >
             <div class="text-4xl mb-2">🏆</div>
-            <div class="text-3xl font-bold mb-1">5</div>
-            <div class="text-white/90">Achievements</div>
+            <div class="text-3xl font-bold mb-1" id="dashboard-quizzes">0</div>
+            <div class="text-white/90 font-medium">Quizzes Passed</div>
+          </div>
+        </div>
+
+        <!-- Level Progress Card -->
+        <div class="card-premium mb-8">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">Level Progress</h2>
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-semibold text-slate-700"
+                  >Experience Points</span
+                >
+                <span class="text-sm text-slate-600" id="level-progress-text"
+                  >0 / 100 XP</span
+                >
+              </div>
+              <div class="progress-bar">
+                <div
+                  class="progress-fill"
+                  id="level-progress-bar"
+                  style="
+                    width: 0%;
+                    background: linear-gradient(
+                      90deg,
+                      var(--primary-600),
+                      var(--secondary-600)
+                    );
+                  "
+                ></div>
+              </div>
+              <div class="mt-2 text-xs text-slate-500" id="next-level-info">
+                Keep learning to level up!
+              </div>
+            </div>
           </div>
         </div>
 
@@ -460,13 +634,17 @@
           <div class="lg:col-span-2 space-y-6">
             <!-- Progress Overview -->
             <div class="card-premium">
-              <h2 class="text-2xl font-bold text-slate-900 mb-6">Your Progress</h2>
-              
+              <h2 class="text-2xl font-bold text-slate-900 mb-6">
+                Your Progress
+              </h2>
+
               <div class="space-y-6">
                 <!-- Course Progress -->
                 <div>
                   <div class="flex justify-between items-center mb-2">
-                    <span class="text-sm font-semibold text-slate-700">Python Basics</span>
+                    <span class="text-sm font-semibold text-slate-700"
+                      >Python Basics</span
+                    >
                     <span class="text-sm text-slate-600">75%</span>
                   </div>
                   <div class="progress-bar">
@@ -476,7 +654,9 @@
 
                 <div>
                   <div class="flex justify-between items-center mb-2">
-                    <span class="text-sm font-semibold text-slate-700">Data Structures</span>
+                    <span class="text-sm font-semibold text-slate-700"
+                      >Data Structures</span
+                    >
                     <span class="text-sm text-slate-600">60%</span>
                   </div>
                   <div class="progress-bar">
@@ -486,7 +666,9 @@
 
                 <div>
                   <div class="flex justify-between items-center mb-2">
-                    <span class="text-sm font-semibold text-slate-700">Functions & Modules</span>
+                    <span class="text-sm font-semibold text-slate-700"
+                      >Functions & Modules</span
+                    >
                     <span class="text-sm text-slate-600">45%</span>
                   </div>
                   <div class="progress-bar">
@@ -496,7 +678,9 @@
 
                 <div>
                   <div class="flex justify-between items-center mb-2">
-                    <span class="text-sm font-semibold text-slate-700">Object-Oriented Programming</span>
+                    <span class="text-sm font-semibold text-slate-700"
+                      >Object-Oriented Programming</span
+                    >
                     <span class="text-sm text-slate-600">30%</span>
                   </div>
                   <div class="progress-bar">
@@ -508,32 +692,52 @@
 
             <!-- Recent Activity -->
             <div class="card-premium">
-              <h2 class="text-2xl font-bold text-slate-900 mb-6">Recent Activity</h2>
+              <h2 class="text-2xl font-bold text-slate-900 mb-6">
+                Recent Activity
+              </h2>
               <div class="space-y-4">
-                <div class="flex items-start space-x-4 p-4 bg-slate-50 rounded-xl">
-                  <div class="w-10 h-10 rounded-full bg-primary-600 flex items-center justify-center text-white font-bold">
+                <div
+                  class="flex items-start space-x-4 p-4 bg-slate-50 rounded-xl"
+                >
+                  <div
+                    class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold"
+                  >
                     ✓
                   </div>
                   <div class="flex-1">
-                    <p class="font-semibold text-slate-900">Completed Lesson 5: Lists and Tuples</p>
+                    <p class="font-semibold text-slate-900">
+                      Completed Lesson 5: Lists and Tuples
+                    </p>
                     <p class="text-sm text-slate-600">2 hours ago</p>
                   </div>
                 </div>
-                <div class="flex items-start space-x-4 p-4 bg-slate-50 rounded-xl">
-                  <div class="w-10 h-10 rounded-full bg-accent-500 flex items-center justify-center text-white font-bold">
+                <div
+                  class="flex items-start space-x-4 p-4 bg-slate-50 rounded-xl"
+                >
+                  <div
+                    class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold"
+                  >
                     ⭐
                   </div>
                   <div class="flex-1">
-                    <p class="font-semibold text-slate-900">Passed Quiz: Python Basics</p>
+                    <p class="font-semibold text-slate-900">
+                      Passed Quiz: Python Basics
+                    </p>
                     <p class="text-sm text-slate-600">1 day ago</p>
                   </div>
                 </div>
-                <div class="flex items-start space-x-4 p-4 bg-slate-50 rounded-xl">
-                  <div class="w-10 h-10 rounded-full bg-secondary-600 flex items-center justify-center text-white font-bold">
+                <div
+                  class="flex items-start space-x-4 p-4 bg-slate-50 rounded-xl"
+                >
+                  <div
+                    class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold"
+                  >
                     🎯
                   </div>
                   <div class="flex-1">
-                    <p class="font-semibold text-slate-900">Started Lesson 6: Dictionaries</p>
+                    <p class="font-semibold text-slate-900">
+                      Started Lesson 6: Dictionaries
+                    </p>
                     <p class="text-sm text-slate-600">2 days ago</p>
                   </div>
                 </div>
@@ -545,11 +749,13 @@
           <div class="space-y-6">
             <!-- Quick Actions -->
             <div class="card-premium">
-              <h2 class="text-2xl font-bold text-slate-900 mb-6">Quick Actions</h2>
+              <h2 class="text-2xl font-bold text-slate-900 mb-6">
+                Quick Actions
+              </h2>
               <div class="space-y-3">
                 <a
                   href="/course"
-                  class="block w-full px-4 py-3 bg-gradient-to-r from-primary-600 to-secondary-600 text-white font-semibold rounded-xl hover:from-primary-700 hover:to-secondary-700 transition-all duration-300 text-center"
+                  class="block w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 text-center"
                 >
                   Continue Learning →
                 </a>
@@ -570,19 +776,29 @@
 
             <!-- Achievements -->
             <div class="card-premium">
-              <h2 class="text-2xl font-bold text-slate-900 mb-6">Achievements</h2>
+              <h2 class="text-2xl font-bold text-slate-900 mb-6">
+                Achievements
+              </h2>
               <div class="grid grid-cols-3 gap-4">
-                <div class="text-center p-4 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-xl">
+                <div
+                  class="text-center p-4 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-xl"
+                >
                   <div class="text-3xl mb-2">🏅</div>
                   <div class="text-xs font-semibold text-white">First Step</div>
                 </div>
-                <div class="text-center p-4 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl">
+                <div
+                  class="text-center p-4 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl"
+                >
                   <div class="text-3xl mb-2">📖</div>
                   <div class="text-xs font-semibold text-white">Learner</div>
                 </div>
-                <div class="text-center p-4 bg-gradient-to-br from-green-400 to-green-600 rounded-xl">
+                <div
+                  class="text-center p-4 bg-gradient-to-br from-green-400 to-green-600 rounded-xl"
+                >
                   <div class="text-3xl mb-2">⭐</div>
-                  <div class="text-xs font-semibold text-white">Quiz Master</div>
+                  <div class="text-xs font-semibold text-white">
+                    Quiz Master
+                  </div>
                 </div>
                 <div class="text-center p-4 bg-slate-100 rounded-xl opacity-50">
                   <div class="text-3xl mb-2">🔒</div>
@@ -601,7 +817,9 @@
 
             <!-- Learning Streak -->
             <div class="card-premium">
-              <h2 class="text-2xl font-bold text-slate-900 mb-4">🔥 Learning Streak</h2>
+              <h2 class="text-2xl font-bold text-slate-900 mb-4">
+                🔥 Learning Streak
+              </h2>
               <div class="text-center">
                 <div class="text-5xl font-bold text-gradient mb-2">7</div>
                 <div class="text-slate-600">Days in a row!</div>
@@ -623,14 +841,13 @@
       >
         {{ user[0].upper() }}
       </button>
-      
+
       <!-- Dropdown Menu -->
-      <div
-        id="floating-user-dropdown"
-        class="user-dropdown-menu"
-      >
+      <div id="floating-user-dropdown" class="user-dropdown-menu">
         <div class="px-5 py-4 border-b border-slate-200 bg-white">
-          <p class="text-sm font-bold text-gradient">{{ user.split('@')[0] }}</p>
+          <p class="text-sm font-bold text-gradient">
+            {{ user.split('@')[0] }}
+          </p>
           <p class="text-xs text-slate-600 truncate mt-1">{{ user }}</p>
         </div>
         <div class="py-2">
@@ -638,8 +855,18 @@
             href="/dashboard"
             class="block px-5 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors flex items-center space-x-3"
           >
-            <svg class="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            <svg
+              class="w-5 h-5 text-primary-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+              ></path>
             </svg>
             <span class="font-medium">Dashboard</span>
           </a>
@@ -647,8 +874,18 @@
             href="/logout"
             class="block px-5 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors flex items-center space-x-3"
           >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              ></path>
             </svg>
             <span class="font-medium">Logout</span>
           </a>
@@ -658,63 +895,210 @@
     {% endif %}
 
     <!-- JavaScript -->
+    <script src="{{url_for('static', filename='main.js')}}"></script>
     <script>
       // Theme Toggle
-      const themeToggle = document.getElementById('theme-toggle');
-      const themeIcon = document.getElementById('theme-icon');
+      const themeToggle = document.getElementById("theme-toggle");
+      const themeIcon = document.getElementById("theme-icon");
       const html = document.documentElement;
 
-      if (localStorage.getItem('theme') === 'dark') {
-        html.setAttribute('data-theme', 'dark');
-        themeIcon.textContent = '☀️';
+      if (localStorage.getItem("theme") === "dark") {
+        html.setAttribute("data-theme", "dark");
+        themeIcon.textContent = "☀️";
       }
 
-      themeToggle.addEventListener('click', () => {
-        if (html.getAttribute('data-theme') === 'dark') {
-          html.removeAttribute('data-theme');
-          themeIcon.textContent = '🌙';
-          localStorage.setItem('theme', 'light');
+      themeToggle.addEventListener("click", () => {
+        if (html.getAttribute("data-theme") === "dark") {
+          html.removeAttribute("data-theme");
+          themeIcon.textContent = "🌙";
+          localStorage.setItem("theme", "light");
         } else {
-          html.setAttribute('data-theme', 'dark');
-          themeIcon.textContent = '☀️';
-          localStorage.setItem('theme', 'dark');
+          html.setAttribute("data-theme", "dark");
+          themeIcon.textContent = "☀️";
+          localStorage.setItem("theme", "dark");
         }
       });
 
       // Mobile Menu Toggle
-      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-      const mobileMenu = document.getElementById('mobile-menu');
+      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
 
       if (mobileMenuBtn) {
-        mobileMenuBtn.addEventListener('click', () => {
-          mobileMenu.classList.toggle('hidden');
+        mobileMenuBtn.addEventListener("click", () => {
+          mobileMenu.classList.toggle("hidden");
         });
       }
 
       // Floating User Circle Dropdown Toggle
-      document.addEventListener('DOMContentLoaded', function() {
-        const floatingUserButton = document.getElementById('floating-user-button');
-        const floatingUserDropdown = document.getElementById('floating-user-dropdown');
-        const floatingUserContainer = document.getElementById('floating-user-container');
-        
+      document.addEventListener("DOMContentLoaded", function () {
+        const floatingUserButton = document.getElementById(
+          "floating-user-button"
+        );
+        const floatingUserDropdown = document.getElementById(
+          "floating-user-dropdown"
+        );
+        const floatingUserContainer = document.getElementById(
+          "floating-user-container"
+        );
+
         if (floatingUserButton && floatingUserDropdown) {
-          floatingUserButton.addEventListener('click', function(e) {
+          floatingUserButton.addEventListener("click", function (e) {
             e.stopPropagation();
-            floatingUserDropdown.classList.toggle('show');
+            floatingUserDropdown.classList.toggle("show");
           });
-          
-          document.addEventListener('click', function(e) {
-            if (floatingUserContainer && !floatingUserContainer.contains(e.target)) {
-              floatingUserDropdown.classList.remove('show');
+
+          document.addEventListener("click", function (e) {
+            if (
+              floatingUserContainer &&
+              !floatingUserContainer.contains(e.target)
+            ) {
+              floatingUserDropdown.classList.remove("show");
             }
           });
-          
-          document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-              floatingUserDropdown.classList.remove('show');
+
+          document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") {
+              floatingUserDropdown.classList.remove("show");
             }
           });
         }
+      });
+
+      /* =========  XP & LEVEL SYSTEM FOR DASHBOARD  ========= */
+      const XP_SYSTEM = {
+        // XP required for each level (exponential growth)
+        getXPForLevel: (level) => {
+          return Math.floor(100 * Math.pow(1.5, level - 1));
+        },
+
+        // Calculate level from total XP
+        getLevelFromXP: (totalXP) => {
+          let level = 1;
+          let xpNeeded = 0;
+          while (xpNeeded <= totalXP) {
+            xpNeeded += XP_SYSTEM.getXPForLevel(level);
+            if (xpNeeded <= totalXP) {
+              level++;
+            }
+          }
+          return level;
+        },
+
+        // Get XP progress for current level
+        getXPProgress: (totalXP, level) => {
+          let xpForCurrentLevel = 0;
+          for (let i = 1; i < level; i++) {
+            xpForCurrentLevel += XP_SYSTEM.getXPForLevel(i);
+          }
+          const currentLevelXP = totalXP - xpForCurrentLevel;
+          const xpNeededForLevel = XP_SYSTEM.getXPForLevel(level);
+          return {
+            current: currentLevelXP,
+            needed: xpNeededForLevel,
+            percentage: Math.min(
+              100,
+              (currentLevelXP / xpNeededForLevel) * 100
+            ),
+          };
+        },
+
+        // Initialize user data
+        init: () => {
+          let userData = JSON.parse(
+            localStorage.getItem("pythonLearnUserData") || "{}"
+          );
+          if (!userData.xp) userData.xp = 0;
+          if (!userData.completedSections) userData.completedSections = [];
+          if (!userData.completedQuizzes) userData.completedQuizzes = [];
+          return userData;
+        },
+
+        // Update dashboard display
+        updateDashboard: () => {
+          const userData = XP_SYSTEM.init();
+          const level = XP_SYSTEM.getLevelFromXP(userData.xp);
+          const progress = XP_SYSTEM.getXPProgress(userData.xp, level);
+          const nextLevelXP = XP_SYSTEM.getXPForLevel(level);
+
+          // Update level display
+          const levelDisplay = document.getElementById("dashboard-level");
+          if (levelDisplay) {
+            levelDisplay.textContent = `Level ${level}`;
+          }
+
+          // Update XP display
+          const xpDisplay = document.getElementById("dashboard-xp");
+          if (xpDisplay) {
+            xpDisplay.textContent = `XP: ${userData.xp}`;
+          }
+
+          // Update level progress
+          const progressBar = document.getElementById("level-progress-bar");
+          const progressText = document.getElementById("level-progress-text");
+          const nextLevelInfo = document.getElementById("next-level-info");
+
+          if (progressBar) {
+            progressBar.style.width = `${progress.percentage}%`;
+          }
+
+          if (progressText) {
+            progressText.textContent = `${progress.current} / ${progress.needed} XP`;
+          }
+
+          if (nextLevelInfo) {
+            const xpNeeded = progress.needed - progress.current;
+            if (xpNeeded > 0) {
+              nextLevelInfo.textContent = `${xpNeeded} XP needed for Level ${
+                level + 1
+              }`;
+            } else {
+              nextLevelInfo.textContent = `Ready for Level ${level + 1}!`;
+            }
+          }
+
+          // Update lessons completed
+          const lessonsDisplay = document.getElementById("dashboard-lessons");
+          if (lessonsDisplay && userData.completedSections) {
+            // Count unique lectures completed
+            const uniqueLectures = new Set();
+            userData.completedSections.forEach((sectionId) => {
+              const lectureMatch = sectionId.match(/lec(\d+)-section/);
+              if (lectureMatch) {
+                uniqueLectures.add(lectureMatch[1]);
+              }
+            });
+            lessonsDisplay.textContent = uniqueLectures.size;
+          }
+
+          // Update quizzes passed
+          const quizzesDisplay = document.getElementById("dashboard-quizzes");
+          if (quizzesDisplay && userData.completedQuizzes) {
+            quizzesDisplay.textContent = userData.completedQuizzes.length;
+          }
+
+          // Update overall progress (based on sections completed)
+          const progressDisplay = document.getElementById("dashboard-progress");
+          if (progressDisplay && userData.completedSections) {
+            // Estimate: assume ~15 sections per lecture, 10 lectures total = 150 sections
+            const totalSections = 150;
+            const completedSections = userData.completedSections.length;
+            const overallProgress = Math.min(
+              100,
+              Math.round((completedSections / totalSections) * 100)
+            );
+            progressDisplay.textContent = `${overallProgress}%`;
+          }
+        },
+      };
+
+      // Initialize dashboard on load
+      document.addEventListener("DOMContentLoaded", () => {
+        XP_SYSTEM.updateDashboard();
+
+        // Update every 2 seconds to catch real-time changes
+        setInterval(() => {
+          XP_SYSTEM.updateDashboard();
+        }, 2000);
       });
     </script>
   </body>

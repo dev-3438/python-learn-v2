@@ -2538,6 +2538,2019 @@
                 },
               ],
             },
+            week1: {
+              title: "Week 1: Python Fundamentals",
+              description:
+                "Basic Python concepts - Variables, Print, and Simple Operations",
+              timeLimit: 900, // 15 min
+              questions: [
+                {
+                  question:
+                    "What is the correct way to print 'Hello World' in Python?",
+                  options: [
+                    "print('Hello World')",
+                    "echo 'Hello World'",
+                    "console.log('Hello World')",
+                    "printf('Hello World')",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "In Python, we use print() function to display output.",
+                },
+                {
+                  question: "Which of these is a valid variable name?",
+                  options: ["2name", "my-name", "my_name", "my name"],
+                  correct: 2,
+                  explanation:
+                    "Variable names can contain letters, numbers, and underscores, but cannot start with a number or contain spaces.",
+                },
+                {
+                  question: "What is the output of: print(5 + 3)?",
+                  options: ["8", "5 + 3", "53", "Error"],
+                  correct: 0,
+                  explanation:
+                    "Python performs arithmetic operations, so 5 + 3 equals 8.",
+                },
+                {
+                  question: "What data type is the value 'Python'?",
+                  options: ["int", "float", "str", "bool"],
+                  correct: 2,
+                  explanation:
+                    "Text enclosed in quotes is a string (str) data type.",
+                },
+                {
+                  question: "What is the output of: print(type(10))?",
+                  options: [
+                    "<class 'int'>",
+                    "<class 'float'>",
+                    "<class 'str'>",
+                    "10",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "10 is an integer, so type(10) returns <class 'int'>.",
+                },
+                {
+                  question: "How do you create a comment in Python?",
+                  options: [
+                    "// comment",
+                    "/* comment */",
+                    "# comment",
+                    "<!-- comment -->",
+                  ],
+                  correct: 2,
+                  explanation: "In Python, comments start with the # symbol.",
+                },
+                {
+                  question: "What is the result of: print('Hi' * 3)?",
+                  options: ["HiHiHi", "Hi 3", "Error", "Hi*3"],
+                  correct: 0,
+                  explanation:
+                    "Multiplying a string by a number repeats the string that many times.",
+                },
+                {
+                  question: "Which function gets input from the user?",
+                  options: ["get_input()", "input()", "read()", "scan()"],
+                  correct: 1,
+                  explanation:
+                    "The input() function reads a line from the user.",
+                },
+                {
+                  question: "What is the output of: print(10 / 2)?",
+                  options: ["5.0", "5", "2", "Error"],
+                  correct: 0,
+                  explanation:
+                    "Division in Python always returns a float, even if the result is a whole number.",
+                },
+                {
+                  question:
+                    "What does print() do when called with no arguments?",
+                  options: [
+                    "Prints nothing",
+                    "Prints a blank line",
+                    "Error",
+                    "Prints 'None'",
+                  ],
+                  correct: 1,
+                  explanation: "print() with no arguments prints a blank line.",
+                },
+                {
+                  question: "Which operator is used for exponentiation?",
+                  options: ["^", "**", "exp()", "pow()"],
+                  correct: 1,
+                  explanation:
+                    "The ** operator is used for exponentiation in Python (e.g., 2**3 = 8).",
+                },
+                {
+                  question: "What is the output of: print(10 % 3)?",
+                  options: ["1", "3", "0", "Error"],
+                  correct: 0,
+                  explanation:
+                    "The % operator returns the remainder. 10 divided by 3 is 3 with remainder 1.",
+                },
+                {
+                  question: "How do you convert a number to a string?",
+                  options: [
+                    "str(number)",
+                    "string(number)",
+                    "toString(number)",
+                    "convert(number)",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The str() function converts a value to a string.",
+                },
+                {
+                  question: "What is the output of: print(bool(0))?",
+                  options: ["True", "False", "0", "Error"],
+                  correct: 1,
+                  explanation:
+                    "In Python, 0 is considered False when converted to boolean.",
+                },
+                {
+                  question: "Which of these is a float?",
+                  options: ["5", "'5.0'", "5.0", "5.0f"],
+                  correct: 2,
+                  explanation: "5.0 is a float (decimal number) in Python.",
+                },
+                {
+                  question: "What is the output of: print(len('Python'))?",
+                  options: ["5", "6", "7", "Error"],
+                  correct: 1,
+                  explanation:
+                    "len() returns the length of a string. 'Python' has 6 characters.",
+                },
+                {
+                  question: "How do you check if two values are equal?",
+                  options: ["=", "==", "===", "equals()"],
+                  correct: 1,
+                  explanation: "The == operator checks for equality in Python.",
+                },
+                {
+                  question: "What is the output of: print('Hello' + 'World')?",
+                  options: [
+                    "HelloWorld",
+                    "Hello World",
+                    "Error",
+                    "Hello+World",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The + operator concatenates (joins) strings together.",
+                },
+                {
+                  question: "Which keyword is used to define a variable?",
+                  options: ["var", "let", "def", "No keyword needed"],
+                  correct: 3,
+                  explanation:
+                    "Python doesn't require a keyword to define variables. Just assign a value.",
+                },
+                {
+                  question: "What is the output of: print(int(3.9))?",
+                  options: ["3", "4", "3.9", "Error"],
+                  correct: 0,
+                  explanation:
+                    "int() converts a float to an integer by truncating the decimal part.",
+                },
+              ],
+            },
+            week2: {
+              title: "Week 2: Variables and Data Types",
+              description:
+                "Understanding variables, data types, and type conversion",
+              timeLimit: 900, // 15 min
+              questions: [
+                {
+                  question:
+                    "What is the result of: x = 5; y = x; x = 10; print(y)?",
+                  options: ["5", "10", "Error", "None"],
+                  correct: 0,
+                  explanation:
+                    "When y = x, y gets a copy of x's value (5). Changing x later doesn't affect y.",
+                },
+                {
+                  question: "Which of these is an immutable data type?",
+                  options: ["list", "dict", "tuple", "set"],
+                  correct: 2,
+                  explanation:
+                    "Tuples are immutable - they cannot be changed after creation.",
+                },
+                {
+                  question: "What is the output of: print(type([1, 2, 3]))?",
+                  options: [
+                    "<class 'list'>",
+                    "<class 'array'>",
+                    "<class 'tuple'>",
+                    "<class 'dict'>",
+                  ],
+                  correct: 0,
+                  explanation: "Square brackets [] create a list in Python.",
+                },
+                {
+                  question: "How do you check the data type of a variable?",
+                  options: [
+                    "type(variable)",
+                    "typeof(variable)",
+                    "gettype(variable)",
+                    "checktype(variable)",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The type() function returns the type of an object.",
+                },
+                {
+                  question:
+                    "What is the output of: print(str(42) + ' is a number')?",
+                  options: [
+                    "42 is a number",
+                    "Error",
+                    "42is a number",
+                    "84 is a number",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "str(42) converts 42 to '42', then concatenates with the string.",
+                },
+                {
+                  question: "Which method converts a string to an integer?",
+                  options: ["int()", "toInt()", "parseInt()", "convertInt()"],
+                  correct: 0,
+                  explanation:
+                    "The int() function converts a string to an integer.",
+                },
+                {
+                  question: "What is the output of: print(float('3.14'))?",
+                  options: ["3.14", "3", "Error", "'3.14'"],
+                  correct: 0,
+                  explanation:
+                    "float() converts a string to a floating-point number.",
+                },
+                {
+                  question: "What happens if you try: int('hello')?",
+                  options: [
+                    "Returns 0",
+                    "Returns None",
+                    "Raises ValueError",
+                    "Returns 'hello'",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "int() cannot convert non-numeric strings, so it raises ValueError.",
+                },
+                {
+                  question: "What is the output of: print(bool(''))?",
+                  options: ["True", "False", "Error", "None"],
+                  correct: 1,
+                  explanation:
+                    "Empty strings are falsy in Python, so bool('') returns False.",
+                },
+                {
+                  question: "Which of these creates a tuple?",
+                  options: [
+                    "[1, 2, 3]",
+                    "{1, 2, 3}",
+                    "(1, 2, 3)",
+                    "{1: 2, 3: 4}",
+                  ],
+                  correct: 2,
+                  explanation: "Parentheses () create a tuple in Python.",
+                },
+                {
+                  question: "What is the output of: print(None == False)?",
+                  options: ["True", "False", "Error", "None"],
+                  correct: 1,
+                  explanation:
+                    "None is not equal to False. None is a separate value representing 'nothing'.",
+                },
+                {
+                  question: "How do you create a complex number?",
+                  options: [
+                    "complex(3, 4)",
+                    "3 + 4i",
+                    "3 + 4j",
+                    "Both A and C",
+                  ],
+                  correct: 3,
+                  explanation:
+                    "You can use complex(3, 4) or 3 + 4j to create complex numbers.",
+                },
+                {
+                  question: "What is the output of: print(isinstance(5, int))?",
+                  options: ["True", "False", "5", "Error"],
+                  correct: 0,
+                  explanation:
+                    "isinstance() checks if an object is an instance of a class. 5 is an int.",
+                },
+                {
+                  question:
+                    "Which operator checks if a value is in a sequence?",
+                  options: ["in", "contains", "has", "find"],
+                  correct: 0,
+                  explanation:
+                    "The 'in' operator checks membership in sequences.",
+                },
+                {
+                  question: "What is the output of: print('5' * 2)?",
+                  options: ["10", "55", "5 5", "Error"],
+                  correct: 1,
+                  explanation:
+                    "Multiplying a string repeats it. '5' * 2 = '55'.",
+                },
+                {
+                  question: "How do you get the ASCII value of a character?",
+                  options: [
+                    "ascii('a')",
+                    "ord('a')",
+                    "char('a')",
+                    "value('a')",
+                  ],
+                  correct: 1,
+                  explanation:
+                    "The ord() function returns the Unicode code point (ASCII value) of a character.",
+                },
+                {
+                  question: "What is the output of: print(round(3.7))?",
+                  options: ["3", "4", "3.7", "Error"],
+                  correct: 1,
+                  explanation:
+                    "round() rounds to the nearest integer. 3.7 rounds to 4.",
+                },
+                {
+                  question: "Which function returns the absolute value?",
+                  options: ["abs()", "absolute()", "absvalue()", "mod()"],
+                  correct: 0,
+                  explanation:
+                    "The abs() function returns the absolute value of a number.",
+                },
+                {
+                  question: "What is the output of: print(max(1, 5, 3))?",
+                  options: ["1", "3", "5", "Error"],
+                  correct: 2,
+                  explanation:
+                    "max() returns the largest value from the given arguments.",
+                },
+                {
+                  question: "How do you format a number to 2 decimal places?",
+                  options: [
+                    "round(num, 2)",
+                    "format(num, '.2f')",
+                    "Both A and B",
+                    "None of the above",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "Both round() and format() can be used to format numbers to decimal places.",
+                },
+              ],
+            },
+            week3: {
+              title: "Week 3: If-Else Statements",
+              description: "Conditional statements and decision making",
+              timeLimit: 1000, // ~17 min
+              questions: [
+                {
+                  question: "What is the correct syntax for an if statement?",
+                  options: [
+                    "if x == 5:",
+                    "if (x == 5)",
+                    "if x == 5 then",
+                    "if x == 5 {",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "Python uses 'if condition:' with a colon and indentation.",
+                },
+                {
+                  question:
+                    "What is the output of: x = 10; if x > 5: print('Yes') else: print('No')?",
+                  options: ["Yes", "No", "Error", "Nothing"],
+                  correct: 0,
+                  explanation:
+                    "Since 10 > 5 is True, the if block executes and prints 'Yes'.",
+                },
+                {
+                  question: "How do you check multiple conditions?",
+                  options: [
+                    "if x and y:",
+                    "if x && y:",
+                    "if x & y:",
+                    "if x, y:",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "Python uses 'and' (not &&) to check multiple conditions.",
+                },
+                {
+                  question:
+                    "What is the output of: print('Yes' if 5 > 3 else 'No')?",
+                  options: ["Yes", "No", "Error", "True"],
+                  correct: 0,
+                  explanation:
+                    "This is a ternary operator. Since 5 > 3 is True, it returns 'Yes'.",
+                },
+                {
+                  question: "Which keyword is used for 'else if' in Python?",
+                  options: ["elseif", "elif", "else if", "elsif"],
+                  correct: 1,
+                  explanation:
+                    "Python uses 'elif' (not 'else if') for multiple conditions.",
+                },
+                {
+                  question:
+                    "What is the output of: if False: print('A') elif True: print('B') else: print('C')?",
+                  options: ["A", "B", "C", "Nothing"],
+                  correct: 1,
+                  explanation:
+                    "The first condition is False, so it checks elif True, which executes and prints 'B'.",
+                },
+                {
+                  question: "What is the result of: 'yes' if 0 else 'no'?",
+                  options: ["yes", "no", "Error", "0"],
+                  correct: 1,
+                  explanation:
+                    "0 is falsy in Python, so the ternary returns 'no'.",
+                },
+                {
+                  question: "How do you check if a value is NOT equal?",
+                  options: ["!=", "<>", "Both A and B", "ne()"],
+                  correct: 2,
+                  explanation:
+                    "Python supports both != and <> (though <> is deprecated) for 'not equal'.",
+                },
+                {
+                  question:
+                    "What is the output of: if '': print('Empty') else: print('Not empty')?",
+                  options: ["Empty", "Not empty", "Error", "Nothing"],
+                  correct: 1,
+                  explanation:
+                    "Empty strings are falsy, so the else block executes.",
+                },
+                {
+                  question:
+                    "Which operator has higher precedence: 'and' or 'or'?",
+                  options: ["and", "or", "Same", "Depends"],
+                  correct: 0,
+                  explanation:
+                    "The 'and' operator has higher precedence than 'or'.",
+                },
+                {
+                  question:
+                    "What is the output of: x = 5; if x == 5: x = 10; print(x)?",
+                  options: ["5", "10", "Error", "None"],
+                  correct: 1,
+                  explanation:
+                    "The if condition is True, so x is reassigned to 10, then printed.",
+                },
+                {
+                  question: "How do you check if a variable is None?",
+                  options: [
+                    "if x == None:",
+                    "if x is None:",
+                    "Both A and B",
+                    "if x === None:",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "Both == and 'is' work, but 'is None' is preferred in Python.",
+                },
+                {
+                  question:
+                    "What is the output of: print('A' if 1 > 2 else 'B' if 2 > 1 else 'C')?",
+                  options: ["A", "B", "C", "Error"],
+                  correct: 1,
+                  explanation:
+                    "1 > 2 is False, so it checks 2 > 1 which is True, returning 'B'.",
+                },
+                {
+                  question:
+                    "Which comparison operator checks if values are the same object?",
+                  options: ["==", "is", "===", "equals"],
+                  correct: 1,
+                  explanation:
+                    "The 'is' operator checks if two variables refer to the same object.",
+                },
+                {
+                  question:
+                    "What is the output of: if not False: print('True')?",
+                  options: ["True", "False", "Error", "Nothing"],
+                  correct: 0,
+                  explanation:
+                    "not False is True, so the if block executes and prints 'True'.",
+                },
+                {
+                  question: "How do you write 'if x is between 5 and 10'?",
+                  options: [
+                    "if 5 < x < 10:",
+                    "if x > 5 and x < 10:",
+                    "Both A and B",
+                    "if 5 <= x <= 10:",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "Python supports both chained comparisons (5 < x < 10) and logical operators.",
+                },
+                {
+                  question:
+                    "What is the output of: result = 'Even' if 7 % 2 == 0 else 'Odd'; print(result)?",
+                  options: ["Even", "Odd", "Error", "None"],
+                  correct: 1,
+                  explanation:
+                    "7 % 2 equals 1 (not 0), so the condition is False and returns 'Odd'.",
+                },
+                {
+                  question: "Which keyword is used to exit an if block early?",
+                  options: ["break", "continue", "return", "exit"],
+                  correct: 2,
+                  explanation:
+                    "In functions, 'return' exits early. 'break' is for loops.",
+                },
+                {
+                  question:
+                    "What is the output of: if []: print('Empty') else: print('Not empty')?",
+                  options: ["Empty", "Not empty", "Error", "Nothing"],
+                  correct: 1,
+                  explanation:
+                    "Empty lists are falsy, so the else block executes.",
+                },
+                {
+                  question:
+                    "How do you check if a string contains a substring?",
+                  options: [
+                    "if 'sub' in string:",
+                    "if string.contains('sub'):",
+                    "if string.find('sub'):",
+                    "All of the above",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The 'in' operator is the Pythonic way to check substring membership.",
+                },
+              ],
+            },
+            week4: {
+              title: "Week 4: Loops and Iteration",
+              description: "For loops, while loops, and iteration",
+              timeLimit: 1100, // ~18 min
+              questions: [
+                {
+                  question: "What is the correct syntax for a for loop?",
+                  options: [
+                    "for i in range(5):",
+                    "for (i = 0; i < 5; i++)",
+                    "for i in 5:",
+                    "for i from 0 to 5:",
+                  ],
+                  correct: 0,
+                  explanation: "Python uses 'for item in iterable:' syntax.",
+                },
+                {
+                  question:
+                    "What is the output of: for i in range(3): print(i)?",
+                  options: ["0 1 2", "1 2 3", "3", "Error"],
+                  correct: 0,
+                  explanation:
+                    "range(3) generates 0, 1, 2 (starts at 0, stops before 3).",
+                },
+                {
+                  question: "How do you create a while loop?",
+                  options: [
+                    "while condition:",
+                    "while (condition)",
+                    "while condition do",
+                    "while condition {",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "Python uses 'while condition:' with a colon and indentation.",
+                },
+                {
+                  question:
+                    "What is the output of: i = 0; while i < 3: print(i); i += 1?",
+                  options: ["0 1 2", "1 2 3", "0 1 2 3", "Infinite loop"],
+                  correct: 0,
+                  explanation:
+                    "The loop prints 0, 1, 2, then i becomes 3 and the condition is False.",
+                },
+                {
+                  question: "Which keyword skips to the next iteration?",
+                  options: ["skip", "continue", "next", "pass"],
+                  correct: 1,
+                  explanation:
+                    "The 'continue' keyword skips the rest of the loop and goes to the next iteration.",
+                },
+                {
+                  question:
+                    "What is the output of: for i in [1, 2, 3]: if i == 2: break; print(i)?",
+                  options: ["1 2 3", "1", "1 2", "2"],
+                  correct: 1,
+                  explanation:
+                    "It prints 1, then when i == 2, break exits the loop, so 2 and 3 are not printed.",
+                },
+                {
+                  question: "How do you iterate over a string?",
+                  options: [
+                    "for char in string:",
+                    "for i in range(len(string)):",
+                    "Both A and B",
+                    "for string[i]:",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "You can iterate directly over characters or use indices with range().",
+                },
+                {
+                  question:
+                    "What is the output of: for i in range(1, 5): print(i)?",
+                  options: ["1 2 3 4", "1 2 3 4 5", "0 1 2 3 4", "Error"],
+                  correct: 0,
+                  explanation:
+                    "range(1, 5) starts at 1 and stops before 5, so it generates 1, 2, 3, 4.",
+                },
+                {
+                  question: "Which function creates a sequence of numbers?",
+                  options: ["seq()", "range()", "numbers()", "sequence()"],
+                  correct: 1,
+                  explanation:
+                    "The range() function generates a sequence of numbers.",
+                },
+                {
+                  question:
+                    "What is the output of: for i in range(0, 10, 2): print(i)?",
+                  options: ["0 2 4 6 8", "0 2 4 6 8 10", "2 4 6 8 10", "Error"],
+                  correct: 0,
+                  explanation:
+                    "range(0, 10, 2) starts at 0, stops before 10, steps by 2: 0, 2, 4, 6, 8.",
+                },
+                {
+                  question: "How do you get both index and value in a loop?",
+                  options: [
+                    "for i, val in enumerate(items):",
+                    "for i in range(len(items)): val = items[i]",
+                    "Both A and B",
+                    "for (i, val) in items:",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "enumerate() is preferred, but you can also use range() with indexing.",
+                },
+                {
+                  question:
+                    "What is the output of: x = 0; while x < 3: x += 1; print(x)?",
+                  options: ["1 2 3", "0 1 2", "1 2 3 4", "Infinite loop"],
+                  correct: 0,
+                  explanation:
+                    "x starts at 0, increments to 1, 2, 3, then the condition is False.",
+                },
+                {
+                  question: "Which keyword exits a loop completely?",
+                  options: ["exit", "break", "stop", "return"],
+                  correct: 1,
+                  explanation:
+                    "The 'break' keyword exits the loop immediately.",
+                },
+                {
+                  question:
+                    "What is the output of: for i in 'abc': print(i * 2)?",
+                  options: ["aa bb cc", "a b c a b c", "abc abc", "Error"],
+                  correct: 0,
+                  explanation:
+                    "Each character is multiplied by 2: 'a'*2='aa', 'b'*2='bb', 'c'*2='cc'.",
+                },
+                {
+                  question: "How do you create an infinite loop?",
+                  options: [
+                    "while True:",
+                    "while 1:",
+                    "Both A and B",
+                    "for i in range(float('inf')):",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "Both 'while True:' and 'while 1:' create infinite loops (1 is truthy).",
+                },
+                {
+                  question:
+                    "What is the output of: for i in range(3): if i % 2 == 0: continue; print(i)?",
+                  options: ["0 1 2", "1", "0 2", "1 2"],
+                  correct: 1,
+                  explanation:
+                    "When i is 0 or 2, continue skips printing. Only 1 is printed.",
+                },
+                {
+                  question:
+                    "Which method is used to iterate over dictionary keys?",
+                  options: [
+                    "for key in dict:",
+                    "for key in dict.keys():",
+                    "Both A and B",
+                    "for key, value in dict:",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "Both methods work. Iterating directly over a dict gives keys.",
+                },
+                {
+                  question:
+                    "What is the output of: result = [x*2 for x in range(3)]; print(result)?",
+                  options: ["[0, 2, 4]", "[2, 4, 6]", "[0, 1, 2]", "Error"],
+                  correct: 0,
+                  explanation:
+                    "This is a list comprehension that doubles each value: 0*2, 1*2, 2*2 = [0, 2, 4].",
+                },
+                {
+                  question: "How do you iterate backwards?",
+                  options: [
+                    "for i in range(5, 0, -1):",
+                    "for i in reversed(range(5)):",
+                    "Both A and B",
+                    "for i in range(5).reverse():",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "Both range() with negative step and reversed() work for backward iteration.",
+                },
+                {
+                  question:
+                    "What is the output of: x = 5; while x: print(x); x -= 1?",
+                  options: [
+                    "5 4 3 2 1",
+                    "5 4 3 2 1 0",
+                    "4 3 2 1",
+                    "Infinite loop",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "When x becomes 0, the condition is False (0 is falsy), so it stops before printing 0.",
+                },
+              ],
+            },
+            week5: {
+              title: "Week 5: Lists and Basic Data Structures",
+              description:
+                "Working with lists, accessing elements, and list methods",
+              timeLimit: 1100, // ~18 min
+              questions: [
+                {
+                  question: "How do you create an empty list?",
+                  options: ["list()", "[]", "Both A and B", "new list()"],
+                  correct: 2,
+                  explanation: "Both list() and [] create empty lists.",
+                },
+                {
+                  question:
+                    "What is the output of: my_list = [1, 2, 3]; print(my_list[0])?",
+                  options: ["1", "2", "Error", "None"],
+                  correct: 0,
+                  explanation:
+                    "List indices start at 0, so my_list[0] is the first element: 1.",
+                },
+                {
+                  question: "How do you add an item to the end of a list?",
+                  options: [
+                    "list.append(item)",
+                    "list.add(item)",
+                    "list.insert(item)",
+                    "list.push(item)",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The append() method adds an item to the end of a list.",
+                },
+                {
+                  question:
+                    "What is the output of: nums = [1, 2, 3]; nums.append(4); print(nums)?",
+                  options: [
+                    "[1, 2, 3]",
+                    "[1, 2, 3, 4]",
+                    "[4, 1, 2, 3]",
+                    "Error",
+                  ],
+                  correct: 1,
+                  explanation:
+                    "append() adds 4 to the end, so the list becomes [1, 2, 3, 4].",
+                },
+                {
+                  question: "How do you get the length of a list?",
+                  options: [
+                    "list.length",
+                    "len(list)",
+                    "list.size()",
+                    "list.count()",
+                  ],
+                  correct: 1,
+                  explanation:
+                    "The len() function returns the number of items in a list.",
+                },
+                {
+                  question:
+                    "What is the output of: my_list = [1, 2, 3]; print(my_list[-1])?",
+                  options: ["1", "3", "Error", "-1"],
+                  correct: 1,
+                  explanation:
+                    "Negative indices count from the end. -1 is the last element: 3.",
+                },
+                {
+                  question: "How do you remove an item from a list by value?",
+                  options: [
+                    "list.remove(value)",
+                    "list.delete(value)",
+                    "list.pop(value)",
+                    "list.del(value)",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The remove() method removes the first occurrence of a value.",
+                },
+                {
+                  question:
+                    "What is the output of: nums = [1, 2, 3, 2]; nums.remove(2); print(nums)?",
+                  options: ["[1, 3, 2]", "[1, 2, 3]", "[1, 3]", "Error"],
+                  correct: 0,
+                  explanation:
+                    "remove(2) removes the first occurrence of 2, leaving [1, 3, 2].",
+                },
+                {
+                  question: "How do you insert an item at a specific position?",
+                  options: [
+                    "list.insert(index, item)",
+                    "list.add(index, item)",
+                    "list.put(index, item)",
+                    "list[index] = item",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The insert() method inserts an item at the specified index.",
+                },
+                {
+                  question:
+                    "What is the output of: my_list = [1, 2, 3]; print(my_list[1:3])?",
+                  options: ["[2, 3]", "[1, 2]", "[2]", "Error"],
+                  correct: 0,
+                  explanation:
+                    "Slicing [1:3] gets elements from index 1 up to (but not including) 3: [2, 3].",
+                },
+                {
+                  question: "How do you check if an item is in a list?",
+                  options: [
+                    "if item in list:",
+                    "if list.contains(item):",
+                    "if list.has(item):",
+                    "if list.find(item):",
+                  ],
+                  correct: 0,
+                  explanation: "The 'in' operator checks membership in a list.",
+                },
+                {
+                  question:
+                    "What is the output of: nums = [3, 1, 4, 1, 5]; print(nums.count(1))?",
+                  options: ["1", "2", "3", "Error"],
+                  correct: 1,
+                  explanation:
+                    "count() returns how many times 1 appears in the list: 2 times.",
+                },
+                {
+                  question: "How do you sort a list in place?",
+                  options: [
+                    "list.sort()",
+                    "sorted(list)",
+                    "list.order()",
+                    "sort(list)",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The sort() method sorts the list in place (modifies the original).",
+                },
+                {
+                  question:
+                    "What is the output of: nums = [3, 1, 4]; nums.sort(); print(nums)?",
+                  options: ["[3, 1, 4]", "[1, 3, 4]", "[4, 3, 1]", "Error"],
+                  correct: 1,
+                  explanation:
+                    "sort() modifies the list in place, sorting it to [1, 3, 4].",
+                },
+                {
+                  question: "How do you reverse a list?",
+                  options: [
+                    "list.reverse()",
+                    "reversed(list)",
+                    "Both A and B",
+                    "list.flip()",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "reverse() modifies in place, reversed() returns an iterator.",
+                },
+                {
+                  question:
+                    "What is the output of: my_list = [1, 2, 3]; my_list.extend([4, 5]); print(my_list)?",
+                  options: [
+                    "[1, 2, 3]",
+                    "[1, 2, 3, 4, 5]",
+                    "[4, 5, 1, 2, 3]",
+                    "Error",
+                  ],
+                  correct: 1,
+                  explanation:
+                    "extend() adds all items from another list to the end.",
+                },
+                {
+                  question: "How do you get the index of an item?",
+                  options: [
+                    "list.index(item)",
+                    "list.find(item)",
+                    "list.search(item)",
+                    "index(list, item)",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The index() method returns the first index where the item is found.",
+                },
+                {
+                  question:
+                    "What is the output of: nums = [1, 2, 3]; print(nums.pop())?",
+                  options: ["1", "3", "[1, 2]", "Error"],
+                  correct: 1,
+                  explanation:
+                    "pop() removes and returns the last item (3) by default.",
+                },
+                {
+                  question: "How do you create a copy of a list?",
+                  options: [
+                    "list.copy()",
+                    "list[:]",
+                    "list(list)",
+                    "All of the above",
+                  ],
+                  correct: 3,
+                  explanation: "All methods create a shallow copy of the list.",
+                },
+                {
+                  question:
+                    "What is the output of: my_list = [1, 2, 3]; new_list = my_list; new_list.append(4); print(my_list)?",
+                  options: ["[1, 2, 3]", "[1, 2, 3, 4]", "[4]", "Error"],
+                  correct: 1,
+                  explanation:
+                    "new_list and my_list refer to the same object, so modifying one affects both.",
+                },
+              ],
+            },
+            week6: {
+              title: "Week 6: Functions and Parameters",
+              description:
+                "Defining functions, parameters, return values, and scope",
+              timeLimit: 1200, // 20 min
+              questions: [
+                {
+                  question: "What keyword is used to define a function?",
+                  options: ["function", "def", "define", "func"],
+                  correct: 1,
+                  explanation:
+                    "The 'def' keyword is used to define functions in Python.",
+                },
+                {
+                  question: "What is the correct function definition syntax?",
+                  options: [
+                    "def my_function():",
+                    "function my_function():",
+                    "def my_function {}",
+                    "function my_function()",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "Python uses 'def function_name():' with a colon and indentation.",
+                },
+                {
+                  question:
+                    "What is the output of: def greet(): return 'Hello'; print(greet())?",
+                  options: ["Hello", "None", "Error", "greet"],
+                  correct: 0,
+                  explanation:
+                    "The function returns 'Hello', which is then printed.",
+                },
+                {
+                  question: "How do you pass arguments to a function?",
+                  options: [
+                    "def func(arg):",
+                    "def func(arg1, arg2):",
+                    "Both A and B",
+                    "def func() with args:",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "You can pass one or more arguments by listing them in parentheses.",
+                },
+                {
+                  question:
+                    "What is the output of: def add(a, b): return a + b; print(add(3, 4))?",
+                  options: ["7", "3 + 4", "Error", "None"],
+                  correct: 0,
+                  explanation: "The function adds 3 and 4, returning 7.",
+                },
+                {
+                  question:
+                    "What happens if a function has no return statement?",
+                  options: [
+                    "Returns None",
+                    "Returns 0",
+                    "Error",
+                    "Returns empty string",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "Functions without a return statement implicitly return None.",
+                },
+                {
+                  question: "How do you set a default value for a parameter?",
+                  options: [
+                    "def func(param=default):",
+                    "def func(param: default):",
+                    "def func(param default):",
+                    "def func(param := default):",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "Default values are set using 'param=default' syntax.",
+                },
+                {
+                  question:
+                    "What is the output of: def greet(name='World'): return f'Hello {name}'; print(greet())?",
+                  options: ["Hello World", "Hello", "Error", "None"],
+                  correct: 0,
+                  explanation:
+                    "Since no argument is passed, name uses the default 'World'.",
+                },
+                {
+                  question: "What does *args do in a function?",
+                  options: [
+                    "Accepts keyword arguments",
+                    "Accepts variable positional arguments",
+                    "Accepts default arguments",
+                    "Accepts required arguments",
+                  ],
+                  correct: 1,
+                  explanation:
+                    "*args allows a function to accept any number of positional arguments.",
+                },
+                {
+                  question:
+                    "What is the output of: def sum(*args): return sum(args); print(sum(1, 2, 3))?",
+                  options: ["6", "Error (name conflict)", "(1, 2, 3)", "None"],
+                  correct: 1,
+                  explanation:
+                    "There's a name conflict - the function is named 'sum' and tries to call built-in sum().",
+                },
+                {
+                  question: "What does **kwargs do in a function?",
+                  options: [
+                    "Accepts positional arguments",
+                    "Accepts keyword arguments as a dict",
+                    "Accepts default arguments",
+                    "Accepts required arguments",
+                  ],
+                  correct: 1,
+                  explanation:
+                    "**kwargs collects keyword arguments into a dictionary.",
+                },
+                {
+                  question:
+                    "What is the output of: def show(**kwargs): return kwargs; print(show(a=1, b=2))?",
+                  options: ["{'a': 1, 'b': 2}", "Error", "(a=1, b=2)", "None"],
+                  correct: 0,
+                  explanation:
+                    "**kwargs collects keyword arguments into a dictionary.",
+                },
+                {
+                  question: "What is a local variable?",
+                  options: [
+                    "Variable defined inside a function",
+                    "Variable defined outside a function",
+                    "Global variable",
+                    "Constant",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "Local variables are defined inside a function and only accessible there.",
+                },
+                {
+                  question:
+                    "How do you access a global variable inside a function?",
+                  options: [
+                    "global variable_name",
+                    "var variable_name",
+                    "use variable_name",
+                    "import variable_name",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The 'global' keyword allows access to global variables inside functions.",
+                },
+                {
+                  question:
+                    "What is the output of: x = 5; def change(): x = 10; change(); print(x)?",
+                  options: ["5", "10", "Error", "None"],
+                  correct: 0,
+                  explanation:
+                    "Without 'global', x = 10 creates a local variable, not modifying the global x.",
+                },
+                {
+                  question: "What is a lambda function?",
+                  options: [
+                    "Anonymous function",
+                    "Named function",
+                    "Built-in function",
+                    "Method",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "Lambda functions are anonymous (unnamed) functions defined with 'lambda'.",
+                },
+                {
+                  question:
+                    "What is the output of: square = lambda x: x**2; print(square(5))?",
+                  options: ["25", "10", "Error", "None"],
+                  correct: 0,
+                  explanation:
+                    "The lambda function squares the input: 5**2 = 25.",
+                },
+                {
+                  question: "Can a function return multiple values?",
+                  options: [
+                    "Yes, as a tuple",
+                    "No",
+                    "Yes, as a list",
+                    "Both A and C",
+                  ],
+                  correct: 3,
+                  explanation:
+                    "Functions can return multiple values as a tuple (default) or explicitly as a list.",
+                },
+                {
+                  question:
+                    "What is the output of: def get_values(): return 1, 2, 3; a, b, c = get_values(); print(a, b, c)?",
+                  options: ["1 2 3", "(1, 2, 3)", "Error", "None None None"],
+                  correct: 0,
+                  explanation:
+                    "Multiple return values are unpacked into separate variables.",
+                },
+                {
+                  question: "What is recursion?",
+                  options: [
+                    "Function calling itself",
+                    "Function calling another function",
+                    "Infinite loop",
+                    "Error handling",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "Recursion is when a function calls itself to solve a problem.",
+                },
+              ],
+            },
+            week7: {
+              title: "Week 7: Dictionaries and Sets",
+              description: "Working with dictionaries, sets, and their methods",
+              timeLimit: 1200, // 20 min
+              questions: [
+                {
+                  question: "How do you create an empty dictionary?",
+                  options: ["dict()", "{}", "Both A and B", "new dict()"],
+                  correct: 2,
+                  explanation: "Both dict() and {} create empty dictionaries.",
+                },
+                {
+                  question:
+                    "What is the output of: my_dict = {'a': 1, 'b': 2}; print(my_dict['a'])?",
+                  options: ["1", "'a'", "Error", "None"],
+                  correct: 0,
+                  explanation:
+                    "Dictionary access uses square brackets with the key: my_dict['a'] returns 1.",
+                },
+                {
+                  question:
+                    "How do you add a new key-value pair to a dictionary?",
+                  options: [
+                    "dict[key] = value",
+                    "dict.add(key, value)",
+                    "dict.insert(key, value)",
+                    "dict.append(key, value)",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "Simply assign a value to a new key: dict[key] = value.",
+                },
+                {
+                  question:
+                    "What is the output of: d = {'x': 1}; d['y'] = 2; print(d)?",
+                  options: [
+                    "{'x': 1}",
+                    "{'x': 1, 'y': 2}",
+                    "{'y': 2}",
+                    "Error",
+                  ],
+                  correct: 1,
+                  explanation:
+                    "Adding 'y': 2 to the dictionary results in {'x': 1, 'y': 2}.",
+                },
+                {
+                  question: "How do you check if a key exists in a dictionary?",
+                  options: [
+                    "if key in dict:",
+                    "if dict.has_key(key):",
+                    "if dict.contains(key):",
+                    "if dict.find(key):",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The 'in' operator checks if a key exists in a dictionary.",
+                },
+                {
+                  question:
+                    "What is the output of: d = {'a': 1}; print('a' in d)?",
+                  options: ["True", "False", "1", "Error"],
+                  correct: 0,
+                  explanation:
+                    "The 'in' operator returns True if the key exists.",
+                },
+                {
+                  question: "How do you get all keys from a dictionary?",
+                  options: [
+                    "dict.keys()",
+                    "dict.get_keys()",
+                    "keys(dict)",
+                    "dict.all_keys()",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The keys() method returns a view of all keys in the dictionary.",
+                },
+                {
+                  question:
+                    "What is the output of: d = {'a': 1, 'b': 2}; print(list(d.keys()))?",
+                  options: ["['a', 'b']", "[1, 2]", "Error", "None"],
+                  correct: 0,
+                  explanation:
+                    "keys() returns the keys, which when converted to a list gives ['a', 'b'].",
+                },
+                {
+                  question: "How do you get all values from a dictionary?",
+                  options: [
+                    "dict.values()",
+                    "dict.get_values()",
+                    "values(dict)",
+                    "dict.all_values()",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The values() method returns a view of all values in the dictionary.",
+                },
+                {
+                  question:
+                    "What is the output of: d = {'a': 1, 'b': 2}; print(d.get('c', 0))?",
+                  options: ["0", "None", "Error", "'c'"],
+                  correct: 0,
+                  explanation:
+                    "get() returns the default value (0) if the key doesn't exist.",
+                },
+                {
+                  question: "How do you remove a key-value pair?",
+                  options: [
+                    "del dict[key]",
+                    "dict.pop(key)",
+                    "dict.remove(key)",
+                    "Both A and B",
+                  ],
+                  correct: 3,
+                  explanation:
+                    "Both 'del dict[key]' and 'dict.pop(key)' remove a key-value pair.",
+                },
+                {
+                  question:
+                    "What is the output of: d = {'a': 1, 'b': 2}; d.pop('a'); print(d)?",
+                  options: ["{'a': 1, 'b': 2}", "{'b': 2}", "Error", "None"],
+                  correct: 1,
+                  explanation:
+                    "pop('a') removes the 'a' key and its value, leaving {'b': 2}.",
+                },
+                {
+                  question: "How do you create an empty set?",
+                  options: ["set()", "{}", "Both A and B", "new set()"],
+                  correct: 0,
+                  explanation:
+                    "Use set() to create an empty set. {} creates an empty dictionary.",
+                },
+                {
+                  question:
+                    "What is the output of: my_set = {1, 2, 3, 2}; print(my_set)?",
+                  options: ["{1, 2, 3, 2}", "{1, 2, 3}", "{2, 3}", "Error"],
+                  correct: 1,
+                  explanation:
+                    "Sets only contain unique elements, so duplicates are removed: {1, 2, 3}.",
+                },
+                {
+                  question: "How do you add an item to a set?",
+                  options: [
+                    "set.add(item)",
+                    "set.append(item)",
+                    "set.insert(item)",
+                    "set.push(item)",
+                  ],
+                  correct: 0,
+                  explanation: "The add() method adds an item to a set.",
+                },
+                {
+                  question:
+                    "What is the output of: s = {1, 2}; s.add(3); print(s)?",
+                  options: ["{1, 2}", "{1, 2, 3}", "{3}", "Error"],
+                  correct: 1,
+                  explanation:
+                    "add(3) adds 3 to the set, resulting in {1, 2, 3}.",
+                },
+                {
+                  question: "How do you find the intersection of two sets?",
+                  options: [
+                    "set1 & set2",
+                    "set1.intersection(set2)",
+                    "Both A and B",
+                    "set1.and(set2)",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "Both the & operator and intersection() method find common elements.",
+                },
+                {
+                  question:
+                    "What is the output of: s1 = {1, 2, 3}; s2 = {2, 3, 4}; print(s1 & s2)?",
+                  options: ["{1, 2, 3, 4}", "{2, 3}", "{1, 4}", "Error"],
+                  correct: 1,
+                  explanation:
+                    "The intersection contains elements in both sets: {2, 3}.",
+                },
+                {
+                  question: "How do you find the union of two sets?",
+                  options: [
+                    "set1 | set2",
+                    "set1.union(set2)",
+                    "Both A and B",
+                    "set1.or(set2)",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "Both the | operator and union() method combine all elements from both sets.",
+                },
+                {
+                  question:
+                    "What is the output of: s1 = {1, 2}; s2 = {2, 3}; print(s1 | s2)?",
+                  options: ["{1, 2, 3}", "{2}", "{1, 3}", "Error"],
+                  correct: 0,
+                  explanation:
+                    "The union contains all unique elements from both sets: {1, 2, 3}.",
+                },
+              ],
+            },
+            week8: {
+              title: "Week 8: String Methods and Manipulation",
+              description:
+                "String operations, methods, formatting, and manipulation",
+              timeLimit: 1200, // 20 min
+              questions: [
+                {
+                  question: "What is the output of: 'hello'.upper()?",
+                  options: ["'HELLO'", "'hello'", "Error", "None"],
+                  correct: 0,
+                  explanation: "upper() converts all characters to uppercase.",
+                },
+                {
+                  question: "What is the output of: 'HELLO'.lower()?",
+                  options: ["'HELLO'", "'hello'", "Error", "None"],
+                  correct: 1,
+                  explanation: "lower() converts all characters to lowercase.",
+                },
+                {
+                  question:
+                    "How do you remove whitespace from both ends of a string?",
+                  options: [
+                    "str.strip()",
+                    "str.trim()",
+                    "str.remove()",
+                    "str.clean()",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The strip() method removes whitespace from both ends.",
+                },
+                {
+                  question: "What is the output of: '  hello  '.strip()?",
+                  options: ["'  hello  '", "'hello'", "'hello  '", "Error"],
+                  correct: 1,
+                  explanation:
+                    "strip() removes leading and trailing whitespace, leaving 'hello'.",
+                },
+                {
+                  question: "How do you replace text in a string?",
+                  options: [
+                    "str.replace(old, new)",
+                    "str.substitute(old, new)",
+                    "str.change(old, new)",
+                    "str.swap(old, new)",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The replace() method replaces occurrences of old with new.",
+                },
+                {
+                  question:
+                    "What is the output of: 'hello world'.replace('world', 'Python')?",
+                  options: [
+                    "'hello world'",
+                    "'hello Python'",
+                    "'Python'",
+                    "Error",
+                  ],
+                  correct: 1,
+                  explanation: "replace() substitutes 'world' with 'Python'.",
+                },
+                {
+                  question: "How do you split a string into a list?",
+                  options: [
+                    "str.split()",
+                    "str.divide()",
+                    "str.separate()",
+                    "str.chop()",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The split() method splits a string into a list of substrings.",
+                },
+                {
+                  question: "What is the output of: 'a,b,c'.split(',')?",
+                  options: ["['a', 'b', 'c']", "['a,b,c']", "Error", "None"],
+                  correct: 0,
+                  explanation:
+                    "split(',') splits the string at commas, creating ['a', 'b', 'c'].",
+                },
+                {
+                  question: "How do you join a list of strings?",
+                  options: [
+                    "separator.join(list)",
+                    "list.join(separator)",
+                    "join(list, separator)",
+                    "combine(list, separator)",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The join() method is called on the separator string.",
+                },
+                {
+                  question: "What is the output of: ','.join(['a', 'b', 'c'])?",
+                  options: ["'a,b,c'", "['a', 'b', 'c']", "Error", "None"],
+                  correct: 0,
+                  explanation:
+                    "join() combines list elements with the separator: 'a,b,c'.",
+                },
+                {
+                  question:
+                    "How do you check if a string starts with a substring?",
+                  options: [
+                    "str.startswith(sub)",
+                    "str.begins(sub)",
+                    "str.starts(sub)",
+                    "str.has_prefix(sub)",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The startswith() method checks if a string starts with a substring.",
+                },
+                {
+                  question: "What is the output of: 'hello'.startswith('he')?",
+                  options: ["True", "False", "Error", "None"],
+                  correct: 0,
+                  explanation: "'hello' starts with 'he', so it returns True.",
+                },
+                {
+                  question:
+                    "How do you check if a string ends with a substring?",
+                  options: [
+                    "str.endswith(sub)",
+                    "str.ends(sub)",
+                    "str.finishes(sub)",
+                    "str.has_suffix(sub)",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The endswith() method checks if a string ends with a substring.",
+                },
+                {
+                  question: "What is the output of: 'hello'.endswith('lo')?",
+                  options: ["True", "False", "Error", "None"],
+                  correct: 0,
+                  explanation: "'hello' ends with 'lo', so it returns True.",
+                },
+                {
+                  question: "How do you find the index of a substring?",
+                  options: [
+                    "str.find(sub)",
+                    "str.index(sub)",
+                    "Both A and B",
+                    "str.search(sub)",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "Both find() and index() locate substrings, but find() returns -1 if not found.",
+                },
+                {
+                  question: "What is the output of: 'hello'.find('l')?",
+                  options: ["2", "3", "-1", "Error"],
+                  correct: 0,
+                  explanation:
+                    "find() returns the index of the first occurrence: 'l' is at index 2.",
+                },
+                {
+                  question: "How do you count occurrences of a substring?",
+                  options: [
+                    "str.count(sub)",
+                    "str.occurrences(sub)",
+                    "str.times(sub)",
+                    "count(str, sub)",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The count() method returns how many times a substring appears.",
+                },
+                {
+                  question: "What is the output of: 'hello'.count('l')?",
+                  options: ["1", "2", "3", "Error"],
+                  correct: 1,
+                  explanation:
+                    "'l' appears twice in 'hello', so count() returns 2.",
+                },
+                {
+                  question: "What is f-string formatting?",
+                  options: [
+                    "f'text {variable}'",
+                    "Formatted string literals",
+                    "Both A and B",
+                    "Old Python 2 syntax",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "F-strings (formatted string literals) use f'text {variable}' syntax.",
+                },
+                {
+                  question:
+                    "What is the output of: name = 'Python'; print(f'Hello {name}')?",
+                  options: [
+                    "'Hello Python'",
+                    "'Hello {name}'",
+                    "Error",
+                    "None",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "F-strings substitute variables: f'Hello {name}' becomes 'Hello Python'.",
+                },
+              ],
+            },
+            week9: {
+              title: "Week 9: Error Handling and Exceptions",
+              description:
+                "Try-except blocks, exception types, and error handling",
+              timeLimit: 1300, // ~22 min
+              questions: [
+                {
+                  question: "What keyword is used to handle exceptions?",
+                  options: ["try", "catch", "except", "Both A and C"],
+                  correct: 3,
+                  explanation:
+                    "Python uses 'try' and 'except' to handle exceptions.",
+                },
+                {
+                  question:
+                    "What is the correct syntax for exception handling?",
+                  options: [
+                    "try: code except: handle",
+                    "try { code } catch { handle }",
+                    "try: code catch: handle",
+                    "try code except handle",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "Python uses 'try:' with a colon and indentation, followed by 'except:'.",
+                },
+                {
+                  question:
+                    "What is the output of: try: x = 1/0; except: print('Error')?",
+                  options: ["Error", "ZeroDivisionError", "0", "Nothing"],
+                  correct: 0,
+                  explanation:
+                    "Dividing by zero raises an exception, which is caught and prints 'Error'.",
+                },
+                {
+                  question: "How do you catch a specific exception?",
+                  options: [
+                    "except ExceptionType:",
+                    "except (ExceptionType):",
+                    "Both A and B",
+                    "catch ExceptionType:",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "You can specify the exception type with or without parentheses.",
+                },
+                {
+                  question:
+                    "What is the output of: try: int('abc'); except ValueError: print('Caught')?",
+                  options: ["Caught", "ValueError", "Error", "Nothing"],
+                  correct: 0,
+                  explanation:
+                    "int('abc') raises ValueError, which is caught by the except block.",
+                },
+                {
+                  question: "What does 'else' do in a try-except block?",
+                  options: [
+                    "Runs if exception occurs",
+                    "Runs if no exception occurs",
+                    "Runs always",
+                    "Runs if error",
+                  ],
+                  correct: 1,
+                  explanation:
+                    "The 'else' block runs only if no exception was raised in the 'try' block.",
+                },
+                {
+                  question: "What does 'finally' do in a try-except block?",
+                  options: [
+                    "Runs if exception occurs",
+                    "Runs if no exception occurs",
+                    "Runs always",
+                    "Runs if error",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "The 'finally' block always executes, regardless of whether an exception occurred.",
+                },
+                {
+                  question:
+                    "What is the output of: try: pass; finally: print('Done')?",
+                  options: ["Done", "Nothing", "Error", "None"],
+                  correct: 0,
+                  explanation:
+                    "The 'finally' block always executes, so 'Done' is printed.",
+                },
+                {
+                  question: "How do you raise an exception manually?",
+                  options: [
+                    "raise Exception()",
+                    "throw Exception()",
+                    "error Exception()",
+                    "except Exception()",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The 'raise' keyword is used to manually raise exceptions.",
+                },
+                {
+                  question:
+                    "What is the output of: raise ValueError('Invalid')?",
+                  options: [
+                    "Prints 'Invalid'",
+                    "Raises ValueError with message",
+                    "Returns None",
+                    "Does nothing",
+                  ],
+                  correct: 1,
+                  explanation:
+                    "raise creates and raises a ValueError exception with the message 'Invalid'.",
+                },
+                {
+                  question: "Which exception is raised for division by zero?",
+                  options: [
+                    "ValueError",
+                    "ZeroDivisionError",
+                    "ArithmeticError",
+                    "TypeError",
+                  ],
+                  correct: 1,
+                  explanation:
+                    "ZeroDivisionError is raised when dividing by zero.",
+                },
+                {
+                  question:
+                    "Which exception is raised for invalid type conversion?",
+                  options: [
+                    "TypeError",
+                    "ValueError",
+                    "ConversionError",
+                    "InvalidError",
+                  ],
+                  correct: 1,
+                  explanation:
+                    "ValueError is raised when a function receives an argument of correct type but inappropriate value.",
+                },
+                {
+                  question:
+                    "What is the output of: try: x = [1, 2, 3][5]; except IndexError: print('Index error')?",
+                  options: ["Index error", "Error", "Nothing", "3"],
+                  correct: 0,
+                  explanation:
+                    "Accessing index 5 in a list of length 3 raises IndexError, which is caught.",
+                },
+                {
+                  question: "How do you catch multiple exception types?",
+                  options: [
+                    "except (Type1, Type2):",
+                    "except Type1, Type2:",
+                    "Both A and B",
+                    "except Type1 or Type2:",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "Use parentheses to catch multiple exception types: except (Type1, Type2):",
+                },
+                {
+                  question:
+                    "What is the output of: try: x = {}['key']; except KeyError: print('Key not found')?",
+                  options: ["Key not found", "Error", "None", "Nothing"],
+                  correct: 0,
+                  explanation:
+                    "Accessing a non-existent key raises KeyError, which is caught.",
+                },
+                {
+                  question: "What does 'as' do in exception handling?",
+                  options: [
+                    "Creates alias",
+                    "Stores exception in variable",
+                    "Both A and B",
+                    "Imports module",
+                  ],
+                  correct: 1,
+                  explanation:
+                    "except ExceptionType as e: stores the exception object in variable 'e'.",
+                },
+                {
+                  question:
+                    "What is the output of: try: int('x'); except ValueError as e: print(type(e).__name__)?",
+                  options: ["ValueError", "Error", "Exception", "None"],
+                  correct: 0,
+                  explanation:
+                    "type(e).__name__ gets the exception class name: 'ValueError'.",
+                },
+                {
+                  question: "How do you create a custom exception?",
+                  options: [
+                    "class MyError(Exception): pass",
+                    "def MyError(): pass",
+                    "MyError = Exception()",
+                    "import MyError",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "Custom exceptions are created by inheriting from the Exception class.",
+                },
+                {
+                  question: "What is the base class for all exceptions?",
+                  options: ["Exception", "BaseException", "Error", "Throwable"],
+                  correct: 1,
+                  explanation:
+                    "BaseException is the base class for all built-in exceptions.",
+                },
+                {
+                  question: "What is the output of: assert False, 'Message'?",
+                  options: [
+                    "Prints 'Message'",
+                    "Raises AssertionError with 'Message'",
+                    "Returns False",
+                    "Does nothing",
+                  ],
+                  correct: 1,
+                  explanation:
+                    "assert raises AssertionError if the condition is False, with an optional message.",
+                },
+              ],
+            },
+            week10: {
+              title: "Week 10: Advanced Topics and Projects",
+              description:
+                "Object-oriented programming, modules, file handling, and advanced concepts",
+              timeLimit: 1500, // 25 min
+              questions: [
+                {
+                  question: "What keyword is used to define a class?",
+                  options: ["class", "def", "object", "type"],
+                  correct: 0,
+                  explanation:
+                    "The 'class' keyword is used to define a class in Python.",
+                },
+                {
+                  question:
+                    "What is the output of: class Dog: pass; d = Dog(); print(type(d))?",
+                  options: [
+                    "<class '__main__.Dog'>",
+                    "<class 'object'>",
+                    "Error",
+                    "None",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "type(d) returns the class of the object: <class '__main__.Dog'>.",
+                },
+                {
+                  question: "What is __init__ in a class?",
+                  options: [
+                    "Destructor",
+                    "Constructor",
+                    "Initializer",
+                    "Both B and C",
+                  ],
+                  correct: 3,
+                  explanation:
+                    "__init__ is the constructor/initializer method that runs when an object is created.",
+                },
+                {
+                  question:
+                    "What is the output of: class Person: def __init__(self, name): self.name = name; p = Person('Alice'); print(p.name)?",
+                  options: ["Alice", "Person", "Error", "None"],
+                  correct: 0,
+                  explanation:
+                    "__init__ sets self.name = name, so p.name is 'Alice'.",
+                },
+                {
+                  question: "What does 'self' represent in a class method?",
+                  options: [
+                    "The class itself",
+                    "The instance of the class",
+                    "A keyword",
+                    "The method",
+                  ],
+                  correct: 1,
+                  explanation:
+                    "'self' refers to the instance of the class (the object itself).",
+                },
+                {
+                  question: "How do you create an instance of a class?",
+                  options: [
+                    "Class()",
+                    "new Class()",
+                    "Class.create()",
+                    "Class.new()",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "Simply call the class name like a function: Class() creates an instance.",
+                },
+                {
+                  question: "What is inheritance?",
+                  options: [
+                    "Copying code",
+                    "A class deriving from another class",
+                    "Importing modules",
+                    "Error handling",
+                  ],
+                  correct: 1,
+                  explanation:
+                    "Inheritance allows a class to derive attributes and methods from another class.",
+                },
+                {
+                  question:
+                    "What is the output of: class Animal: pass; class Dog(Animal): pass; print(issubclass(Dog, Animal))?",
+                  options: ["True", "False", "Error", "None"],
+                  correct: 0,
+                  explanation:
+                    "Dog inherits from Animal, so issubclass() returns True.",
+                },
+                {
+                  question: "How do you import a module?",
+                  options: [
+                    "import module",
+                    "from module import",
+                    "Both A and B",
+                    "require module",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "Both 'import module' and 'from module import' are valid import statements.",
+                },
+                {
+                  question:
+                    "What is the output of: import math; print(math.pi)?",
+                  options: ["3.14159...", "Error", "None", "math"],
+                  correct: 0,
+                  explanation:
+                    "math.pi is a constant in the math module representing the value of pi.",
+                },
+                {
+                  question: "How do you open a file for reading?",
+                  options: [
+                    "open('file.txt', 'r')",
+                    "open('file.txt')",
+                    "Both A and B",
+                    "read('file.txt')",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "Both 'r' mode and default mode open files for reading.",
+                },
+                {
+                  question:
+                    "What is the output of: with open('test.txt', 'w') as f: f.write('Hello'); print('Done')?",
+                  options: [
+                    "Writes 'Hello' and prints 'Done'",
+                    "Error",
+                    "Nothing",
+                    "Prints 'Hello'",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "The 'with' statement opens the file, writes 'Hello', closes it, then prints 'Done'.",
+                },
+                {
+                  question: "What does 'with' statement do?",
+                  options: [
+                    "Opens file",
+                    "Ensures file is closed",
+                    "Both A and B",
+                    "Reads file",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "The 'with' statement opens a file and ensures it's closed automatically.",
+                },
+                {
+                  question: "How do you read all lines from a file?",
+                  options: [
+                    "file.read()",
+                    "file.readlines()",
+                    "Both A and B",
+                    "file.read_all()",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "Both read() and readlines() can read file content, with different return types.",
+                },
+                {
+                  question: "What is a list comprehension?",
+                  options: [
+                    "A way to create lists",
+                    "A loop syntax",
+                    "Both A and B",
+                    "A function",
+                  ],
+                  correct: 2,
+                  explanation:
+                    "List comprehensions are a concise way to create lists using a loop-like syntax.",
+                },
+                {
+                  question: "What is the output of: [x*2 for x in range(3)]?",
+                  options: ["[0, 2, 4]", "[2, 4, 6]", "[0, 1, 2]", "Error"],
+                  correct: 0,
+                  explanation:
+                    "List comprehension doubles each value: 0*2, 1*2, 2*2 = [0, 2, 4].",
+                },
+                {
+                  question: "What is a generator?",
+                  options: [
+                    "A function with yield",
+                    "A type of loop",
+                    "A data structure",
+                    "An exception",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "A generator is a function that uses 'yield' instead of 'return'.",
+                },
+                {
+                  question:
+                    "What is the output of: def gen(): yield 1; yield 2; g = gen(); print(next(g))?",
+                  options: ["1", "2", "Error", "None"],
+                  correct: 0,
+                  explanation: "next(g) gets the first yielded value: 1.",
+                },
+                {
+                  question: "What is a decorator?",
+                  options: [
+                    "A function that modifies another function",
+                    "A class method",
+                    "A variable",
+                    "An exception",
+                  ],
+                  correct: 0,
+                  explanation:
+                    "A decorator is a function that takes another function and extends its behavior.",
+                },
+                {
+                  question:
+                    "What is the output of: @property decorator used for?",
+                  options: [
+                    "Makes a method callable like an attribute",
+                    "Makes a variable a method",
+                    "Creates a property",
+                    "Both A and C",
+                  ],
+                  correct: 3,
+                  explanation:
+                    "@property allows accessing a method like an attribute and creates a property.",
+                },
+              ],
+            },
             mixed: {
               title: "Mixed Challenge",
               description: "Random questions from every topic",

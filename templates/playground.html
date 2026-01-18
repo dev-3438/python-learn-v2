@@ -29,24 +29,84 @@
 
     <!-- Custom Styles -->
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
-      @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap");
-
       :root {
-        --primary-color: #0d9488;
-        --secondary-color: #1e293b;
-        --accent-color: #f97316;
-        --text-primary: #1f2937;
-        --text-secondary: #6b7280;
-        --bg-primary: #ffffff;
-        --bg-secondary: #f9fafb;
+        /* -------- Modern Tech Brand Colors (freeCodeCamp/Codecademy style) -------- */
+        --primary-600: #3b82f6; /* blue - primary action */
+        --primary-700: #2563eb;
+        --primary-800: #1d4ed8;
+
+        --secondary-600: #6366f1; /* indigo - secondary action */
+        --secondary-700: #4f46e5;
+        --secondary-800: #4338ca;
+
+        --accent-500: #10b981; /* green - success/positive */
+        --accent-600: #059669;
+
+        /* -------- Neutral light-scale -------- */
+        --slate-50: #f8fafc; /* page bg        */
+        --slate-100: #f1f5f9; /* card bg        */
+        --slate-200: #e2e8f0; /* border / line  */
+        --slate-300: #cbd5e1;
+        --slate-400: #94a3b8;
+        --slate-600: #475569; /* body text      */
+        --slate-700: #334155; /* heading text   */
+        --slate-800: #1e293b;
+        --slate-900: #0f172a; /* darkest text   */
+
+        --white: #ffffff;
       }
 
+      /* ---------------------------------------------------------
+   DARK-MODE OVERRIDES (auto or via data-theme="dark")
+   --------------------------------------------------------- */
       [data-theme="dark"] {
-        --text-primary: #f1f5f9;
-        --text-secondary: #94a3b8;
-        --bg-primary: #0f172a;
-        --bg-secondary: #1e293b;
+        /* desaturated but recognisable brand colours */
+        --primary-600: #2dd4bf; /* brighter teal   */
+        --primary-700: #14b8a6;
+        --primary-800: #0d9488;
+
+        --secondary-600: #fb923c; /* softer orange   */
+        --secondary-700: #f97316;
+        --secondary-800: #ea580c;
+
+        --accent-500: #4ade80; /* mint green       */
+
+        /* inverted neutral scale */
+        --slate-50: #0b1120; /* page bg          */
+        --slate-100: #111827; /* card / elevated  */
+        --slate-200: #1f2937; /* border           */
+        --slate-300: #374151;
+        --slate-400: #4b5563;
+        --slate-600: #9ca3af; /* body text        */
+        --slate-700: #d1d5db; /* heading text     */
+        --slate-800: #e5e7eb;
+        --slate-900: #f9fafb; /* lightest text    */
+
+        --white: #0b1120; /* same as page bg  */
+      }
+
+      /* automatic dark if user has system preference */
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          /* copy the exact same block as [data-theme="dark"] */
+          --primary-600: #2dd4bf;
+          --primary-700: #14b8a6;
+          --primary-800: #0d9488;
+          --secondary-600: #fb923c;
+          --secondary-700: #f97316;
+          --secondary-800: #ea580c;
+          --accent-500: #4ade80;
+          --slate-50: #0b1120;
+          --slate-100: #111827;
+          --slate-200: #1f2937;
+          --slate-300: #374151;
+          --slate-400: #4b5563;
+          --slate-600: #9ca3af;
+          --slate-700: #d1d5db;
+          --slate-800: #e5e7eb;
+          --slate-900: #f9fafb;
+          --white: #0b1120;
+        }
       }
 
       * {
@@ -54,36 +114,314 @@
       }
 
       body {
-        background: var(--bg-primary);
-        color: var(--text-primary);
-        transition: all 0.3s ease;
+        background: var(--slate-50);
+        color: var(--slate-900);
+        line-height: 1.6;
+        overflow-x: hidden;
       }
 
-      .glassmorphism {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+      /* Premium Navigation - Sticky with better styling */
+      .nav-glassmorphism {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
       }
 
       .nav-link {
         position: relative;
-        transition: all 0.3s ease;
+        font-weight: 500;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
-      .nav-link.active::after {
+      .nav-link::after {
         content: "";
         position: absolute;
-        bottom: -4px;
+        bottom: -2px;
         left: 0;
         right: 0;
         height: 2px;
-        background: #0d9488;
+        background: linear-gradient(
+          90deg,
+          var(--primary-600),
+          var(--secondary-600)
+        );
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
       }
 
+      .nav-link:hover::after,
+      .nav-link.active::after {
+        transform: scaleX(1);
+      }
+
+      .nav-link.active {
+        color: var(--primary-600);
+        font-weight: 600;
+      }
+
+      /* Custom Button Styles */
+      .btn-login,
+      .btn-signup {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn-login:hover,
+      .btn-signup:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-login::before,
+      .btn-signup::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.2);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .btn-login:hover::before,
+      .btn-signup:hover::before {
+        opacity: 1;
+      }
+
+      .btn-login {
+        background: var(--secondary-600);
+        color: var(--white);
+        border: 2px solid var(--secondary-600);
+      }
+
+      .btn-signup {
+        background: var(--primary-600);
+        color: var(--white);
+        border: 2px solid var(--primary-600);
+      }
+
+      .btn-login:hover {
+        background: var(--secondary-700);
+      }
+
+      .btn-signup:hover {
+        background: var(--primary-700);
+      }
+
+      /* Premium Buttons */
+      .btn-premium {
+        position: relative;
+        overflow: hidden;
+        font-weight: 600;
+        letter-spacing: 0.025em;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn-premium::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s ease;
+      }
+
+      .btn-premium:hover::before {
+        left: 100%;
+      }
+
+      .btn-primary {
+        background: var(--white);
+        color: var(--primary-700);
+        border: 2px solid var(--white);
+        font-weight: 700;
+        font-size: 1.125rem;
+        padding: 1rem 2.5rem;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      }
+
+      .btn-primary:hover {
+        background: #f8fafc;
+        color: var(--primary-800);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.15);
+        color: var(--white);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px);
+        font-weight: 700;
+        font-size: 1.125rem;
+        padding: 1rem 2.5rem;
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Premium Cards */
+      .card-premium {
+        background: var(--white);
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card-premium::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-600),
+          var(--secondary-600)
+        );
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .card-premium:hover::before {
+        transform: scaleX(1);
+      }
+
+      .card-premium:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Feature Icons - Updated for modern look */
+      .feature-icon-premium {
+        width: 64px;
+        height: 64px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-600),
+          var(--secondary-600)
+        );
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+        margin-bottom: 1.25rem;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+        transition: all 0.3s ease;
+      }
+
+      .card-premium:hover .feature-icon-premium {
+        transform: scale(1.1);
+        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.35);
+      }
+
+      /* Premium Typography - Improved for readability */
+      .heading-premium {
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        line-height: 1.2;
+      }
+
+      .section-title {
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+      }
+
+      .section-subtitle {
+        font-size: clamp(1rem, 2vw, 1.25rem);
+        font-weight: 400;
+        line-height: 1.6;
+        color: var(--slate-600);
+      }
+
+      .text-gradient {
+        background: linear-gradient(
+          135deg,
+          var(--primary-600),
+          var(--secondary-600)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Animations */
+      .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .animate-in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Smooth Scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Premium Gradients */
+      .gradient-primary {
+        background: linear-gradient(
+          135deg,
+          var(--primary-600),
+          var(--primary-700)
+        );
+      }
+
+      .gradient-secondary {
+        background: linear-gradient(
+          135deg,
+          var(--secondary-600),
+          var(--secondary-700)
+        );
+      }
+
+      .gradient-accent {
+        background: linear-gradient(
+          135deg,
+          var(--primary-600),
+          var(--secondary-600)
+        );
+      }
+
+      /* Playground-specific styles with premium design */
       .code-editor-container {
         border-radius: 12px;
         overflow: hidden;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        border: 1px solid var(--slate-200);
       }
 
       .CodeMirror {
@@ -92,27 +430,14 @@
         font-size: 14px;
       }
 
-      #code-editor {
-        width: 100%;
-        min-height: 400px;
-        font-family: "JetBrains Mono", monospace;
-        font-size: 14px;
-        padding: 1rem;
-        border: 1px solid #e5e7eb;
-        border-radius: 8px;
-        background: #272822;
-        color: #f8f8f2;
-        resize: vertical;
-      }
-
       .output-panel {
-        background: #0f172a;
-        color: #e2e8f0;
+        background: var(--slate-800);
+        color: var(--slate-100);
         font-family: "JetBrains Mono", monospace;
         border-radius: 8px;
         padding: 1rem;
         min-height: 200px;
-        border: 1px solid #334155;
+        border: 1px solid var(--slate-300);
         overflow-y: auto;
       }
 
@@ -126,16 +451,16 @@
       }
 
       .output-panel .success {
-        color: #10b981;
+        color: var(--accent-500);
       }
 
       .output-panel .info {
-        color: #3b82f6;
+        color: var(--primary-600);
       }
 
       .toolbar {
-        background: var(--bg-secondary);
-        border-bottom: 1px solid #e5e7eb;
+        background: var(--slate-100);
+        border-bottom: 1px solid var(--slate-200);
         padding: 0.75rem 1rem;
         display: flex;
         align-items: center;
@@ -154,49 +479,59 @@
       }
 
       .toolbar-button.primary {
-        background: #0d9488;
+        background: var(--primary-600);
         color: white;
+        box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
       }
 
       .toolbar-button.primary:hover {
-        background: #0f766e;
+        background: var(--primary-700);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
       }
 
       .toolbar-button.secondary {
-        background: white;
-        color: #374151;
-        border-color: #d1d5db;
+        background: var(--white);
+        color: var(--slate-700);
+        border-color: var(--slate-300);
       }
 
       .toolbar-button.secondary:hover {
-        background: #f9fafb;
+        background: var(--slate-50);
+        border-color: var(--primary-600);
+        color: var(--primary-600);
       }
 
       .file-tree {
-        background: var(--bg-secondary);
-        border-radius: 8px;
+        background: var(--slate-100);
+        border-radius: 12px;
         padding: 1rem;
         height: 500px;
         overflow-y: auto;
+        border: 1px solid var(--slate-200);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
       }
 
       .file-item {
         display: flex;
         align-items: center;
         padding: 0.5rem;
-        border-radius: 4px;
+        border-radius: 6px;
         cursor: pointer;
-        transition: background-color 0.2s ease;
+        transition: all 0.2s ease;
         margin-bottom: 2px;
+        color: var(--slate-700);
       }
 
       .file-item:hover {
-        background: #e5e7eb;
+        background: var(--slate-200);
+        transform: translateX(4px);
       }
 
       .file-item.active {
-        background: #0d9488;
+        background: var(--primary-600);
         color: white;
+        box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
       }
 
       .file-icon {
@@ -205,55 +540,62 @@
       }
 
       .examples-panel {
-        background: white;
-        border-radius: 8px;
+        background: var(--white);
+        border-radius: 12px;
         padding: 1rem;
         height: 300px;
         overflow-y: auto;
-        border: 1px solid #e5e7eb;
+        border: 1px solid var(--slate-200);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
       }
 
       .example-item {
         padding: 0.75rem;
-        border-radius: 6px;
+        border-radius: 8px;
         cursor: pointer;
-        transition: background-color 0.2s ease;
+        transition: all 0.2s ease;
         margin-bottom: 0.5rem;
-        border: 1px solid #f3f4f6;
+        border: 1px solid var(--slate-200);
+        background: var(--white);
       }
 
       .example-item:hover {
-        background: #f9fafb;
+        background: var(--slate-50);
+        border-color: var(--primary-600);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
       }
 
       .example-item h4 {
         font-weight: 600;
         margin-bottom: 0.25rem;
-        color: #1f2937;
+        color: var(--slate-800);
       }
 
       .example-item p {
         font-size: 0.875rem;
-        color: #6b7280;
+        color: var(--slate-600);
       }
 
       .status-bar {
-        background: var(--bg-secondary);
-        border-top: 1px solid #e5e7eb;
+        background: var(--slate-100);
+        border-top: 1px solid var(--slate-200);
         padding: 0.5rem 1rem;
         font-size: 0.75rem;
-        color: #6b7280;
+        color: var(--slate-600);
         display: flex;
         justify-content: space-between;
         align-items: center;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
       }
 
       .loading-spinner {
         display: inline-block;
         width: 16px;
         height: 16px;
-        border: 2px solid #f3f3f3;
-        border-top: 2px solid #0d9488;
+        border: 2px solid var(--slate-300);
+        border-top: 2px solid var(--primary-600);
         border-radius: 50%;
         animation: spin 1s linear infinite;
       }
@@ -269,25 +611,34 @@
 
       .tab-container {
         display: flex;
-        background: var(--bg-secondary);
-        border-bottom: 1px solid #e5e7eb;
+        background: var(--slate-100);
+        border-bottom: 1px solid var(--slate-200);
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+        overflow: hidden;
       }
 
       .tab {
         padding: 0.75rem 1rem;
         cursor: pointer;
-        border-right: 1px solid #e5e7eb;
-        transition: background-color 0.2s ease;
+        border-right: 1px solid var(--slate-200);
+        transition: all 0.2s ease;
         display: flex;
         align-items: center;
+        color: var(--slate-600);
+        font-weight: 500;
       }
 
       .tab:hover {
-        background: #e5e7eb;
+        background: var(--slate-200);
+        color: var(--slate-800);
       }
+
       .tab.active {
-        background: white;
-        border-bottom: 2px solid #0d9488;
+        background: var(--white);
+        border-bottom: 2px solid var(--primary-600);
+        color: var(--primary-600);
+        font-weight: 600;
       }
 
       .tab-close {
@@ -295,12 +646,43 @@
         padding: 0.125rem;
         border-radius: 2px;
         transition: background-color 0.2s ease;
+        color: var(--slate-400);
       }
 
       .tab-close:hover {
-        background: #d1d5db;
+        background: var(--slate-200);
+        color: var(--slate-700);
       }
 
+      /* Chatbot styling to match premium design */
+      #chat-toggle {
+        background: linear-gradient(
+          135deg,
+          var(--primary-600),
+          var(--secondary-600)
+        );
+        border: 2px solid white;
+        box-shadow: 0 8px 25px rgba(13, 148, 136, 0.4);
+        transition: all 0.3s ease;
+      }
+
+      #chat-toggle:hover {
+        transform: scale(1.1);
+        box-shadow: 0 12px 35px rgba(13, 148, 136, 0.6);
+      }
+
+      #chat-card {
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      #chat-log {
+        background: var(--slate-50);
+      }
+
+      /* Responsive Design - Improved */
       @media (max-width: 768px) {
         .playground-layout {
           flex-direction: column;
@@ -322,19 +704,19 @@
   </head>
   <body>
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 glassmorphism bg-teal-700">
+    <nav class="fixed top-0 left-0 right-0 z-50 nav-glassmorphism">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
+        <div class="flex justify-between items-center h-20">
           <!-- Logo -->
           <div class="flex items-center">
-            <div class="text-2xl font-bold text-white">🐍 PythonLearn</div>
+            <div class="text-3xl font-bold text-gradient">🐍 PythonLearn</div>
           </div>
 
           <!-- Desktop Navigation -->
           <div class="hidden md:flex items-center space-x-10">
             <a
               href="/"
-              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2 active"
+              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2"
               >Home</a
             >
             <a
@@ -344,7 +726,7 @@
             >
             <a
               href="/playground"
-              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2"
+              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2 active"
               >Playground</a
             >
             <a
@@ -353,15 +735,11 @@
               >Quiz</a
             >
             <a
-              href="/projects"
-              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2"
-              >Projects</a
-            >
-            <a
               href="/login"
-              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2"
-              >signup</a
+              class="px-5 py-2 rounded-lg text-white font-semibold btn-signup transition duration-300"
             >
+              Login
+            </a>
             <button
               id="theme-toggle"
               class="p-3 rounded-xl text-slate-700 hover:bg-slate-100 hover:text-primary-600 transition-all duration-300"
@@ -372,7 +750,10 @@
 
           <!-- Mobile Menu Button -->
           <div class="md:hidden">
-            <button id="mobile-menu-btn" class="text-white hover:text-teal-300">
+            <button
+              id="mobile-menu-btn"
+              class="text-slate-700 hover:text-primary-600"
+            >
               <svg
                 class="w-6 h-6"
                 fill="none"
@@ -393,37 +774,27 @@
         <!-- Mobile Navigation -->
         <div id="mobile-menu" class="hidden md:hidden">
           <div
-            class="px-2 pt-2 pb-3 space-y-1 bg-black bg-opacity-50 rounded-lg mt-2"
+            class="px-2 pt-2 pb-3 space-y-1 bg-white rounded-xl shadow-lg mt-2 border border-slate-200"
           >
             <a
               href="/"
-              class="block px-3 py-2 text-white hover:text-teal-300"
+              class="block px-3 py-2 text-slate-700 hover:text-primary-600 hover:bg-slate-50 rounded-lg transition-colors"
               >Home</a
             >
             <a
               href="/course"
-              class="block px-3 py-2 text-white hover:text-teal-300"
+              class="block px-3 py-2 text-slate-700 hover:text-primary-600 hover:bg-slate-50 rounded-lg transition-colors"
               >Course</a
             >
             <a
               href="/playground"
-              class="block px-3 py-2 text-white hover:text-teal-300"
+              class="block px-3 py-2 text-slate-700 hover:text-primary-600 hover:bg-slate-50 rounded-lg transition-colors"
               >Playground</a
             >
             <a
               href="/quiz"
-              class="block px-3 py-2 text-white hover:text-teal-300"
+              class="block px-3 py-2 text-slate-700 hover:text-primary-600 hover:bg-slate-50 rounded-lg transition-colors"
               >Quiz</a
-            >
-            <a
-              href="/projects"
-              class="block px-3 py-2 text-white hover:text-teal-300"
-              >Projects</a
-            >
-            <a
-              href="/about"
-              class="block px-3 py-2 text-white hover:text-teal-300"
-              >About</a
             >
           </div>
         </div>
@@ -432,35 +803,45 @@
 
     <!-- Playground Header -->
     <section
-      class="pt-20 pb-8 bg-gradient-to-r from-teal-600 to-blue-600 text-white"
+      class="pt-24 pb-12 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 text-white relative overflow-hidden"
     >
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center">
-          <h1 class="text-4xl md:text-5xl font-bold mb-4">Python Playground</h1>
-          <p class="text-xl mb-8 max-w-3xl mx-auto">
-            Write, run, and experiment with Python code in your browser. Perfect
-            for learning, testing ideas, and building projects.
-          </p>
-          <div class="flex flex-wrap justify-center gap-4 text-sm">
-            <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full"
-              >Real-time Execution</span
-            >
-            <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full"
-              >Syntax Highlighting</span
-            >
-            <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full"
-              >Error Detection</span
-            >
-            <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full"
-              >Code Examples</span
-            >
-          </div>
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10"
+      >
+        <h1
+          class="text-4xl md:text-5xl font-bold mb-4 section-title text-white"
+        >
+          Python Playground
+        </h1>
+        <p
+          class="text-xl mb-8 max-w-3xl mx-auto section-subtitle text-white/95"
+        >
+          Write, run, and experiment with Python code in your browser. Perfect
+          for learning, testing ideas, and building projects.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 text-sm">
+          <span
+            class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full border border-white/30 font-medium"
+            >Real-time Execution</span
+          >
+          <span
+            class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full border border-white/30 font-medium"
+            >Syntax Highlighting</span
+          >
+          <span
+            class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full border border-white/30 font-medium"
+            >Error Detection</span
+          >
+          <span
+            class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full border border-white/30 font-medium"
+            >Code Examples</span
+          >
         </div>
       </div>
     </section>
+
     <!-- CHATBOT -->
     <div class="fixed bottom-4 right-4 z-50">
-      <!-- Toggle button (optional) -->
       <button
         id="chat-toggle"
         class="mb-3 ml-auto flex h-14 w-14 items-center justify-center rounded-full bg-indigo-600 text-white shadow-lg transition hover:bg-indigo-500 focus:outline-none focus:ring-4 focus:ring-indigo-300"
@@ -481,14 +862,12 @@
         </svg>
       </button>
 
-      <!-- Chat card -->
       <div
         id="chat-card"
         class="hidden w-80 rounded-2xl bg-white shadow-2xl ring-1 ring-slate-200 transition-all duration-300"
       >
-        <!-- Header -->
         <div
-          class="flex items-center justify-between rounded-t-2xl bg-indigo-600 px-4 py-3"
+          class="flex items-center justify-between rounded-t-2xl bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-3"
         >
           <div class="flex items-center space-x-3">
             <span class="text-2xl">🐍</span>
@@ -517,13 +896,11 @@
           </button>
         </div>
 
-        <!-- Messages -->
         <div
           id="chat-log"
           class="h-80 overflow-y-auto p-4 space-y-3 bg-slate-50"
         ></div>
 
-        <!-- Input -->
         <form
           onsubmit="sendChat(); return false;"
           class="flex items-center gap-2 border-t border-slate-200 p-3 bg-white rounded-b-2xl"
@@ -532,11 +909,11 @@
             id="chat-input"
             type="text"
             placeholder="Ask about Python…"
-            class="w-full rounded-full border border-slate-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            class="w-full rounded-full border border-slate-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-600"
           />
           <button
             type="submit"
-            class="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-600 text-white shadow hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            class="flex h-10 w-10 items-center justify-center rounded-full bg-primary-600 text-white shadow hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600"
           >
             <svg
               class="h-5 w-5"
@@ -556,78 +933,17 @@
       </div>
     </div>
 
-    <script>
-      /* --- keep your original JS, just add animations & scroll --- */
-      async function sendChat() {
-        const input = document.getElementById("chat-input");
-        const msg = input.value.trim();
-        if (!msg) return;
-
-        appendMessage("You", msg, "user");
-        input.value = "";
-        scrollBottom();
-
-        const res = await fetch("/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: msg }),
-        });
-        const data = await res.json();
-        appendMessage("Tutor", data.reply, "bot");
-        scrollBottom();
-      }
-
-      function appendMessage(sender, text, side) {
-        const log = document.getElementById("chat-log");
-        const wrap = document.createElement("div");
-        wrap.className =
-          "flex " + (side === "user" ? "justify-end" : "justify-start");
-        const bubble = document.createElement("div");
-        bubble.className =
-          side === "user"
-            ? "max-w-xs px-4 py-2 rounded-2xl bg-indigo-600 text-white shadow animate-fade-in-up"
-            : "max-w-xs px-4 py-2 rounded-2xl bg-white text-slate-800 shadow ring-1 ring-slate-200 animate-fade-in-up";
-        bubble.innerText = text;
-        wrap.appendChild(bubble);
-        log.appendChild(wrap);
-      }
-
-      function scrollBottom() {
-        const log = document.getElementById("chat-log");
-        log.scrollTop = log.scrollHeight;
-      }
-
-      /* toggle chat window */
-      document.getElementById("chat-toggle").onclick = () => {
-        document.getElementById("chat-card").classList.toggle("hidden");
-      };
-
-      /* add keyframe animation via Tailwind plugin */
-      tailwind.config = {
-        theme: {
-          extend: {
-            keyframes: {
-              "fade-in-up": {
-                "0%": { opacity: "0", transform: "translateY(10px)" },
-                "100%": { opacity: "1", transform: "translateY(0)" },
-              },
-            },
-            animation: {
-              "fade-in-up": "fade-in-up .35s ease-out",
-            },
-          },
-        },
-      };
-    </script>
     <!-- Main Playground Interface -->
-    <section class="py-8">
+    <section class="py-8 bg-slate-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col lg:flex-row gap-6 playground-layout">
           <!-- Sidebar Panel -->
           <div class="lg:w-1/4 sidebar-panel">
             <!-- File Explorer -->
-            <div class="mb-6">
-              <h3 class="text-lg font-semibold mb-3">File Explorer</h3>
+            <div class="mb-6 card-premium">
+              <h3 class="text-lg font-bold mb-4 text-slate-900">
+                File Explorer
+              </h3>
               <div class="file-tree">
                 <div class="file-item active" data-file="main.py">
                   <span class="file-icon">🐍</span>
@@ -649,8 +965,10 @@
             </div>
 
             <!-- Code Examples -->
-            <div>
-              <h3 class="text-lg font-semibold mb-3">Code Examples</h3>
+            <div class="card-premium">
+              <h3 class="text-lg font-bold mb-4 text-slate-900">
+                Code Examples
+              </h3>
               <div class="examples-panel">
                 <div class="example-item" data-example="hello-world">
                   <h4>Hello World</h4>
@@ -693,16 +1011,28 @@
             <!-- Toolbar -->
             <div class="toolbar">
               <div class="flex items-center space-x-2">
-                <button id="run-code" class="toolbar-button primary">
+                <button
+                  id="run-code"
+                  class="toolbar-button btn-premium primary"
+                >
                   ▶️ Run Code
                 </button>
-                <button id="save-code" class="toolbar-button secondary">
+                <button
+                  id="save-code"
+                  class="toolbar-button btn-premium secondary"
+                >
                   💾 Save
                 </button>
-                <button id="share-code" class="toolbar-button secondary">
+                <button
+                  id="share-code"
+                  class="toolbar-button btn-premium secondary"
+                >
                   🔗 Share
                 </button>
-                <button id="clear-code" class="toolbar-button secondary">
+                <button
+                  id="clear-code"
+                  class="toolbar-button btn-premium secondary"
+                >
                   🗑️ Clear
                 </button>
               </div>
@@ -740,15 +1070,15 @@ print('Happy coding! 🐍')"
             <!-- Output Panel -->
             <div class="mt-4">
               <div class="flex items-center justify-between mb-2">
-                <h3 class="text-lg font-semibold">Output</h3>
+                <h3 class="text-lg font-bold text-slate-900">Output</h3>
                 <button
                   id="clear-output"
-                  class="text-sm text-gray-600 hover:text-gray-800"
+                  class="text-sm text-slate-600 hover:text-primary-600 font-medium transition-colors"
                 >
                   Clear Output
                 </button>
               </div>
-              <div class="output-panel" id="output-panel">
+              <div class="output-panel card-premium" id="output-panel">
                 <div class="output-line info">Python Playground v1.0</div>
                 <div class="output-line info">
                   Ready to execute your code...
@@ -776,14 +1106,24 @@ print('Happy coding! 🐍')"
     </section>
 
     <!-- Tips Section -->
-    <section class="py-12 bg-gray-50">
+    <section class="py-12 bg-slate-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-center mb-8">Playground Tips</h2>
+        <h2
+          class="text-3xl font-bold text-center mb-8 text-slate-900 section-title"
+        >
+          Playground Tips
+        </h2>
         <div class="grid md:grid-cols-3 gap-8">
-          <div class="bg-white p-6 rounded-lg shadow-lg">
-            <div class="text-3xl mb-4">⌨️</div>
-            <h3 class="text-xl font-semibold mb-2">Keyboard Shortcuts</h3>
-            <ul class="text-gray-600 space-y-1">
+          <div class="card-premium group">
+            <div
+              class="text-3xl mb-4 group-hover:scale-110 transition-transform"
+            >
+              ⌨️
+            </div>
+            <h3 class="text-xl font-bold mb-3 text-slate-900">
+              Keyboard Shortcuts
+            </h3>
+            <ul class="text-slate-600 space-y-1 text-sm">
               <li>• Ctrl/Cmd + Enter: Run code</li>
               <li>• Ctrl/Cmd + S: Save code</li>
               <li>• Ctrl/Cmd + /: Comment line</li>
@@ -791,10 +1131,16 @@ print('Happy coding! 🐍')"
             </ul>
           </div>
 
-          <div class="bg-white p-6 rounded-lg shadow-lg">
-            <div class="text-3xl mb-4">🐛</div>
-            <h3 class="text-xl font-semibold mb-2">Debugging Tips</h3>
-            <ul class="text-gray-600 space-y-1">
+          <div class="card-premium group">
+            <div
+              class="text-3xl mb-4 group-hover:scale-110 transition-transform"
+            >
+              🐛
+            </div>
+            <h3 class="text-xl font-bold mb-3 text-slate-900">
+              Debugging Tips
+            </h3>
+            <ul class="text-slate-600 space-y-1 text-sm">
               <li>• Use print() to debug</li>
               <li>• Check indentation carefully</li>
               <li>• Watch for syntax errors</li>
@@ -802,10 +1148,16 @@ print('Happy coding! 🐍')"
             </ul>
           </div>
 
-          <div class="bg-white p-6 rounded-lg shadow-lg">
-            <div class="text-3xl mb-4">🚀</div>
-            <h3 class="text-xl font-semibold mb-2">Advanced Features</h3>
-            <ul class="text-gray-600 space-y-1">
+          <div class="card-premium group">
+            <div
+              class="text-3xl mb-4 group-hover:scale-110 transition-transform"
+            >
+              🚀
+            </div>
+            <h3 class="text-xl font-bold mb-3 text-slate-900">
+              Advanced Features
+            </h3>
+            <ul class="text-slate-600 space-y-1 text-sm">
               <li>• Import external libraries</li>
               <li>• Use built-in functions</li>
               <li>• Create multiple files</li>
@@ -817,37 +1169,64 @@ print('Happy coding! 🐍')"
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
+    <footer
+      class="bg-gradient-to-br from-slate-900 to-slate-800 text-slate-200 py-16"
+    >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid md:grid-cols-4 gap-8">
+        <div class="grid md:grid-cols-4 gap-12">
           <div>
-            <div class="text-2xl font-bold mb-4">🐍 PythonLearn</div>
-            <p class="text-gray-400 mb-4">
+            <div class="text-3xl font-bold text-gradient mb-6">
+              🐍 PythonLearn
+            </div>
+            <p class="text-slate-400 mb-6 leading-relaxed">
               Learn Python the smart way with our interactive platform designed
               for modern learners.
             </p>
+            <div class="flex space-x-6">
+              <a
+                href="#"
+                class="text-slate-400 hover:text-primary-400 transition-colors"
+                >Twitter</a
+              >
+              <a
+                href="#"
+                class="text-slate-400 hover:text-primary-400 transition-colors"
+                >LinkedIn</a
+              >
+              <a
+                href="#"
+                class="text-slate-400 hover:text-primary-400 transition-colors"
+                >GitHub</a
+              >
+            </div>
           </div>
 
           <div>
-            <h4 class="font-bold mb-4">Learning</h4>
-            <ul class="space-y-2 text-gray-400">
+            <h4 class="font-bold text-lg text-white mb-6">Learning</h4>
+            <ul class="space-y-3 text-slate-400">
               <li>
-                <a href="/course" class="hover:text-white"
+                <a
+                  href="/course"
+                  class="hover:text-primary-400 transition-colors"
                   >Course Curriculum</a
                 >
               </li>
               <li>
-                <a href="/playground" class="hover:text-white"
+                <a
+                  href="/playground"
+                  class="hover:text-primary-400 transition-colors"
                   >Code Playground</a
                 >
               </li>
               <li>
-                <a href="/quiz" class="hover:text-white"
+                <a href="/quiz" class="hover:text-primary-400 transition-colors"
                   >Interactive Quizzes</a
                 >
               </li>
               <li>
-                <a href="/projects" class="hover:text-white"
+                <a
+                  href="/projects"
+                  class="hover:text-primary-400 transition-colors"
                   >Project Gallery</a
                 >
               </li>
@@ -855,30 +1234,62 @@ print('Happy coding! 🐍')"
           </div>
 
           <div>
-            <h4 class="font-bold mb-4">Resources</h4>
-            <ul class="space-y-2 text-gray-400">
+            <h4 class="font-bold text-lg text-white mb-6">Resources</h4>
+            <ul class="space-y-3 text-slate-400">
               <li>
-                <a href="/about" class="hover:text-white">About Us</a>
+                <a
+                  href="/about"
+                  class="hover:text-primary-400 transition-colors"
+                  >About Us</a
+                >
               </li>
-              <li><a href="#" class="hover:text-white">Blog</a></li>
-              <li><a href="#" class="hover:text-white">Documentation</a></li>
-              <li><a href="#" class="hover:text-white">Community</a></li>
+              <li>
+                <a href="#" class="hover:text-primary-400 transition-colors"
+                  >Blog</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-primary-400 transition-colors"
+                  >Documentation</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-primary-400 transition-colors"
+                  >Community</a
+                >
+              </li>
             </ul>
           </div>
 
           <div>
-            <h4 class="font-bold mb-4">Support</h4>
-            <ul class="space-y-2 text-gray-400">
-              <li><a href="#" class="hover:text-white">Help Center</a></li>
-              <li><a href="#" class="hover:text-white">Contact Us</a></li>
-              <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
-              <li><a href="#" class="hover:text-white">Terms of Service</a></li>
+            <h4 class="font-bold text-lg text-white mb-6">Support</h4>
+            <ul class="space-y-3 text-slate-400">
+              <li>
+                <a href="#" class="hover:text-primary-400 transition-colors"
+                  >Help Center</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-primary-400 transition-colors"
+                  >Contact Us</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-primary-400 transition-colors"
+                  >Privacy Policy</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-primary-400 transition-colors"
+                  >Terms of Service</a
+                >
+              </li>
             </ul>
           </div>
         </div>
 
         <div
-          class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400"
+          class="border-t border-slate-800 mt-12 pt-8 text-center text-slate-400"
         >
           <p>
             &copy; 2024 PythonLearn. All rights reserved. Made with ❤️ for
@@ -891,23 +1302,22 @@ print('Happy coding! 🐍')"
     <!-- Main JavaScript -->
     <script src="{{url_for('static', filename='main.js')}}"></script>
 
-    <!-- Playgrund-specific JavaScript -->
-
+    <!-- Playground-specific JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
 
     <script>
-            /* ==========================================================
+      /* ==========================================================
          PYTHON PLAYGROUND  –  fixed & self-contained
          ========================================================== */
-            class PythonPlayground {
-              constructor() {
-                this.editor = null;
-                this.currentFile = "main.py";
+      class PythonPlayground {
+        constructor() {
+          this.editor = null;
+          this.currentFile = "main.py";
 
-                // default file set
-                this.files = {
-                  "main.py": `# Welcome to Python Playground!
+          // default file set
+          this.files = {
+            "main.py": `# Welcome to Python Playground!
       print('Hello, Python World!')
       print('This is your interactive playground')
 
@@ -922,429 +1332,435 @@ print('Happy coding! 🐍')"
           print(f'Count: {i}')
 
       print('Happy coding! 🐍')`,
-                  "examples.py": `import math, random
+            "examples.py": `import math, random
       squares = [x**2 for x in range(10)]
       print("Squares:", squares)`,
-                  "utils.py": `def greet(name):
+            "utils.py": `def greet(name):
           return f"Hello, {name}!"
       print(greet("Python Learner"))`,
-                  "data.txt": `Name,Age,Score
+            "data.txt": `Name,Age,Score
       Alice,20,85
       Bob,22,78`,
-                };
+          };
 
-                // quick example snippets
-                this.examples = {
-                  "hello-world": {
-                    title: "Hello World",
-                    code: `print("Hello, world!")`,
-                  },
-                  variables: {
-                    title: "Variables",
-                    code: `a = 5\nb = 7\nprint(a + b)`,
-                  },
-                  loops: {
-                    title: "For Loop",
-                    code: `for i in range(3):\n    print(i)`,
-                  },
-                  functions: {
-                    title: "Function",
-                    code: `def add(x,y):\n    return x+y\nprint(add(3,4))`,
-                  },
-                  lists: {
-                    title: "Lists",
-                    code: `nums = [1,2,3]\nnums.append(4)\nprint(nums)`,
-                  },
-                  calculator: {
-                    title: "Calculator",
-                    code: `expr = input("Enter math: ")\nprint(eval(expr))`,
-                  },
-                };
+          // quick example snippets
+          this.examples = {
+            "hello-world": {
+              title: "Hello World",
+              code: `print("Hello, world!")`,
+            },
+            variables: {
+              title: "Variables",
+              code: `a = 5\nb = 7\nprint(a + b)`,
+            },
+            loops: {
+              title: "For Loop",
+              code: `for i in range(3):\n    print(i)`,
+            },
+            functions: {
+              title: "Function",
+              code: `def add(x,y):\n    return x+y\nprint(add(3,4))`,
+            },
+            lists: {
+              title: "Lists",
+              code: `nums = [1,2,3]\nnums.append(4)\nprint(nums)`,
+            },
+            calculator: {
+              title: "Calculator",
+              code: `expr = input("Enter math: ")\nprint(eval(expr))`,
+            },
+          };
 
-                this.init();
-              }
+          this.init();
+        }
 
-              /* -------------------------------------------------- */
-              init() {
-                this.setupEditor();
-                this.setupEventListeners();
-                this.loadFile("main.py");
-                this.loadSavedCode(); // restore last session
-              }
+        /* -------------------------------------------------- */
+        init() {
+          this.setupEditor();
+          this.setupEventListeners();
+          this.loadFile("main.py");
+          this.loadSavedCode(); // restore last session
+        }
 
-              setupTextareaAutoPairing(textarea) {
-                // Auto-pairing for textarea fallback
-                textarea.addEventListener('keydown', (e) => {
-                  const start = textarea.selectionStart;
-                  const end = textarea.selectionEnd;
-                  const value = textarea.value;
-                  
-                  // Handle opening brackets/quotes
-                  const pairs = {
-                    '(': ')',
-                    '[': ']',
-                    '{': '}',
-                    '"': '"',
-                    "'": "'"
-                  };
-                  
-                  if (pairs[e.key]) {
-                    e.preventDefault();
-                    const pair = pairs[e.key];
-                    const newValue = value.substring(0, start) + e.key + pair + value.substring(end);
-                    textarea.value = newValue;
-                    textarea.setSelectionRange(start + 1, start + 1);
-                  }
-                  
-                  // Handle closing brackets/quotes - skip if next char is the closing pair
-                  if (e.key === ')' || e.key === ']' || e.key === '}') {
-                    if (value[end] === e.key) {
-                      e.preventDefault();
-                      textarea.setSelectionRange(end + 1, end + 1);
-                    }
-                  }
-                  
-                  // Handle quotes - skip if next char is the same quote
-                  if (e.key === '"' || e.key === "'") {
-                    if (value[end] === e.key) {
-                      e.preventDefault();
-                      textarea.setSelectionRange(end + 1, end + 1);
-                    }
-                  }
-                });
-              }
+        setupTextareaAutoPairing(textarea) {
+          // Auto-pairing for textarea fallback
+          textarea.addEventListener("keydown", (e) => {
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const value = textarea.value;
 
-              setupEditor() {
-                const ta = document.getElementById("code-editor");
-                if (!ta) {
-                  console.error("Code editor textarea not found");
-                  return;
-                }
-                if (typeof CodeMirror === 'undefined') {
-                  console.error("CodeMirror library not loaded");
-                  // Setup textarea auto-pairing as fallback
-                  this.setupTextareaAutoPairing(ta);
-                  this.editor = {
-                    getValue: () => ta.value,
-                    setValue: (val) => { ta.value = val; },
-                    on: () => {},
-                    getCursor: () => ({ line: 0, ch: 0 })
-                  };
-                  return;
-                }
-                try {
-                  this.editor = CodeMirror.fromTextArea(ta, {
-                    mode: "python",
-                    theme: "monokai",
-                    lineNumbers: true,
-                    autoCloseBrackets: true,
-                    autoCloseQuotes: true,
-                    matchBrackets: true,
-                    indentUnit: 4,
-                    tabSize: 4,
-                    lineWrapping: true,
-                    foldGutter: true,
-                    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-                    extraKeys: {
-                      "'": function(cm) {
-                        cm.replaceSelection("''", "end");
-                        cm.setCursor(cm.getCursor().line, cm.getCursor().ch - 1);
-                      },
-                      '"': function(cm) {
-                        cm.replaceSelection('""', "end");
-                        cm.setCursor(cm.getCursor().line, cm.getCursor().ch - 1);
-                      },
-                      "(": function(cm) {
-                        cm.replaceSelection("()", "end");
-                        cm.setCursor(cm.getCursor().line, cm.getCursor().ch - 1);
-                      },
-                      "[": function(cm) {
-                        cm.replaceSelection("[]", "end");
-                        cm.setCursor(cm.getCursor().line, cm.getCursor().ch - 1);
-                      },
-                      "{": function(cm) {
-                        cm.replaceSelection("{}", "end");
-                        cm.setCursor(cm.getCursor().line, cm.getCursor().ch - 1);
-                      }
-                    }
-                  });
-                } catch (error) {
-                  console.error("Error initializing CodeMirror:", error);
-                  // Fallback: use textarea with auto-pairing
-                  this.setupTextareaAutoPairing(ta);
-                  this.editor = {
-                    getValue: () => ta.value,
-                    setValue: (val) => { ta.value = val; },
-                    on: () => {},
-                    getCursor: () => ({ line: 0, ch: 0 })
-                  };
-                }
+            // Handle opening brackets/quotes
+            const pairs = {
+              "(": ")",
+              "[": "]",
+              "{": "}",
+              '"': '"',
+              "'": "'",
+            };
 
-                // cursor position
-                if (this.editor && this.editor.on) {
-                  this.editor.on("cursorActivity", () => {
-                    const c = this.editor.getCursor();
-                    const cursorEl = document.getElementById("cursor-position");
-                    if (cursorEl) {
-                      cursorEl.textContent = `Line ${c.line + 1}, Col ${c.ch + 1}`;
-                    }
-                  });
+            if (pairs[e.key]) {
+              e.preventDefault();
+              const pair = pairs[e.key];
+              const newValue =
+                value.substring(0, start) + e.key + pair + value.substring(end);
+              textarea.value = newValue;
+              textarea.setSelectionRange(start + 1, start + 1);
+            }
 
-                  // auto-save
-                  this.editor.on("change", () => {
-                    this.files[this.currentFile] = this.editor.getValue();
-                  });
-                } else {
-                  // Fallback for textarea
-                  ta.addEventListener("input", () => {
-                    this.files[this.currentFile] = ta.value;
-                    const lines = ta.value.split('\n');
-                    const cursorPos = ta.selectionStart;
-                    let line = 1, col = 1;
-                    for (let i = 0; i < cursorPos; i++) {
-                      if (ta.value[i] === '\n') {
-                        line++;
-                        col = 1;
-                      } else {
-                        col++;
-                      }
-                    }
-                    const cursorEl = document.getElementById("cursor-position");
-                    if (cursorEl) {
-                      cursorEl.textContent = `Line ${line}, Col ${col}`;
-                    }
-                  });
-                }
-              }
-
-              setupEventListeners() {
-                // file explorer
-                document.querySelectorAll(".file-item").forEach((item) => {
-                  item.addEventListener("click", (e) => {
-                    this.loadFile(item.dataset.file);
-                    document
-                      .querySelectorAll(".file-item")
-                      .forEach((f) => f.classList.remove("active"));
-                    item.classList.add("active");
-                  });
-                });
-
-                // example loader
-                document.querySelectorAll(".example-item").forEach((item) => {
-                  item.addEventListener("click", (e) => {
-                    const ex = this.examples[item.dataset.example];
-                    if (ex) {
-                      if (this.editor && this.editor.setValue) {
-                        this.editor.setValue(ex.code);
-                      } else {
-                        const ta = document.getElementById("code-editor");
-                        if (ta) ta.value = ex.code;
-                      }
-                      this.addOutput("info", `Loaded example: ${ex.title}`);
-                    }
-                  });
-                });
-
-                // toolbar
-                document
-                  .getElementById("run-code")
-                  .addEventListener("click", () => this.runCode());
-                document
-                  .getElementById("clear-output")
-                  .addEventListener("click", () => this.clearOutput());
-                document
-                  .getElementById("save-code")
-                  .addEventListener("click", () => this.saveCode());
-                document
-                  .getElementById("share-code")
-                  .addEventListener("click", () => this.shareCode());
-                document
-                  .getElementById("clear-code")
-                  .addEventListener("click", () => this.clearCode());
-
-                // keyboard shortcuts
-                document.addEventListener("keydown", (e) => {
-                  if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
-                    e.preventDefault();
-                    this.runCode();
-                  }
-                  if ((e.ctrlKey || e.metaKey) && e.key === "s") {
-                    e.preventDefault();
-                    this.saveCode();
-                  }
-                });
-              }
-
-              /* -------------------------------------------------- */
-              loadFile(filename) {
-                this.currentFile = filename;
-                const content =
-                  this.files[filename] ||
-                  `# File: ${filename}\nprint("Hello from ${filename}!")`;
-                if (this.editor && this.editor.setValue) {
-                  this.editor.setValue(content);
-                } else {
-                  const ta = document.getElementById("code-editor");
-                  if (ta) ta.value = content;
-                }
-                this.updateTab(filename);
-                this.updateStatus(`Loaded ${filename}`);
-              }
-              updateTab(filename) {
-                const tabs = document.querySelectorAll(".tab");
-                tabs.forEach((t) => t.classList.remove("active"));
-                let tab = Array.from(tabs).find((t) => t.dataset.tab === filename);
-                if (!tab) {
-                  tab = document.createElement("div");
-                  tab.className = "tab active";
-                  tab.dataset.tab = filename;
-                  tab.innerHTML = `<span>${filename}</span><span class="tab-close">×</span>`;
-                  document.querySelector(".tab-container").appendChild(tab);
-                }
-                tab.classList.add("active");
-              }
-              updateStatus(msg, loading = false) {
-                const status = document.getElementById("execution-status");
-                status.innerHTML = loading
-                  ? `<div class="loading-spinner"></div> ${msg}`
-                  : msg;
-              }
-
-              /* -------------------------------------------------- */
-              /*  REAL PYTHON 3.x via Skulpt                        */
-              /* -------------------------------------------------- */
-              runCode() {
-                let code;
-                if (this.editor && this.editor.getValue) {
-                  code = this.editor.getValue().trim();
-                } else {
-                  const ta = document.getElementById("code-editor");
-                  code = ta ? ta.value.trim() : "";
-                }
-                if (!code) {
-                  this.addOutput("error", "No code to execute!");
-                  return;
-                }
-
-                this.clearOutput();
-                this.updateStatus("Running…", true);
-                const start = performance.now();
-
-                Sk.pre = "output-panel";
-                Sk.configure({
-                  output: (text) => this.addOutput("normal", text),
-                  read: (fname) => {
-                    if (
-                      Sk.builtinFiles === undefined ||
-                      Sk.builtinFiles.files[fname] === undefined
-                    )
-                      throw new Error("File not found: " + fname);
-                    return Sk.builtinFiles.files[fname];
-                  },
-                  __future__: Sk.python3,
-                  execLimit: 15000, // 15 s
-                  yieldLimit: 300,
-                });
-
-                const promise = Sk.misceval.asyncToPromise(() =>
-                  Sk.importMainWithBody("<stdin>", false, code, true)
-                );
-
-                promise.then(
-                  () => {
-                    // SUCCESS
-                    const t = ((performance.now() - start) / 1000).toFixed(3);
-                    this.updateStatus(`Done in ${t} s`);
-                  },
-                  (err) => {
-                    // ERROR
-                    this.addOutput("error", err.toString());
-                    this.updateStatus("Error");
-                  }
-                );
-              }
-
-              /* -------------------------------------------------- */
-              addOutput(type, message) {
-                const panel = document.getElementById("output-panel");
-                const line = document.createElement("div");
-                line.className = `output-line ${type}`;
-                line.textContent = message;
-                panel.appendChild(line);
-                panel.scrollTop = panel.scrollHeight;
-              }
-              clearOutput() {
-                document.getElementById("output-panel").innerHTML =
-                  '<div class="output-line info">Ready to execute your code…</div>';
-              }
-              clearCode() {
-                if (confirm("Clear editor?")) {
-                  if (this.editor && this.editor.setValue) {
-                    this.editor.setValue("");
-                  } else {
-                    const ta = document.getElementById("code-editor");
-                    if (ta) ta.value = "";
-                  }
-                  this.updateStatus("Editor cleared");
-                }
-              }
-              saveCode() {
-                localStorage.setItem("playground-code", JSON.stringify(this.files));
-                this.updateStatus("Code saved");
-                this.addOutput("success", "Code saved to browser storage");
-              }
-              shareCode() {
-                let code;
-                if (this.editor && this.editor.getValue) {
-                  code = this.editor.getValue();
-                } else {
-                  const ta = document.getElementById("code-editor");
-                  code = ta ? ta.value : "";
-                }
-                navigator.clipboard.writeText(code).then(() => {
-                  this.updateStatus("Code copied");
-                  this.addOutput("success", "Code copied to clipboard");
-                });
-              }
-              loadSavedCode() {
-                const saved = localStorage.getItem("playground-code");
-                if (saved) {
-                  try {
-                    this.files = JSON.parse(saved);
-                  } catch (e) {
-                    /* ignore */
-                  }
-                }
+            // Handle closing brackets/quotes - skip if next char is the closing pair
+            if (e.key === ")" || e.key === "]" || e.key === "}") {
+              if (value[end] === e.key) {
+                e.preventDefault();
+                textarea.setSelectionRange(end + 1, end + 1);
               }
             }
 
-            /* ==========================================================
+            // Handle quotes - skip if next char is the same quote
+            if (e.key === '"' || e.key === "'") {
+              if (value[end] === e.key) {
+                e.preventDefault();
+                textarea.setSelectionRange(end + 1, end + 1);
+              }
+            }
+          });
+        }
+
+        setupEditor() {
+          const ta = document.getElementById("code-editor");
+          if (!ta) {
+            console.error("Code editor textarea not found");
+            return;
+          }
+          if (typeof CodeMirror === "undefined") {
+            console.error("CodeMirror library not loaded");
+            // Setup textarea auto-pairing as fallback
+            this.setupTextareaAutoPairing(ta);
+            this.editor = {
+              getValue: () => ta.value,
+              setValue: (val) => {
+                ta.value = val;
+              },
+              on: () => {},
+              getCursor: () => ({ line: 0, ch: 0 }),
+            };
+            return;
+          }
+          try {
+            this.editor = CodeMirror.fromTextArea(ta, {
+              mode: "python",
+              theme: "monokai",
+              lineNumbers: true,
+              autoCloseBrackets: true,
+              autoCloseQuotes: true,
+              matchBrackets: true,
+              indentUnit: 4,
+              tabSize: 4,
+              lineWrapping: true,
+              foldGutter: true,
+              gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+              extraKeys: {
+                "'": function (cm) {
+                  cm.replaceSelection("''", "end");
+                  cm.setCursor(cm.getCursor().line, cm.getCursor().ch - 1);
+                },
+                '"': function (cm) {
+                  cm.replaceSelection('""', "end");
+                  cm.setCursor(cm.getCursor().line, cm.getCursor().ch - 1);
+                },
+                "(": function (cm) {
+                  cm.replaceSelection("()", "end");
+                  cm.setCursor(cm.getCursor().line, cm.getCursor().ch - 1);
+                },
+                "[": function (cm) {
+                  cm.replaceSelection("[]", "end");
+                  cm.setCursor(cm.getCursor().line, cm.getCursor().ch - 1);
+                },
+                "{": function (cm) {
+                  cm.replaceSelection("{}", "end");
+                  cm.setCursor(cm.getCursor().line, cm.getCursor().ch - 1);
+                },
+              },
+            });
+          } catch (error) {
+            console.error("Error initializing CodeMirror:", error);
+            // Fallback: use textarea with auto-pairing
+            this.setupTextareaAutoPairing(ta);
+            this.editor = {
+              getValue: () => ta.value,
+              setValue: (val) => {
+                ta.value = val;
+              },
+              on: () => {},
+              getCursor: () => ({ line: 0, ch: 0 }),
+            };
+          }
+
+          // cursor position
+          if (this.editor && this.editor.on) {
+            this.editor.on("cursorActivity", () => {
+              const c = this.editor.getCursor();
+              const cursorEl = document.getElementById("cursor-position");
+              if (cursorEl) {
+                cursorEl.textContent = `Line ${c.line + 1}, Col ${c.ch + 1}`;
+              }
+            });
+
+            // auto-save
+            this.editor.on("change", () => {
+              this.files[this.currentFile] = this.editor.getValue();
+            });
+          } else {
+            // Fallback for textarea
+            ta.addEventListener("input", () => {
+              this.files[this.currentFile] = ta.value;
+              const lines = ta.value.split("\n");
+              const cursorPos = ta.selectionStart;
+              let line = 1,
+                col = 1;
+              for (let i = 0; i < cursorPos; i++) {
+                if (ta.value[i] === "\n") {
+                  line++;
+                  col = 1;
+                } else {
+                  col++;
+                }
+              }
+              const cursorEl = document.getElementById("cursor-position");
+              if (cursorEl) {
+                cursorEl.textContent = `Line ${line}, Col ${col}`;
+              }
+            });
+          }
+        }
+
+        setupEventListeners() {
+          // file explorer
+          document.querySelectorAll(".file-item").forEach((item) => {
+            item.addEventListener("click", (e) => {
+              this.loadFile(item.dataset.file);
+              document
+                .querySelectorAll(".file-item")
+                .forEach((f) => f.classList.remove("active"));
+              item.classList.add("active");
+            });
+          });
+
+          // example loader
+          document.querySelectorAll(".example-item").forEach((item) => {
+            item.addEventListener("click", (e) => {
+              const ex = this.examples[item.dataset.example];
+              if (ex) {
+                if (this.editor && this.editor.setValue) {
+                  this.editor.setValue(ex.code);
+                } else {
+                  const ta = document.getElementById("code-editor");
+                  if (ta) ta.value = ex.code;
+                }
+                this.addOutput("info", `Loaded example: ${ex.title}`);
+              }
+            });
+          });
+
+          // toolbar
+          document
+            .getElementById("run-code")
+            .addEventListener("click", () => this.runCode());
+          document
+            .getElementById("clear-output")
+            .addEventListener("click", () => this.clearOutput());
+          document
+            .getElementById("save-code")
+            .addEventListener("click", () => this.saveCode());
+          document
+            .getElementById("share-code")
+            .addEventListener("click", () => this.shareCode());
+          document
+            .getElementById("clear-code")
+            .addEventListener("click", () => this.clearCode());
+
+          // keyboard shortcuts
+          document.addEventListener("keydown", (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+              e.preventDefault();
+              this.runCode();
+            }
+            if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+              e.preventDefault();
+              this.saveCode();
+            }
+          });
+        }
+
+        /* -------------------------------------------------- */
+        loadFile(filename) {
+          this.currentFile = filename;
+          const content =
+            this.files[filename] ||
+            `# File: ${filename}\nprint("Hello from ${filename}!")`;
+          if (this.editor && this.editor.setValue) {
+            this.editor.setValue(content);
+          } else {
+            const ta = document.getElementById("code-editor");
+            if (ta) ta.value = content;
+          }
+          this.updateTab(filename);
+          this.updateStatus(`Loaded ${filename}`);
+        }
+        updateTab(filename) {
+          const tabs = document.querySelectorAll(".tab");
+          tabs.forEach((t) => t.classList.remove("active"));
+          let tab = Array.from(tabs).find((t) => t.dataset.tab === filename);
+          if (!tab) {
+            tab = document.createElement("div");
+            tab.className = "tab active";
+            tab.dataset.tab = filename;
+            tab.innerHTML = `<span>${filename}</span><span class="tab-close">×</span>`;
+            document.querySelector(".tab-container").appendChild(tab);
+          }
+          tab.classList.add("active");
+        }
+        updateStatus(msg, loading = false) {
+          const status = document.getElementById("execution-status");
+          status.innerHTML = loading
+            ? `<div class="loading-spinner"></div> ${msg}`
+            : msg;
+        }
+
+        /* -------------------------------------------------- */
+        /*  REAL PYTHON 3.x via Skulpt                        */
+        /* -------------------------------------------------- */
+        runCode() {
+          let code;
+          if (this.editor && this.editor.getValue) {
+            code = this.editor.getValue().trim();
+          } else {
+            const ta = document.getElementById("code-editor");
+            code = ta ? ta.value.trim() : "";
+          }
+          if (!code) {
+            this.addOutput("error", "No code to execute!");
+            return;
+          }
+
+          this.clearOutput();
+          this.updateStatus("Running…", true);
+          const start = performance.now();
+
+          Sk.pre = "output-panel";
+          Sk.configure({
+            output: (text) => this.addOutput("normal", text),
+            read: (fname) => {
+              if (
+                Sk.builtinFiles === undefined ||
+                Sk.builtinFiles.files[fname] === undefined
+              )
+                throw new Error("File not found: " + fname);
+              return Sk.builtinFiles.files[fname];
+            },
+            __future__: Sk.python3,
+            execLimit: 15000, // 15 s
+            yieldLimit: 300,
+          });
+
+          const promise = Sk.misceval.asyncToPromise(() =>
+            Sk.importMainWithBody("<stdin>", false, code, true)
+          );
+
+          promise.then(
+            () => {
+              // SUCCESS
+              const t = ((performance.now() - start) / 1000).toFixed(3);
+              this.updateStatus(`Done in ${t} s`);
+            },
+            (err) => {
+              // ERROR
+              this.addOutput("error", err.toString());
+              this.updateStatus("Error");
+            }
+          );
+        }
+
+        /* -------------------------------------------------- */
+        addOutput(type, message) {
+          const panel = document.getElementById("output-panel");
+          const line = document.createElement("div");
+          line.className = `output-line ${type}`;
+          line.textContent = message;
+          panel.appendChild(line);
+          panel.scrollTop = panel.scrollHeight;
+        }
+        clearOutput() {
+          document.getElementById("output-panel").innerHTML =
+            '<div class="output-line info">Ready to execute your code…</div>';
+        }
+        clearCode() {
+          if (confirm("Clear editor?")) {
+            if (this.editor && this.editor.setValue) {
+              this.editor.setValue("");
+            } else {
+              const ta = document.getElementById("code-editor");
+              if (ta) ta.value = "";
+            }
+            this.updateStatus("Editor cleared");
+          }
+        }
+        saveCode() {
+          localStorage.setItem("playground-code", JSON.stringify(this.files));
+          this.updateStatus("Code saved");
+          this.addOutput("success", "Code saved to browser storage");
+        }
+        shareCode() {
+          let code;
+          if (this.editor && this.editor.getValue) {
+            code = this.editor.getValue();
+          } else {
+            const ta = document.getElementById("code-editor");
+            code = ta ? ta.value : "";
+          }
+          navigator.clipboard.writeText(code).then(() => {
+            this.updateStatus("Code copied");
+            this.addOutput("success", "Code copied to clipboard");
+          });
+        }
+        loadSavedCode() {
+          const saved = localStorage.getItem("playground-code");
+          if (saved) {
+            try {
+              this.files = JSON.parse(saved);
+            } catch (e) {
+              /* ignore */
+            }
+          }
+        }
+      }
+
+      /* ==========================================================
          INITIALISE ON PAGE LOAD
          ========================================================== */
-            // Wait for all libraries to load
-            function initPlayground() {
-              if (typeof CodeMirror === 'undefined') {
-                console.error('CodeMirror not loaded');
-                setTimeout(initPlayground, 100);
-                return;
-              }
-              if (typeof Sk === 'undefined') {
-                console.error('Skulpt not loaded');
-                setTimeout(initPlayground, 100);
-                return;
-              }
-              try {
-                window.playground = new PythonPlayground();
-              } catch (error) {
-                console.error('Error initializing playground:', error);
-              }
-            }
+      // Wait for all libraries to load
+      function initPlayground() {
+        if (typeof CodeMirror === "undefined") {
+          console.error("CodeMirror not loaded");
+          setTimeout(initPlayground, 100);
+          return;
+        }
+        if (typeof Sk === "undefined") {
+          console.error("Skulpt not loaded");
+          setTimeout(initPlayground, 100);
+          return;
+        }
+        try {
+          window.playground = new PythonPlayground();
+        } catch (error) {
+          console.error("Error initializing playground:", error);
+        }
+      }
 
-            if (document.readyState === 'loading') {
-              document.addEventListener('DOMContentLoaded', initPlayground);
-            } else {
-              initPlayground();
-            }
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initPlayground);
+      } else {
+        initPlayground();
+      }
     </script>
   </body>
 </html>

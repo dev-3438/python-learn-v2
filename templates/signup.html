@@ -17,33 +17,83 @@
     <!-- Custom Styles -->
     <style>
       :root {
-        --primary-600: #0d9488;
-        --primary-700: #0f766e;
-        --primary-800: #115e59;
-        --secondary-600: #f97316;
-        --secondary-700: #ea580c;
-        --slate-50: #f8fafc;
-        --slate-100: #f1f5f9;
-        --slate-200: #e2e8f0;
+        /* -------- Modern Tech Brand Colors (freeCodeCamp/Codecademy style) -------- */
+        --primary-600: #3b82f6; /* blue - primary action */
+        --primary-700: #2563eb;
+        --primary-800: #1d4ed8;
+
+        --secondary-600: #6366f1; /* indigo - secondary action */
+        --secondary-700: #4f46e5;
+        --secondary-800: #4338ca;
+
+        --accent-500: #10b981; /* green - success/positive */
+        --accent-600: #059669;
+
+        /* -------- Neutral light-scale -------- */
+        --slate-50: #f8fafc; /* page bg        */
+        --slate-100: #f1f5f9; /* card bg        */
+        --slate-200: #e2e8f0; /* border / line  */
         --slate-300: #cbd5e1;
         --slate-400: #94a3b8;
-        --slate-600: #475569;
-        --slate-700: #334155;
+        --slate-600: #475569; /* body text      */
+        --slate-700: #334155; /* heading text   */
         --slate-800: #1e293b;
-        --slate-900: #0f172a;
+        --slate-900: #0f172a; /* darkest text   */
+
         --white: #ffffff;
       }
 
+      /* ---------------------------------------------------------
+   DARK-MODE OVERRIDES (auto or via data-theme="dark")
+   --------------------------------------------------------- */
       [data-theme="dark"] {
-        --primary-600: #2dd4bf;
+        /* desaturated but recognisable brand colours */
+        --primary-600: #2dd4bf; /* brighter teal   */
         --primary-700: #14b8a6;
-        --slate-50: #0b1120;
-        --slate-100: #111827;
-        --slate-200: #1f2937;
-        --slate-600: #9ca3af;
-        --slate-700: #d1d5db;
-        --slate-900: #f9fafb;
-        --white: #0b1120;
+        --primary-800: #0d9488;
+
+        --secondary-600: #fb923c; /* softer orange   */
+        --secondary-700: #f97316;
+        --secondary-800: #ea580c;
+
+        --accent-500: #4ade80; /* mint green       */
+
+        /* inverted neutral scale */
+        --slate-50: #0b1120; /* page bg          */
+        --slate-100: #111827; /* card / elevated  */
+        --slate-200: #1f2937; /* border           */
+        --slate-300: #374151;
+        --slate-400: #4b5563;
+        --slate-600: #9ca3af; /* body text        */
+        --slate-700: #d1d5db; /* heading text     */
+        --slate-800: #e5e7eb;
+        --slate-900: #f9fafb; /* lightest text    */
+
+        --white: #0b1120; /* same as page bg  */
+      }
+
+      /* automatic dark if user has system preference */
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          /* copy the exact same block as [data-theme="dark"] */
+          --primary-600: #2dd4bf;
+          --primary-700: #14b8a6;
+          --primary-800: #0d9488;
+          --secondary-600: #fb923c;
+          --secondary-700: #f97316;
+          --secondary-800: #ea580c;
+          --accent-500: #4ade80;
+          --slate-50: #0b1120;
+          --slate-100: #111827;
+          --slate-200: #1f2937;
+          --slate-300: #374151;
+          --slate-400: #4b5563;
+          --slate-600: #9ca3af;
+          --slate-700: #d1d5db;
+          --slate-800: #e5e7eb;
+          --slate-900: #f9fafb;
+          --white: #0b1120;
+        }
       }
 
       * {
@@ -57,12 +107,121 @@
           var(--slate-100) 100%
         );
         min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 2rem;
+        color: var(--slate-900);
+        line-height: 1.6;
       }
 
+      /* Premium Navigation */
+      .nav-glassmorphism {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+      }
+
+      .nav-link {
+        position: relative;
+        font-weight: 500;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-600),
+          var(--secondary-600)
+        );
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .nav-link:hover::after,
+      .nav-link.active::after {
+        transform: scaleX(1);
+      }
+
+      .nav-link.active {
+        color: var(--primary-600);
+        font-weight: 600;
+      }
+
+      /* Custom Button Styles */
+      .btn-login,
+      .btn-signup {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn-login:hover,
+      .btn-signup:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-login::before,
+      .btn-signup::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.2);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .btn-login:hover::before,
+      .btn-signup:hover::before {
+        opacity: 1;
+      }
+
+      .btn-login {
+        background: var(--secondary-600);
+        color: var(--white);
+        border: 2px solid var(--secondary-600);
+      }
+
+      .btn-signup {
+        background: var(--primary-600);
+        color: var(--white);
+        border: 2px solid var(--primary-600);
+      }
+
+      .btn-login:hover {
+        background: var(--secondary-700);
+      }
+
+      .btn-signup:hover {
+        background: var(--primary-700);
+      }
+
+      /* Premium Typography */
+      .text-gradient {
+        background: linear-gradient(
+          135deg,
+          var(--primary-600),
+          var(--secondary-600)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Main Container */
       .signup-container {
         background: var(--white);
         border-radius: 24px;
@@ -85,7 +244,7 @@
         background: linear-gradient(
           135deg,
           var(--primary-600),
-          var(--secondary-600)
+          var(--primary-700)
         );
         display: flex;
         align-items: center;
@@ -105,8 +264,15 @@
         bottom: 0;
         background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/><circle cx="10" cy="60" r="0.5" fill="white" opacity="0.1"/><circle cx="90" cy="40" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
         opacity: 0.3;
+        z-index: 1;
       }
 
+      .signup-branding > * {
+        position: relative;
+        z-index: 2;
+      }
+
+      /* Form Styles */
       .form-group {
         margin-bottom: 1.5rem;
       }
@@ -136,7 +302,7 @@
         outline: none;
         border-color: var(--primary-600);
         background: var(--white);
-        box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
       }
 
       .form-input.error {
@@ -144,6 +310,7 @@
         background: #fef2f2;
       }
 
+      /* Premium Button */
       .btn-signup {
         width: 100%;
         padding: 1rem;
@@ -161,11 +328,12 @@
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
       }
 
       .btn-signup:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(13, 148, 136, 0.3);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
       }
 
       .btn-signup::before {
@@ -217,17 +385,19 @@
         text-align: center;
         margin-top: 2rem;
         color: var(--slate-600);
+        font-weight: 500;
       }
 
       .form-footer a {
         color: var(--primary-600);
         text-decoration: none;
-        font-weight: 600;
+        font-weight: 700;
         transition: color 0.3s ease;
       }
 
       .form-footer a:hover {
-        color: var(--primary-700);
+        color: var(--primary-800);
+        text-decoration: underline;
       }
 
       .password-strength {
@@ -257,7 +427,7 @@
 
       .password-strength-bar.strong {
         width: 100%;
-        background: #22c55e;
+        background: var(--accent-600);
       }
 
       .terms-checkbox {
@@ -279,6 +449,18 @@
         font-size: 0.875rem;
       }
 
+      .terms-checkbox a {
+        color: var(--primary-600);
+        font-weight: 600;
+        transition: color 0.3s ease;
+      }
+
+      .terms-checkbox a:hover {
+        color: var(--primary-800);
+        text-decoration: underline;
+      }
+
+      /* Floating Code Elements */
       .floating-code {
         position: absolute;
         background: rgba(255, 255, 255, 0.1);
@@ -327,6 +509,25 @@
         }
       }
 
+      .social-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem;
+        border: 2px solid var(--slate-200);
+        border-radius: 8px;
+        background: var(--white);
+        transition: all 0.3s ease;
+        color: var(--slate-600);
+      }
+
+      .social-button:hover {
+        border-color: var(--primary-600);
+        background: var(--slate-50);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      }
+
       @media (max-width: 768px) {
         .signup-container {
           grid-template-columns: 1fr;
@@ -343,200 +544,296 @@
     </style>
   </head>
   <body>
-    <div class="signup-container">
-      <div class="grid md:grid-cols-2">
-        <!-- Signup Form Section -->
-        <div class="signup-form-section">
-          <div class="max-w-md w-full mx-auto">
-            <div class="text-center mb-8">
-              <div class="text-4xl font-bold text-gradient mb-2">
-                🐍 PythonLearn
-              </div>
-              <h1 class="text-3xl font-bold text-slate-900 mb-2">
-                Create Account
-              </h1>
-              <p class="text-slate-600">Start your Python journey today</p>
-            </div>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 nav-glassmorphism">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+          <!-- Logo -->
+          <div class="flex items-center">
+            <div class="text-3xl font-bold text-gradient">🐍 PythonLearn</div>
+          </div>
 
-            <!-- Success Message -->
-            <div id="success-message" class="success-message">
-              Account created successfully! Redirecting to login...
-            </div>
+          <!-- Desktop Navigation -->
+          <div class="hidden md:flex items-center space-x-10">
+            <a
+              href="/"
+              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2"
+              >Home</a
+            >
+            <a
+              href="/course"
+              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2"
+              >Course</a
+            >
+            <a
+              href="/playground"
+              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2"
+              >Playground</a
+            >
+            <a
+              href="/quiz"
+              class="nav-link text-slate-700 hover:text-primary-600 px-3 py-2"
+              >Quiz</a
+            >
+            <a
+              href="/login"
+              class="px-5 py-2 rounded-lg text-white font-semibold bg-blue-600 hover:bg-blue-700 transition duration-300 shadow-md hover:shadow-lg"
+            >
+              Login
+            </a>
+            <button
+              id="theme-toggle"
+              class="p-3 rounded-xl text-slate-700 hover:bg-slate-100 hover:text-primary-600 transition-all duration-300"
+            >
+              <span id="theme-icon">🌙</span>
+            </button>
+          </div>
 
-            <!-- Signup Form -->
-            <form id="signup-form" method="POST">
-              <!-- CSRF Token (for Flask-WTF) -->
-
-              <div class="form-group">
-                <label for="fullname" class="form-label">Full Name</label>
-                <input
-                  type="text"
-                  id="fullname"
-                  name="fullname"
-                  class="form-input"
-                  placeholder="John Doe"
-                  required
-                  autofocus
-                />
-                <div id="fullname-error" class="error-message"></div>
-              </div>
-
-              <div class="form-group">
-                <label for="email" class="form-label">Email Address</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  class="form-input"
-                  placeholder="your@email.com"
-                  required
-                />
-                <div id="email-error" class="error-message"></div>
-              </div>
-
-              <div class="form-group">
-                <label for="password" class="form-label">Password</label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  class="form-input"
-                  placeholder="••••••••"
-                  required
-                />
-                <div id="password-error" class="error-message"></div>
-                <div class="password-strength">
-                  <div
-                    id="password-strength-bar"
-                    class="password-strength-bar"
-                  ></div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="confirm-password" class="form-label"
-                  >Confirm Password</label
-                >
-                <input
-                  type="password"
-                  id="confirm-password"
-                  name="confirm-password"
-                  class="form-input"
-                  placeholder="••••••••"
-                  required
-                />
-                <div id="confirm-password-error" class="error-message"></div>
-              </div>
-
-              <div class="terms-checkbox">
-                <input type="checkbox" id="terms" name="terms" required />
-                <label for="terms">
-                  I agree to the
-                  <a href="/terms" target="_blank">Terms of Service</a> and
-                  <a href="/privacy" target="_blank">Privacy Policy</a>
-                </label>
-              </div>
-
-              <button type="submit" class="btn-signup">
-                <span id="signup-text">Create Account</span>
-                <div id="loading-spinner" class="loading-spinner"></div>
-              </button>
-            </form>
-
-            <div class="form-footer">
-              <p>Already have an account? <a href="/">Sign in</a></p>
-            </div>
-
-            <!-- Social Signup Options -->
-            <div class="mt-8">
-              <div class="relative">
-                <div class="absolute inset-0 flex items-center">
-                  <div class="w-full border-t border-slate-200"></div>
-                </div>
-                <div class="relative flex justify-center text-sm">
-                  <span class="px-2 bg-white text-slate-500"
-                    >Or continue with</span
-                  >
-                </div>
-              </div>
-
-              <div class="mt-6 grid grid-cols-3 gap-3">
-                <button
-                  type="button"
-                  class="w-full inline-flex justify-center py-3 px-4 border border-slate-200 rounded-lg shadow-sm bg-white text-sm font-medium text-slate-500 hover:bg-slate-50 transition-colors"
-                >
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                      fill-rule="evenodd"
-                      d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </button>
-
-                <button
-                  type="button"
-                  class="w-full inline-flex justify-center py-3 px-4 border border-slate-200 rounded-lg shadow-sm bg-white text-sm font-medium text-slate-500 hover:bg-slate-50 transition-colors"
-                >
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                      fill-rule="evenodd"
-                      d="M20 10c0-5.523-4.477-10-10-10S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </button>
-
-                <button
-                  type="button"
-                  class="w-full inline-flex justify-center py-3 px-4 border border-slate-200 rounded-lg shadow-sm bg-white text-sm font-medium text-slate-500 hover:bg-slate-50 transition-colors"
-                >
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                      d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
+          <!-- Mobile Menu Button -->
+          <div class="md:hidden">
+            <button
+              id="mobile-menu-btn"
+              class="text-slate-700 hover:text-primary-600"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                ></path>
+              </svg>
+            </button>
           </div>
         </div>
 
-        <!-- Branding Section -->
-        <div class="signup-branding">
-          <div class="text-center relative z-10">
-            <div class="floating-code top-10 left-10">
-              <code>def create_user(name, email, password):</code>
-            </div>
-            <div
-              class="floating-code bottom-10 right-10"
-              style="animation-delay: -3s"
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden">
+          <div
+            class="px-2 pt-2 pb-3 space-y-1 bg-white rounded-xl shadow-lg mt-2 border border-slate-200"
+          >
+            <a
+              href="/"
+              class="block px-3 py-2 text-slate-700 hover:text-primary-600 hover:bg-slate-50 rounded-lg transition-colors"
+              >Home</a
             >
-              <code
-                >if validate_user_data():<br />&nbsp;&nbsp;user =
-                save_to_db()</code
+            <a
+              href="/course"
+              class="block px-3 py-2 text-slate-700 hover:text-primary-600 hover:bg-slate-50 rounded-lg transition-colors"
+              >Course</a
+            >
+            <a
+              href="/playground"
+              class="block px-3 py-2 text-slate-700 hover:text-primary-600 hover:bg-slate-50 rounded-lg transition-colors"
+              >Playground</a
+            >
+            <a
+              href="/quiz"
+              class="block px-3 py-2 text-slate-700 hover:text-primary-600 hover:bg-slate-50 rounded-lg transition-colors"
+              >Quiz</a
+            >
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="signup-container grid md:grid-cols-2 mt-20">
+      <!-- Signup Form Section -->
+      <div class="signup-form-section">
+        <div class="max-w-md w-full mx-auto">
+          <div class="text-center mb-8">
+            <div class="text-4xl font-bold text-gradient mb-2">
+              🐍 PythonLearn
+            </div>
+            <h1 class="text-3xl font-bold text-slate-900 mb-2">
+              Create Account
+            </h1>
+            <p class="text-slate-600">Start your Python journey today</p>
+          </div>
+
+          <!-- Success Message -->
+          <div id="success-message" class="success-message">
+            Account created successfully! Redirecting to login...
+          </div>
+
+          <!-- Signup Form -->
+          <form id="signup-form" method="POST">
+            <!-- CSRF Token (for Flask-WTF) -->
+
+            <div class="form-group">
+              <label for="fullname" class="form-label">Full Name</label>
+              <input
+                type="text"
+                id="fullname"
+                name="fullname"
+                class="form-input"
+                placeholder="John Doe"
+                required
+                autofocus
+              />
+              <div id="fullname-error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="email" class="form-label">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="form-input"
+                placeholder="your@email.com"
+                required
+              />
+              <div id="email-error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="form-input"
+                placeholder="••••••••"
+                required
+              />
+              <div id="password-error" class="error-message"></div>
+              <div class="password-strength">
+                <div
+                  id="password-strength-bar"
+                  class="password-strength-bar"
+                ></div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="confirm-password" class="form-label"
+                >Confirm Password</label
               >
+              <input
+                type="password"
+                id="confirm-password"
+                name="confirm-password"
+                class="form-input"
+                placeholder="••••••••"
+                required
+              />
+              <div id="confirm-password-error" class="error-message"></div>
             </div>
 
-            <div class="mb-8">
-              <div class="text-6xl mb-4">🐍</div>
-              <h2 class="text-4xl font-bold mb-4">PythonLearn</h2>
-              <p class="text-xl opacity-90 mb-6">Start Your Coding Journey</p>
+            <div class="terms-checkbox">
+              <input type="checkbox" id="terms" name="terms" required />
+              <label for="terms">
+                I agree to the
+                <a href="/terms" target="_blank">Terms of Service</a> and
+                <a href="/privacy" target="_blank">Privacy Policy</a>
+              </label>
             </div>
 
-            <div class="grid grid-cols-3 gap-8 text-center">
-              <div>
-                <div class="text-3xl font-bold">50K+</div>
-                <div class="text-sm opacity-75">Students</div>
+            <button type="submit" class="btn-signup">
+              <span id="signup-text">Create Account</span>
+              <div id="loading-spinner" class="loading-spinner"></div>
+            </button>
+          </form>
+
+          <div class="form-footer">
+            <p>Already have an account? <a href="/">Sign in</a></p>
+          </div>
+
+          <!-- Social Signup Options -->
+          <div class="mt-8">
+            <div class="relative">
+              <div class="absolute inset-0 flex items-center">
+                <div class="w-full border-t border-slate-200"></div>
               </div>
-              <div>
-                <div class="text-3xl font-bold">200+</div>
-                <div class="text-sm opacity-75">Lessons</div>
+              <div class="relative flex justify-center text-sm">
+                <span class="px-2 bg-white text-slate-500"
+                  >Or continue with</span
+                >
               </div>
-              <div>
-                <div class="text-3xl font-bold">95%</div>
-                <div class="text-sm opacity-75">Success Rate</div>
-              </div>
+            </div>
+
+            <div class="mt-6 grid grid-cols-3 gap-3">
+              <button
+                type="button"
+                class="w-full inline-flex justify-center py-3 px-4 border border-slate-200 rounded-lg shadow-sm bg-white text-sm font-medium text-slate-500 hover:bg-slate-50 transition-colors"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+
+              <button
+                type="button"
+                class="w-full inline-flex justify-center py-3 px-4 border border-slate-200 rounded-lg shadow-sm bg-white text-sm font-medium text-slate-500 hover:bg-slate-50 transition-colors"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fill-rule="evenodd"
+                    d="M20 10c0-5.523-4.477-10-10-10S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+
+              <button
+                type="button"
+                class="w-full inline-flex justify-center py-3 px-4 border border-slate-200 rounded-lg shadow-sm bg-white text-sm font-medium text-slate-500 hover:bg-slate-50 transition-colors"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Branding Section -->
+      <div class="signup-branding">
+        <div class="text-center relative z-10">
+          <div class="floating-code top-10 left-10">
+            <code>def create_user(name, email, password):</code>
+          </div>
+          <div
+            class="floating-code bottom-10 right-10"
+            style="animation-delay: -3s"
+          >
+            <code
+              >if validate_user_data():<br />&nbsp;&nbsp;user =
+              save_to_db()</code
+            >
+          </div>
+
+          <div class="mb-8">
+            <div class="text-6xl mb-4">🐍</div>
+            <h2 class="text-4xl font-bold mb-4">PythonLearn</h2>
+            <p class="text-xl opacity-90 mb-6">Start Your Coding Journey</p>
+          </div>
+
+          <div class="grid grid-cols-3 gap-8 text-center">
+            <div>
+              <div class="text-3xl font-bold">50K+</div>
+              <div class="text-sm opacity-75">Students</div>
+            </div>
+            <div>
+              <div class="text-3xl font-bold">200+</div>
+              <div class="text-sm opacity-75">Lessons</div>
+            </div>
+            <div>
+              <div class="text-3xl font-bold">95%</div>
+              <div class="text-sm opacity-75">Success Rate</div>
             </div>
           </div>
         </div>
@@ -544,6 +841,7 @@
     </div>
 
     <!-- JavaScript -->
+    <script src="{{url_for('static', filename='main.js')}}"></script>
     <script>
       // Form validation and submission
       document
