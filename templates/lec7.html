@@ -10,18 +10,186 @@
     <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
       :root {
         --bg: #ffffff;
         --text: #1f2937;
         --accent: #0d9488;
+        --accent-dark: #115e59;
         --surface: #f9fafb;
         --border: #e5e7eb;
+
+        /* Modern Tech Brand Colors */
+        --primary-600: #3b82f6;
+        --primary-700: #2563eb;
+        --primary-800: #1d4ed8;
+        --secondary-600: #6366f1;
+        --secondary-700: #4f46e5;
+        --secondary-800: #4338ca;
+        --accent-500: #10b981;
+        --accent-600: #059669;
+        --slate-50: #f8fafc;
+        --slate-100: #f1f5f9;
+        --slate-200: #e2e8f0;
+        --slate-300: #cbd5e1;
+        --slate-400: #94a3b8;
+        --slate-600: #475569;
+        --slate-700: #334155;
+        --slate-800: #1e293b;
+        --slate-900: #0f172a;
+        --white: #ffffff;
       }
       [data-theme="dark"] {
         --bg: #0f172a;
         --text: #f1f5f9;
         --surface: #1e293b;
         --border: #334155;
+
+        --primary-600: #2dd4bf;
+        --primary-700: #14b8a6;
+        --primary-800: #0d9488;
+        --secondary-600: #fb923c;
+        --secondary-700: #f97316;
+        --secondary-800: #ea580c;
+        --accent-500: #4ade80;
+        --slate-50: #0b1120;
+        --slate-100: #111827;
+        --slate-200: #1f2937;
+        --slate-300: #374151;
+        --slate-400: #4b5563;
+        --slate-600: #9ca3af;
+        --slate-700: #d1d5db;
+        --slate-800: #e5e7eb;
+        --slate-900: #f9fafb;
+        --white: #0b1120;
+      }
+
+      /* Premium Navigation */
+      .nav-glassmorphism {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .nav-link {
+        position: relative;
+        font-weight: 500;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-600),
+          var(--secondary-600)
+        );
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .nav-link:hover::after,
+      .nav-link.active::after {
+        transform: scaleX(1);
+      }
+
+      .nav-link.active {
+        color: var(--primary-600);
+        font-weight: 600;
+      }
+
+      .text-gradient {
+        background: linear-gradient(
+          135deg,
+          var(--primary-600),
+          var(--secondary-600)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Section Completion Checkbox */
+      .section-complete {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 16px;
+        padding: 12px 16px;
+        background: var(--slate-50);
+        border-radius: 12px;
+        border: 2px solid var(--slate-200);
+        transition: all 0.3s ease;
+      }
+
+      .section-complete:hover {
+        border-color: var(--primary-600);
+        background: rgba(59, 130, 246, 0.05);
+      }
+
+      .section-complete.completed {
+        background: rgba(16, 185, 129, 0.1);
+        border-color: var(--accent-500);
+      }
+
+      .section-checkbox {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        accent-color: var(--primary-600);
+        flex-shrink: 0;
+      }
+
+      .section-checkbox-label {
+        font-weight: 600;
+        color: var(--slate-700);
+        cursor: pointer;
+        user-select: none;
+        flex: 1;
+      }
+
+      .section-complete.completed .section-checkbox-label {
+        color: var(--accent-600);
+      }
+
+      .xp-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 12px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-600),
+          var(--secondary-600)
+        );
+        color: white;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-left: auto;
+      }
+
+      .xp-badge.earned {
+        animation: xpPop 0.5s ease;
+      }
+
+      @keyframes xpPop {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
       }
       body {
         font-family: "Inter", sans-serif;
@@ -49,6 +217,7 @@
         min-height: 3rem;
         white-space: pre-wrap;
       }
+      /* copy button */
       .copy-btn {
         position: absolute;
         top: 0.75rem;
@@ -65,18 +234,175 @@
       .copy-btn:hover {
         background: rgba(255, 255, 255, 0.2);
       }
+      /* scroll-reveal animation helper */
       .reveal {
         opacity: 0;
         transform: translateY(30px);
       }
-      .mini-nav {
-        position: sticky;
-        top: 64px;
-        z-index: 30;
+      /* tiny bounce for cta */
+      @keyframes bounce-once {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+      .bounce {
+        animation: bounce-once 0.6s ease;
+      }
+      /* celebration checkmark */
+      .check-celebration {
+        display: inline-block;
+        transform: scale(0);
+        animation: pop 0.4s forwards;
+      }
+      @keyframes pop {
+        to {
+          transform: scale(1.2);
+        }
+      }
+
+      /* Text-to-Speech Styles */
+      .tts-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        background: var(--bg);
+        border: 2px solid var(--accent);
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        padding: 16px;
+        min-width: 280px;
+        max-width: 400px;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+      }
+
+      .tts-container.collapsed {
+        transform: translateY(calc(100% - 60px));
+      }
+
+      .tts-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        cursor: pointer;
+      }
+
+      .tts-title {
+        font-weight: 600;
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .tts-controls {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+      }
+
+      .tts-btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 8px;
+        background: var(--accent);
+        color: white;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .tts-btn:hover {
+        background: var(--accent-dark);
+        transform: translateY(-2px);
+      }
+
+      .tts-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .tts-btn.secondary {
         background: var(--surface);
-        border-bottom: 1px solid var(--border);
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+
+      .tts-btn.secondary:hover {
+        background: var(--border);
+      }
+
+      .tts-speed-control {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+        font-size: 14px;
+      }
+
+      .tts-speed-slider {
+        flex: 1;
+        height: 6px;
+        border-radius: 3px;
+        background: var(--border);
+        outline: none;
+        -webkit-appearance: none;
+      }
+
+      .tts-speed-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--accent);
+        cursor: pointer;
+      }
+
+      .tts-speed-slider::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--accent);
+        cursor: pointer;
+        border: none;
+      }
+
+      .tts-status {
+        font-size: 12px;
+        color: var(--text);
+        opacity: 0.7;
+        margin-top: 8px;
+        text-align: center;
+      }
+
+      .tts-reading {
+        background: rgba(13, 148, 136, 0.1);
+        border-left: 3px solid var(--accent);
+        padding-left: 8px;
+        transition: all 0.3s;
+      }
+
+      @media (max-width: 640px) {
+        .tts-container {
+          bottom: 10px;
+          right: 10px;
+          left: 10px;
+          max-width: none;
+        }
       }
     </style>
+    <base target="_blank" />
   </head>
   <body>
     <nav class="sticky top-0 z-40 bg-teal-700 text-white shadow-lg">
@@ -162,7 +488,7 @@
       </header>
 
       <!-- 1. Regular Expressions (verbatim) -->
-      <section class="reveal mb-12">
+      <section class="reveal mb-12" data-section-id="lec7-section-1">
         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
           <span>🔍</span> Regular Expressions
         </h2>
@@ -251,10 +577,26 @@
           Notice this does not increase the functionality of our program at all.
           In fact, it is somewhat a step back.
         </p>
+
+        <!-- Completion Checkbox -->
+        <div class="section-complete" id="complete-lec7-section-1">
+          <input
+            type="checkbox"
+            class="section-checkbox"
+            id="checkbox-lec7-section-1"
+            data-section-id="lec7-section-1"
+            data-xp="10"
+            onchange="handleSectionComplete(this)"
+          />
+          <label for="checkbox-lec7-section-1" class="section-checkbox-label">
+            ✓ I understand this topic
+          </label>
+          <span class="xp-badge" id="xp-badge-lec7-section-1">+10 XP</span>
+        </div>
       </section>
 
       <!-- 2. Regex vocabulary (verbatim) -->
-      <section class="reveal mb-12">
+      <section class="reveal mb-12" data-section-id="lec7-section-2">
         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
           <span>🧾</span> Regex Vocabulary
         </h2>
@@ -292,10 +634,26 @@
         <p class="mt-4">
           The re and re.search functions and ones like them look for patterns.
         </p>
+
+        <!-- Completion Checkbox -->
+        <div class="section-complete" id="complete-lec7-section-2">
+          <input
+            type="checkbox"
+            class="section-checkbox"
+            id="checkbox-lec7-section-2"
+            data-section-id="lec7-section-2"
+            data-xp="10"
+            onchange="handleSectionComplete(this)"
+          />
+          <label for="checkbox-lec7-section-2" class="section-checkbox-label">
+            ✓ I understand this topic
+          </label>
+          <span class="xp-badge" id="xp-badge-lec7-section-2">+10 XP</span>
+        </div>
       </section>
 
       <!-- 3. Escaping & raw strings (verbatim) -->
-      <section class="reveal mb-12">
+      <section class="reveal mb-12" data-section-id="lec7-section-3">
         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
           <span>🔑</span> Escaping & Raw Strings
         </h2>
@@ -345,10 +703,26 @@
           <code>\</code> followed by a <code>.</code>—which, in regular
           expression terms, means matching a literal “.”.
         </p>
+
+        <!-- Completion Checkbox -->
+        <div class="section-complete" id="complete-lec7-section-3">
+          <input
+            type="checkbox"
+            class="section-checkbox"
+            id="checkbox-lec7-section-3"
+            data-section-id="lec7-section-3"
+            data-xp="10"
+            onchange="handleSectionComplete(this)"
+          />
+          <label for="checkbox-lec7-section-3" class="section-checkbox-label">
+            ✓ I understand this topic
+          </label>
+          <span class="xp-badge" id="xp-badge-lec7-section-3">+10 XP</span>
+        </div>
       </section>
 
       <!-- 4. More symbols (verbatim) -->
-      <section class="reveal mb-12">
+      <section class="reveal mb-12" data-section-id="lec7-section-4">
         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
           <span>🧩</span> More Symbols
         </h2>
@@ -441,10 +815,26 @@
           Notice that the <code>|</code> has the impact of an <code>or</code> in
           our expression.
         </p>
+
+        <!-- Completion Checkbox -->
+        <div class="section-complete" id="complete-lec7-section-4">
+          <input
+            type="checkbox"
+            class="section-checkbox"
+            id="checkbox-lec7-section-4"
+            data-section-id="lec7-section-4"
+            data-xp="10"
+            onchange="handleSectionComplete(this)"
+          />
+          <label for="checkbox-lec7-section-4" class="section-checkbox-label">
+            ✓ I understand this topic
+          </label>
+          <span class="xp-badge" id="xp-badge-lec7-section-4">+10 XP</span>
+        </div>
       </section>
 
       <!-- 5. Case Sensitivity (verbatim) -->
-      <section class="reveal mb-12">
+      <section class="reveal mb-12" data-section-id="lec7-section-5">
         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
           <span>🖊️</span> Case Sensitivity
         </h2>
@@ -480,10 +870,26 @@
           Running this program with MALAN@HARVARD.EDU, the input is now
           considered valid.
         </p>
+
+        <!-- Completion Checkbox -->
+        <div class="section-complete" id="complete-lec7-section-5">
+          <input
+            type="checkbox"
+            class="section-checkbox"
+            id="checkbox-lec7-section-5"
+            data-section-id="lec7-section-5"
+            data-xp="10"
+            onchange="handleSectionComplete(this)"
+          />
+          <label for="checkbox-lec7-section-5" class="section-checkbox-label">
+            ✓ I understand this topic
+          </label>
+          <span class="xp-badge" id="xp-badge-lec7-section-5">+10 XP</span>
+        </div>
       </section>
 
       <!-- 6. Sub-domains & groups (verbatim) -->
-      <section class="reveal mb-12">
+      <section class="reveal mb-12" data-section-id="lec7-section-6">
         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
           <span>🔍</span> Sub-domains & Groups
         </h2>
@@ -530,10 +936,26 @@
           find exceedingly useful.
         </p>
         <p class="mt-4">You can learn more in Python’s documentation of re.</p>
+
+        <!-- Completion Checkbox -->
+        <div class="section-complete" id="complete-lec7-section-6">
+          <input
+            type="checkbox"
+            class="section-checkbox"
+            id="checkbox-lec7-section-6"
+            data-section-id="lec7-section-6"
+            data-xp="10"
+            onchange="handleSectionComplete(this)"
+          />
+          <label for="checkbox-lec7-section-6" class="section-checkbox-label">
+            ✓ I understand this topic
+          </label>
+          <span class="xp-badge" id="xp-badge-lec7-section-6">+10 XP</span>
+        </div>
       </section>
 
       <!-- 7. Cleaning Up User Input (verbatim) -->
-      <section class="reveal mb-12">
+      <section class="reveal mb-12" data-section-id="lec7-section-7">
         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
           <span>🧽</span> Cleaning Up User Input
         </h2>
@@ -636,10 +1058,26 @@
           and you’ll see why this is called a walrus operator.
         </p>
         <p class="mt-4">You can learn more in Python’s documentation of re.</p>
+
+        <!-- Completion Checkbox -->
+        <div class="section-complete" id="complete-lec7-section-7">
+          <input
+            type="checkbox"
+            class="section-checkbox"
+            id="checkbox-lec7-section-7"
+            data-section-id="lec7-section-7"
+            data-xp="10"
+            onchange="handleSectionComplete(this)"
+          />
+          <label for="checkbox-lec7-section-7" class="section-checkbox-label">
+            ✓ I understand this topic
+          </label>
+          <span class="xp-badge" id="xp-badge-lec7-section-7">+10 XP</span>
+        </div>
       </section>
 
       <!-- 8. Extracting User Input (verbatim) -->
-      <section class="reveal mb-12">
+      <section class="reveal mb-12" data-section-id="lec7-section-8">
         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
           <span>📤</span> Extracting User Input
         </h2>
@@ -792,10 +1230,26 @@
           <code>+</code> indicates that we are expecting one or more characters.
         </p>
         <p class="mt-4">You can learn more in Python’s documentation of re.</p>
+
+        <!-- Completion Checkbox -->
+        <div class="section-complete" id="complete-lec7-section-8">
+          <input
+            type="checkbox"
+            class="section-checkbox"
+            id="checkbox-lec7-section-8"
+            data-section-id="lec7-section-8"
+            data-xp="10"
+            onchange="handleSectionComplete(this)"
+          />
+          <label for="checkbox-lec7-section-8" class="section-checkbox-label">
+            ✓ I understand this topic
+          </label>
+          <span class="xp-badge" id="xp-badge-lec7-section-8">+10 XP</span>
+        </div>
       </section>
 
       <!-- 9. Live Playground -->
-      <section class="reveal mb-12">
+      <section class="reveal mb-12" data-section-id="lec7-section-9">
         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
           <span>🕹️</span> Live Playground – Try Your Own Regex
         </h2>
@@ -826,11 +1280,28 @@ else:
         <div id="playground-out" class="output-box mt-3">
           Output will appear here…
         </div>
+
+        <!-- Completion Checkbox -->
+        <div class="section-complete" id="complete-lec7-section-9">
+          <input
+            type="checkbox"
+            class="section-checkbox"
+            id="checkbox-lec7-section-9"
+            data-section-id="lec7-section-9"
+            data-xp="10"
+            onchange="handleSectionComplete(this)"
+          />
+          <label for="checkbox-lec7-section-9" class="section-checkbox-label">
+            ✓ I understand this topic
+          </label>
+          <span class="xp-badge" id="xp-badge-lec7-section-9">+10 XP</span>
+        </div>
       </section>
 
       <!-- 10. Summing Up (verbatim) -->
       <section
         class="reveal mb-12 p-6 bg-gradient-to-r from-teal-50 to-blue-50 dark:from-teal-900/20 dark:to-blue-900/20 rounded-xl"
+        data-section-id="lec7-section-10"
       >
         <h2 class="text-2xl font-bold mb-3">Summing Up</h2>
         <p>
@@ -843,10 +1314,26 @@ else:
           <li>Cleaning Up User Input</li>
           <li>Extracting User Input</li>
         </ul>
+
+        <!-- Completion Checkbox -->
+        <div class="section-complete" id="complete-lec7-section-10">
+          <input
+            type="checkbox"
+            class="section-checkbox"
+            id="checkbox-lec7-section-10"
+            data-section-id="lec7-section-10"
+            data-xp="10"
+            onchange="handleSectionComplete(this)"
+          />
+          <label for="checkbox-lec7-section-10" class="section-checkbox-label">
+            ✓ I understand this topic
+          </label>
+          <span class="xp-badge" id="xp-badge-lec7-section-10">+10 XP</span>
+        </div>
       </section>
     </main>
     <!-- =========  PSET7 QUESTIONS & HINTS – DOPE STYLING  ========= -->
-    <section class="reveal mt-12">
+    <section class="reveal mt-12" data-section-id="lec7-section-11">
       <!-- neon-gradient title -->
       <h2
         class="text-4xl font-extrabold mb-10 text-center bg-clip-text text-transparent bg-gradient-to-r from-sky-500 via-cyan-500 to-teal-500 drop-shadow-[0_0_10px_rgba(14,165,233,0.5)] dark:drop-shadow-[0_0_15px_rgba(45,212,191,0.6)]"
@@ -1002,6 +1489,22 @@ else:
           → word boundary | Email → local@domain regex
         </p>
       </div>
+
+      <!-- Completion Checkbox -->
+      <div class="section-complete" id="complete-lec7-section-11">
+        <input
+          type="checkbox"
+          class="section-checkbox"
+          id="checkbox-lec7-section-11"
+          data-section-id="lec7-section-11"
+          data-xp="10"
+          onchange="handleSectionComplete(this)"
+        />
+        <label for="checkbox-lec7-section-11" class="section-checkbox-label">
+          ✓ I understand this topic
+        </label>
+        <span class="xp-badge" id="xp-badge-lec7-section-11">+10 XP</span>
+      </div>
     </section>
     <footer class="bg-gray-900 text-white py-8 mt-12">
       <div class="max-w-4xl mx-auto px-4 text-center text-gray-400">
@@ -1098,5 +1601,541 @@ else:
           a.classList.add("bg-teal-700", "text-white");
       });
     </script>
+    \n
+    <script>
+      \n
+              /* ----- dark mode toggle (respects your nav) ----- */
+              if (
+                localStorage.theme === "dark" ||
+                (!("theme" in localStorage) &&
+                  window.matchMedia("(prefers-color-scheme: dark)").matches)
+              ) {
+                document.documentElement.setAttribute("data-theme", "dark");
+              } else {
+                document.documentElement.setAttribute("data-theme", "light");
+              }
+
+              /* ----- scroll reveal ----- */
+              const reveals = document.querySelectorAll(".reveal");
+              const observer = new IntersectionObserver(
+                (entries) => {
+                  entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                      anime({
+                        targets: entry.target,
+                        opacity: 1,
+                        translateY: 0,
+                        duration: 600,
+                        easing: "easeOutQuad",
+                      });
+                      observer.unobserve(entry.target);
+                    }
+                  });
+                },
+                { threshold: 0.15 }
+              );
+              reveals.forEach((el) => observer.observe(el));
+
+              /* ----- copy code ----- */
+              function copyCode(btn) {
+                const box = btn.parentElement;
+                const code = box.textContent.trim();
+                navigator.clipboard.writeText(code);
+                btn.textContent = "Copied!";
+                setTimeout(() => (btn.textContent = "Copy"), 1200);
+              }
+
+              /* ----- live runner (Skulpt) ----- */
+              function outf(text) {
+                const out = document.getElementById("playground-out");
+                out.textContent += text;
+              }
+              function builtinRead(x) {
+                if (
+                  Sk.builtinFiles === undefined ||
+                  Sk.builtinFiles["files"][x] === undefined
+                )
+                  throw new Error("File not found: " + x);
+                return Sk.builtinFiles["files"][x];
+              }
+              function runCode() {
+                const prog = document.getElementById("playground").value;
+                document.getElementById("playground-out").textContent = "";
+                Sk.pre = "playground-out";
+                Sk.configure({
+                  output: outf,
+                  read: builtinRead,
+                  __future__: Sk.python3,
+                });
+                (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target =
+                  "playground-out";
+                const myPromise = Sk.misceval.asyncToPromise(() =>
+                  Sk.importMainWithBody("<stdin>", false, prog, true)
+                );
+                myPromise.then(
+                  () => {
+                    const out = document.getElementById("playground-out").textContent;
+                    if (out.includes("°F") || out.includes("°C")) {
+                      const cel = document.getElementById("celebrate");
+                      cel.classList.remove("hidden");
+                      cel.querySelector("span").classList.add("check-celebration");
+                    }
+                  },
+                  (err) => {
+                    document.getElementById("playground-out").textContent =
+                      err.toString();
+                  }
+                );
+              }
+              function resetCode() {
+                document.getElementById(
+                  "playground"
+                ).value = `name = input("What's your name? ")
+      print(f"hello, {name}")`;
+                document.getElementById("playground-out").textContent =
+                  "Output will appear here…";
+              }
+
+              /* highlight current lecture */
+              document.querySelectorAll(".lecture2-nav a").forEach((a) => {
+                if (a.href.endsWith("lec0.html"))
+                  a.classList.add("bg-teal-700", "text-white");
+              });
+
+              /* =========  TEXT-TO-SPEECH FUNCTIONALITY  ========= */
+              let synth = window.speechSynthesis;
+              let currentUtterance = null;
+              let isReading = false;
+              let currentHighlight = null;
+
+              // Toggle TTS panel
+              function toggleTTS() {
+                const container = document.getElementById("ttsContainer");
+                const controls = document.getElementById("ttsControls");
+                const icon = document.getElementById("ttsToggleIcon");
+
+                if (container.classList.contains("collapsed")) {
+                  container.classList.remove("collapsed");
+                  controls.style.display = "block";
+                  icon.textContent = "−";
+                } else {
+                  container.classList.add("collapsed");
+                  controls.style.display = "none";
+                  icon.textContent = "+";
+                }
+              }
+
+              // Get selected text
+              function getSelectedText() {
+                const selection = window.getSelection();
+                return selection.toString().trim();
+              }
+
+              // Remove previous highlights
+              function removeHighlights() {
+                if (currentHighlight) {
+                  currentHighlight.classList.remove("tts-reading");
+                  currentHighlight = null;
+                }
+                document.querySelectorAll(".tts-reading").forEach((el) => {
+                  el.classList.remove("tts-reading");
+                });
+              }
+
+              // Speak text
+              function speakText(text, element = null) {
+                if (!text) {
+                  updateStatus("No text selected");
+                  return;
+                }
+
+                // Stop any current speech
+                stopTTS();
+
+                // Remove HTML tags and clean text
+                const cleanText = text
+                  .replace(/<[^>]*>/g, "")
+                  .replace(/\s+/g, " ")
+                  .trim();
+
+                if (!cleanText) {
+                  updateStatus("No readable text found");
+                  return;
+                }
+
+                // Create utterance
+                currentUtterance = new SpeechSynthesisUtterance(cleanText);
+                const speed = parseFloat(
+                  document.getElementById("ttsSpeedSlider").value
+                );
+                currentUtterance.rate = speed;
+                currentUtterance.pitch = 1;
+                currentUtterance.volume = 1;
+
+                // Highlight element being read
+                if (element) {
+                  removeHighlights();
+                  element.classList.add("tts-reading");
+                  currentHighlight = element;
+
+                  // Scroll to element
+                  element.scrollIntoView({ behavior: "smooth", block: "center" });
+                }
+
+                // Event handlers
+                currentUtterance.onstart = () => {
+                  isReading = true;
+                  updateButtons(true);
+                  updateStatus("Reading...");
+                };
+
+                currentUtterance.onend = () => {
+                  isReading = false;
+                  updateButtons(false);
+                  removeHighlights();
+                  updateStatus("Finished reading");
+                  setTimeout(
+                    () => updateStatus('Select text or click "Read Section"'),
+                    2000
+                  );
+                };
+
+                currentUtterance.onerror = (event) => {
+                  isReading = false;
+                  updateButtons(false);
+                  removeHighlights();
+                  updateStatus("Error: " + event.error);
+                };
+
+                // Speak
+                synth.speak(currentUtterance);
+              }
+
+              // Play selected text
+              function playSelectedText() {
+                const selectedText = getSelectedText();
+                if (selectedText) {
+                  speakText(selectedText);
+                  updateStatus("Reading selected text...");
+                } else {
+                  updateStatus("Please select some text first");
+                  // Try to read the current section if nothing is selected
+                  readCurrentSection();
+                }
+              }
+
+              // Read current section (section in viewport)
+              function readCurrentSection() {
+                const sections = document.querySelectorAll("section.reveal");
+                let targetSection = null;
+
+                // Find the section currently in viewport
+                sections.forEach((section) => {
+                  const rect = section.getBoundingClientRect();
+                  if (rect.top >= 0 && rect.top <= window.innerHeight / 2) {
+                    targetSection = section;
+                  }
+                });
+
+                // If no section in viewport, use the first one
+                if (!targetSection && sections.length > 0) {
+                  targetSection = sections[0];
+                }
+
+                if (targetSection) {
+                  // Get all text from section (excluding code blocks)
+                  const codeBoxes = targetSection.querySelectorAll(
+                    ".code-box, .output-box"
+                  );
+                  codeBoxes.forEach((box) => (box.style.display = "none"));
+
+                  const text = targetSection.innerText || targetSection.textContent;
+
+                  codeBoxes.forEach((box) => (box.style.display = ""));
+
+                  if (text) {
+                    speakText(text, targetSection);
+                    updateStatus(
+                      "Reading section: " +
+                        (targetSection.querySelector("h2")?.textContent || "Section")
+                    );
+                  } else {
+                    updateStatus("No text found in section");
+                  }
+                } else {
+                  updateStatus("No section found");
+                }
+              }
+
+              // Stop TTS
+              function stopTTS() {
+                if (synth.speaking) {
+                  synth.cancel();
+                }
+                isReading = false;
+                updateButtons(false);
+                removeHighlights();
+                updateStatus("Stopped");
+                setTimeout(
+                  () => updateStatus('Select text or click "Read Section"'),
+                  2000
+                );
+              }
+
+              // Update button states
+              function updateButtons(reading) {
+                document.getElementById("ttsPlayBtn").disabled = reading;
+                document.getElementById("ttsSectionBtn").disabled = reading;
+                document.getElementById("ttsStopBtn").disabled = !reading;
+              }
+
+              // Update status message
+              function updateStatus(message) {
+                document.getElementById("ttsStatus").textContent = message;
+              }
+
+              // Speed slider update
+              document
+                .getElementById("ttsSpeedSlider")
+                .addEventListener("input", function (e) {
+                  const speed = parseFloat(e.target.value);
+                  document.getElementById("ttsSpeedValue").textContent =
+                    speed.toFixed(1) + "x";
+                  if (currentUtterance && isReading) {
+                    synth.cancel();
+                    currentUtterance.rate = speed;
+                    synth.speak(currentUtterance);
+                  }
+                });
+
+              // Stop on page unload
+              window.addEventListener("beforeunload", () => {
+                stopTTS();
+              });
+
+              // Double-click to read paragraph
+              document.addEventListener("dblclick", function (e) {
+                if (e.target.tagName === "P" || e.target.closest("p")) {
+                  const paragraph =
+                    e.target.tagName === "P" ? e.target : e.target.closest("p");
+                  const text = paragraph.innerText || paragraph.textContent;
+                  if (text.trim()) {
+                    speakText(text, paragraph);
+                  }
+                }
+              });
+
+              /* =========  XP & LEVEL SYSTEM  ========= */
+              // XP and Level Management
+              const XP_SYSTEM = {
+                // XP required for each level (exponential growth)
+                getXPForLevel: (level) => {
+                  return Math.floor(100 * Math.pow(1.5, level - 1));
+                },
+
+                // Calculate level from total XP
+                getLevelFromXP: (totalXP) => {
+                  let level = 1;
+                  let xpNeeded = 0;
+                  while (xpNeeded <= totalXP) {
+                    xpNeeded += XP_SYSTEM.getXPForLevel(level);
+                    if (xpNeeded <= totalXP) {
+                      level++;
+                    }
+                  }
+                  return level;
+                },
+
+                // Get XP progress for current level
+                getXPProgress: (totalXP, level) => {
+                  let xpForCurrentLevel = 0;
+                  for (let i = 1; i < level; i++) {
+                    xpForCurrentLevel += XP_SYSTEM.getXPForLevel(i);
+                  }
+                  const currentLevelXP = totalXP - xpForCurrentLevel;
+                  const xpNeededForLevel = XP_SYSTEM.getXPForLevel(level);
+                  return {
+                    current: currentLevelXP,
+                    needed: xpNeededForLevel,
+                    percentage: Math.min(
+                      100,
+                      (currentLevelXP / xpNeededForLevel) * 100
+                    ),
+                  };
+                },
+
+                // Initialize user data
+                init: () => {
+                  let userData = JSON.parse(
+                    localStorage.getItem("pythonLearnUserData") || "{}"
+                  );
+                  if (!userData.xp) userData.xp = 0;
+                  if (!userData.completedSections) userData.completedSections = [];
+                  if (!userData.completedQuizzes) userData.completedQuizzes = [];
+                  localStorage.setItem(
+                    "pythonLearnUserData",
+                    JSON.stringify(userData)
+                  );
+                  return userData;
+                },
+
+                // Add XP
+                addXP: (amount, source) => {
+                  const userData = XP_SYSTEM.init();
+                  const oldLevel = XP_SYSTEM.getLevelFromXP(userData.xp);
+                  userData.xp += amount;
+                  const newLevel = XP_SYSTEM.getLevelFromXP(userData.xp);
+
+                  localStorage.setItem(
+                    "pythonLearnUserData",
+                    JSON.stringify(userData)
+                  );
+
+                  // Check for level up
+                  if (newLevel > oldLevel) {
+                    XP_SYSTEM.showLevelUp(newLevel);
+                  }
+
+                  XP_SYSTEM.updateDisplay();
+                  return {
+                    xp: userData.xp,
+                    level: newLevel,
+                    leveledUp: newLevel > oldLevel,
+                  };
+                },
+
+                // Show level up animation
+                showLevelUp: (level) => {
+                  const levelUpModal = document.createElement("div");
+                  levelUpModal.className = "level-up-modal";
+                  levelUpModal.innerHTML = `
+                    <div class="level-up-content">
+                      <div class="level-up-icon">🎉</div>
+                      <h2>Level Up!</h2>
+                      <p class="level-up-text">You've reached Level ${level}!</p>
+                      <p class="level-up-subtext">Keep learning to unlock more levels!</p>
+                      <button onclick="this.closest('.level-up-modal').remove()" class="level-up-btn">Awesome!</button>
+                    </div>
+                  `;
+                  document.body.appendChild(levelUpModal);
+                  setTimeout(() => levelUpModal.classList.add("show"), 100);
+                },
+
+                // Update XP and Level display
+                updateDisplay: () => {
+                  const userData = XP_SYSTEM.init();
+                  const level = XP_SYSTEM.getLevelFromXP(userData.xp);
+                  const progress = XP_SYSTEM.getXPProgress(userData.xp, level);
+
+                  // Update nav display
+                  const xpDisplay = document.getElementById("user-xp-display");
+                  const levelDisplay = document.getElementById("user-level-display");
+
+                  if (xpDisplay) {
+                    xpDisplay.textContent = `XP: ${userData.xp}`;
+                  }
+                  if (levelDisplay) {
+                    levelDisplay.textContent = `Level ${level}`;
+                  }
+                },
+
+                // Load completed sections
+                loadCompletedSections: () => {
+                  const userData = XP_SYSTEM.init();
+                  if (userData.completedSections) {
+                    userData.completedSections.forEach((sectionId) => {
+                      const checkbox = document.getElementById(
+                        `checkbox-${sectionId}`
+                      );
+                      const completeDiv = document.getElementById(
+                        `complete-${sectionId}`
+                      );
+                      if (checkbox) {
+                        checkbox.checked = true;
+                        if (completeDiv) {
+                          completeDiv.classList.add("completed");
+                        }
+                      }
+                    });
+                  }
+                },
+              };
+
+              // Handle section completion
+              function handleSectionComplete(checkbox) {
+                const sectionId = checkbox.dataset.sectionId;
+                const xpAmount = parseInt(checkbox.dataset.xp || 10);
+                const completeDiv = document.getElementById(`complete-${sectionId}`);
+                const xpBadge = document.getElementById(`xp-badge-${sectionId}`);
+
+                if (checkbox.checked) {
+                  // Mark as completed
+                  if (completeDiv) {
+                    completeDiv.classList.add("completed");
+                  }
+
+                  // Add XP
+                  const result = XP_SYSTEM.addXP(xpAmount, "section");
+
+                  // Update user data
+                  const userData = XP_SYSTEM.init();
+                  if (!userData.completedSections.includes(sectionId)) {
+                    userData.completedSections.push(sectionId);
+                    localStorage.setItem(
+                      "pythonLearnUserData",
+                      JSON.stringify(userData)
+                    );
+
+                    // Show XP animation
+                    if (xpBadge) {
+                      xpBadge.classList.add("earned");
+                      setTimeout(() => xpBadge.classList.remove("earned"), 500);
+                    }
+
+                    // Show notification
+                    showXPNotification(`+${xpAmount} XP`, result.leveledUp);
+                  }
+                } else {
+                  // Uncheck - remove XP (optional, or keep it)
+                  if (completeDiv) {
+                    completeDiv.classList.remove("completed");
+                  }
+
+                  // Remove from completed sections
+                  const userData = XP_SYSTEM.init();
+                  userData.completedSections = userData.completedSections.filter(
+                    (id) => id !== sectionId
+                  );
+                  localStorage.setItem(
+                    "pythonLearnUserData",
+                    JSON.stringify(userData)
+                  );
+                }
+              }
+
+              // Show XP notification
+              function showXPNotification(message, leveledUp = false) {
+                const notification = document.createElement("div");
+                notification.className = "xp-notification";
+                notification.textContent = message;
+                if (leveledUp) {
+                  notification.classList.add("level-up");
+                }
+                document.body.appendChild(notification);
+                setTimeout(() => notification.classList.add("show"), 100);
+                setTimeout(() => {
+                  notification.classList.remove("show");
+                  setTimeout(() => notification.remove(), 300);
+                }, 2000);
+              }
+
+              // Initialize on page load
+              document.addEventListener("DOMContentLoaded", () => {
+                XP_SYSTEM.updateDisplay();
+                XP_SYSTEM.loadCompletedSections();
+              });
+            \n
+    </script>
+    \n
   </body>
 </html>
